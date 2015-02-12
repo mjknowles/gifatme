@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -11,6 +9,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using GifAtMe.DAL;
 using GifAtMe.Models;
+using GifAtMe.Models.DTOs;
 
 namespace GifAtMe.Controllers
 {
@@ -18,10 +17,10 @@ namespace GifAtMe.Controllers
     {
         private GifAtMeContext db = new GifAtMeContext();
 
-        // GET: api/GifEntries
-        public IQueryable<GifEntry> GetGifEntries()
+        // GET: api/GifEntries/mknowles
+        public IQueryable<GifEntry> GetGifEntries(string userName)
         {
-            return db.GifEntries;
+            return db.GifEntries.Where(g => g.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
         }
 
         // GET: api/GifEntries/5
@@ -39,40 +38,72 @@ namespace GifAtMe.Controllers
 
         // GET: api/GifEntries/thisguy
         [ResponseType(typeof(System.String))]
-        public async Task<IHttpActionResult> GetGifEntry(string keyword)
+        public async Task<IHttpActionResult> GetGifEntry(string keyword, string userName, int? alternateID)
         {
-            GifEntry gifEntry = await db.GifEntries.Where(e => e.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase) && e.AlternateId == 0).FirstOrDefaultAsync();
-            if (gifEntry == null)
+            try
+            {
+                GifEntry gif;
+                if (!alternateID.HasValue)
+                {
+                    // If user doesn't want a specific gif from their alternates for the chosen keyword, select a random one for them
+                    var totalUserGifsForKeyword = await db.GifEntries.Where(g => g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
+                        && g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)).ToListAsync();
+                    int rand = new Random().Next(totalUserGifsForKeyword.Count());
+
+                    gif = totalUserGifsForKeyword.Skip(rand).First();
+                }
+                else
+                {
+                    gif = await db.GifEntries
+                        .Where(e => e.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
+                            && e.AlternateId == alternateID
+                            && e.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase))
+                        .SingleOrDefaultAsync();
+                }
+                if (gif == null)
+                {
+                    return NotFound();
+                }
+                return Ok(gif);
+            }
+            catch
             {
                 return NotFound();
             }
-
-            return Ok(gifEntry.Url);
         }
 
-        // PUT: api/GifEntries/5
+        // PUT: api/GifEntries/highfive
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutGifEntry(int id, GifEntry gifEntry)
+        public async Task<IHttpActionResult> PutGifEntry(string keyword, GifEntry gifEntry)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != gifEntry.ID)
+            if (keyword != gifEntry.Keyword)
             {
                 return BadRequest();
             }
 
-            db.Entry(gifEntry).State = EntityState.Modified;
-
             try
             {
+                // Check to see if the client new the gifs id when sending update request
+                if (gifEntry.ID == 0)
+                {
+                    // Because clients do not pass an id for this method,
+                    // select the appropriate item by keyword field
+                    gifEntry.ID = db.GifEntries.Where(g => g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
+                        && g.AlternateId == gifEntry.AlternateId
+                        && g.UserName.Equals(gifEntry.UserName, StringComparison.OrdinalIgnoreCase)).SingleOrDefault().ID;
+                }
+
+                db.Entry(gifEntry).State = EntityState.Modified;
                 await db.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!GifEntryExists(id))
+                if (ex is ArgumentNullException || ex is InvalidOperationException)
                 {
                     return NotFound();
                 }
@@ -81,7 +112,6 @@ namespace GifAtMe.Controllers
                     throw;
                 }
             }
-
             return StatusCode(HttpStatusCode.NoContent);
         }
 
@@ -94,6 +124,20 @@ namespace GifAtMe.Controllers
                 return BadRequest(ModelState);
             }
 
+            try
+            {
+                // Set the alternate ID of the new entry to 1 more than the previous for the same keyword
+                var latestEntryByAlternateID = await db.GifEntries.Where(g => g.Keyword.Equals(gifEntry.Keyword, StringComparison.OrdinalIgnoreCase)
+                    && g.UserName.Equals(gifEntry.UserName, StringComparison.OrdinalIgnoreCase)).OrderByDescending(g => g.AlternateId).FirstOrDefaultAsync();
+                if (latestEntryByAlternateID != null)
+                {
+                    gifEntry.AlternateId = latestEntryByAlternateID.AlternateId + 1;
+                }
+            }
+            catch
+            {
+
+            }
             db.GifEntries.Add(gifEntry);
             await db.SaveChangesAsync();
 
@@ -102,7 +146,7 @@ namespace GifAtMe.Controllers
 
         // DELETE: api/GifEntries/5
         [ResponseType(typeof(GifEntry))]
-        public async Task<IHttpActionResult> DeleteGifEntry(int id)
+        public async Task<IHttpActionResult> DeleteGifEntry(GifEntry gifEntry)
         {
             GifEntry gifEntry = await db.GifEntries.FindAsync(id);
             if (gifEntry == null)

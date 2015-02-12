@@ -104,9 +104,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GifAtMe\GifAtMe.csproj">
+    <ProjectReference Include="..\GifAtMe\GifAtMe.UIL.csproj">
       <Project>{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}</Project>
-      <Name>GifAtMe</Name>
+      <Name>GifAtMe.UIL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

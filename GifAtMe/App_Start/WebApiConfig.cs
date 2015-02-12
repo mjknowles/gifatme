@@ -17,7 +17,7 @@ namespace GifAtMe
             config.Routes.MapHttpRoute(
                 name: "RouteToKeyword",
                 routeTemplate: "api/{controller}/{keyword}",
-                defaults: new { id = RouteParameter.Optional }
+                defaults: new { keyword = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
