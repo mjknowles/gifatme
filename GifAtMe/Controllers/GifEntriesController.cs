@@ -7,24 +7,24 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using GifAtMe.DAL;
-using GifAtMe.Models;
-using GifAtMe.Models.DTOs;
+using GifAtMe.SL.Services;
+using GifAtMe.SL.DTOs;
 
 namespace GifAtMe.Controllers
 {
     public class GifEntriesController : ApiController
     {
-        private GifAtMeContext db = new GifAtMeContext();
+        private GifEntryService _ges = new GifEntryService();
 
         // GET: api/GifEntries/mknowles
-        public IQueryable<GifEntry> GetGifEntries(string userName)
+        public IList<GifEntryDTO> GetGifEntries(string userName)
         {
-            return db.GifEntries.Where(g => g.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
+            //ctx.GifEntries.Where(g => g.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
+            return _ges.GetGifEntriesByUserName(userName);
         }
 
         // GET: api/GifEntries/5
-        [ResponseType(typeof(GifEntry))]
+        [ResponseType(typeof(GifEntryDTO))]
         public async Task<IHttpActionResult> GetGifEntry(int id)
         {
             GifEntry gifEntry = await db.GifEntries.FindAsync(id);
