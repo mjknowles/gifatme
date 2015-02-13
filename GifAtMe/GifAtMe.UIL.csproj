@@ -219,9 +219,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GifAtMe.BL\GifAtMe.BLL.csproj">
+    <ProjectReference Include="..\GifAtMe.BL\GifAtMe.SL.csproj">
       <Project>{c7d80ada-28dc-4677-bff6-fff5dfdcd7ff}</Project>
-      <Name>GifAtMe.BLL</Name>
+      <Name>GifAtMe.SL</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

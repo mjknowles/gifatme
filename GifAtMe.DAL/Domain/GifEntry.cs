@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace GifAtMe.Models
+namespace GifAtMe.DAL.Domain
 {
     public class GifEntry
     {

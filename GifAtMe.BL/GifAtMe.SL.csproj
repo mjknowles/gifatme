@@ -7,8 +7,8 @@
     <ProjectGuid>{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GifAtMe.BLL</RootNamespace>
-    <AssemblyName>GifAtMe.BLL</AssemblyName>
+    <RootNamespace>GifAtMe.SL</RootNamespace>
+    <AssemblyName>GifAtMe.SL</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,12 +39,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTOs\GifEntryDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GifEntryService.cs" />
+    <Compile Include="Services\IGifEntryService.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Domain\" />
-    <Folder Include="Managers\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\GifAtMe.DAL\GifAtMe.DAL.csproj">
       <Project>{c33c0fe5-4295-4339-9e09-d9f3740b1f54}</Project>

@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB0C19
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.BLL", "GifAtMe.BL\GifAtMe.BLL.csproj", "{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.SL", "GifAtMe.BL\GifAtMe.SL.csproj", "{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.DAL", "GifAtMe.DAL\GifAtMe.DAL.csproj", "{C33C0FE5-4295-4339-9E09-D9F3740B1F54}"
 EndProject

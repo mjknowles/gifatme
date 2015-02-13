@@ -1,4 +1,4 @@
-﻿using GifAtMe.Models;
+﻿using GifAtMe.DAL.Domain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,7 +10,13 @@ namespace GifAtMe.DAL
 {
     public class GifAtMeContext : DbContext
     {
-        public GifAtMeContext() : base("GifAtMeContext") { }
+        public GifAtMeContext() : base("GifAtMeContext") 
+        {
+            // Since application is layered, protect yourself from
+            // lazy loading from a disposed of context
+            Configuration.LazyLoadingEnabled = false;
+            Configuration.ProxyCreationEnabled = false;
+        }
 
         public DbSet<GifEntry> GifEntries { get; set; }
 
