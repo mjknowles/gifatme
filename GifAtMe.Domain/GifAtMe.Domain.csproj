@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}</ProjectGuid>
+    <ProjectGuid>{38C4710E-E911-41BE-8801-C460A25D6AF2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GifAtMe.Service</RootNamespace>
-    <AssemblyName>GifAtMe.Service</AssemblyName>
+    <RootNamespace>GifAtMe.Domain</RootNamespace>
+    <AssemblyName>GifAtMe.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,22 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOConverstions\ConversionHelper.cs" />
-    <Compile Include="DTOs\GifEntryDTO.cs" />
+    <Compile Include="Entities\GifEntry\GifEntry.cs" />
+    <Compile Include="Entities\GifEntry\GifEntryBusinessRule.cs" />
+    <Compile Include="Entities\GifEntry\IGifEntryRepository.cs" />
+    <Compile Include="Entities\IGenericDomainEntityRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GifEntryService.cs" />
-    <Compile Include="Services\IGifEntryService.cs" />
+    <Compile Include="ValueObjects\Address.cs" />
+    <Compile Include="ValueObjects\ValueObjectBusinessRule.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\GifAtMe.Domain\GifAtMe.Domain.csproj">
-      <Project>{38c4710e-e911-41be-8801-c460a25d6af2}</Project>
-      <Name>GifAtMe.Domain</Name>
+    <ProjectReference Include="..\GifAtMe.Common\GifAtMe.Common.csproj">
+      <Project>{cf5f9d12-6543-4173-a7af-8a45e76fb5cd}</Project>
+      <Name>GifAtMe.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GifAtMe.Repository\GifAtMe.Repository.csproj">
-      <Project>{c33c0fe5-4295-4339-9e09-d9f3740b1f54}</Project>
-      <Name>GifAtMe.Repository</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

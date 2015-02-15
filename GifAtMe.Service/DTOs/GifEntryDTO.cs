@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace GifAtMe.DAL.Domain
+namespace GifAtMe.Service.DTOs
 {
-    public class GifEntry
+    public class GifEntryDTO
     {
         public int ID { get; set; }
         public string UserName { get; set; }

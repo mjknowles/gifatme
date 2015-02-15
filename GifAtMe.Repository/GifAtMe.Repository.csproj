@@ -4,13 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}</ProjectGuid>
+    <ProjectGuid>{C33C0FE5-4295-4339-9E09-D9F3740B1F54}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GifAtMe.SL</RootNamespace>
-    <AssemblyName>GifAtMe.SL</AssemblyName>
+    <RootNamespace>GifAtMe.Repository</RootNamespace>
+    <AssemblyName>GifAtMe.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,7 +32,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,19 +48,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\GifEntryDTO.cs" />
+    <Compile Include="Repositories\GenericDomainEntityRepository.cs" />
+    <Compile Include="GifAtMeContext.cs" />
+    <Compile Include="GifAtMeInitializer.cs" />
+    <Compile Include="DatabaseObjects\DatabaseGifEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GifEntryService.cs" />
-    <Compile Include="Services\IGifEntryService.cs" />
+    <Compile Include="Repositories\GifEntryRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\GifAtMe.DAL\GifAtMe.DAL.csproj">
-      <Project>{c33c0fe5-4295-4339-9e09-d9f3740b1f54}</Project>
-      <Name>GifAtMe.DAL</Name>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GifAtMe.Common\GifAtMe.Common.csproj">
+      <Project>{cf5f9d12-6543-4173-a7af-8a45e76fb5cd}</Project>
+      <Name>GifAtMe.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GifAtMe.Domain\GifAtMe.Domain.csproj">
+      <Project>{38c4710e-e911-41be-8801-c460a25d6af2}</Project>
+      <Name>GifAtMe.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

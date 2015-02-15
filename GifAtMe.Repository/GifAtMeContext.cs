@@ -1,4 +1,4 @@
-﻿using GifAtMe.DAL.Domain;
+﻿using GifAtMe.Repository.DatabaseObjects;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -6,7 +6,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
-namespace GifAtMe.DAL
+namespace GifAtMe.Repository
 {
     public class GifAtMeContext : DbContext
     {
@@ -18,7 +18,7 @@ namespace GifAtMe.DAL
             Configuration.ProxyCreationEnabled = false;
         }
 
-        public DbSet<GifEntry> GifEntries { get; set; }
+        public DbSet<DatabaseGifEntry> GifEntries { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}</ProjectGuid>
+    <ProjectGuid>{CF5F9D12-6543-4173-A7AF-8A45E76FB5CD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GifAtMe.Service</RootNamespace>
-    <AssemblyName>GifAtMe.Service</AssemblyName>
+    <RootNamespace>GifAtMe.Common</RootNamespace>
+    <AssemblyName>GifAtMe.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,22 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOConverstions\ConversionHelper.cs" />
-    <Compile Include="DTOs\GifEntryDTO.cs" />
+    <Compile Include="Domain\BusinessRule.cs" />
+    <Compile Include="Domain\EntityBase.cs" />
+    <Compile Include="Domain\IAggregateRoot.cs" />
+    <Compile Include="Domain\IReadOnlyAggregateRootRepository.cs" />
+    <Compile Include="Domain\IAggregateRootRepository.cs" />
+    <Compile Include="Domain\ValueObjectBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GifEntryService.cs" />
-    <Compile Include="Services\IGifEntryService.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\GifAtMe.Domain\GifAtMe.Domain.csproj">
-      <Project>{38c4710e-e911-41be-8801-c460a25d6af2}</Project>
-      <Name>GifAtMe.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GifAtMe.Repository\GifAtMe.Repository.csproj">
-      <Project>{c33c0fe5-4295-4339-9e09-d9f3740b1f54}</Project>
-      <Name>GifAtMe.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

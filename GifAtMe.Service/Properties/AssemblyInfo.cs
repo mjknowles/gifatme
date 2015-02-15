@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GifAtMe.Service")]
+[assembly: AssemblyTitle("GifAtMe.BL")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GifAtMe.Service")]
+[assembly: AssemblyProduct("GifAtMe.BL")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("3112de00-4a25-48fa-a7cd-aebca02b9583")]
+[assembly: Guid("5a604c48-f5a6-48d7-bff6-aa868943fac8")]
 
 // Version information for an assembly consists of the following four values:
 //

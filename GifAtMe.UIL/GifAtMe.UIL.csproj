@@ -217,12 +217,6 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GifAtMe.BL\GifAtMe.SL.csproj">
-      <Project>{c7d80ada-28dc-4677-bff6-fff5dfdcd7ff}</Project>
-      <Name>GifAtMe.SL</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
