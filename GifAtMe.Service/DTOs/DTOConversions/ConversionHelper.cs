@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GifAtMe.Service
 {
-    public class ConversionHelper
+    public static class ConversionHelper
     {
         public static GifEntryDTO ConvertToDTO(this GifEntry g)
         {
@@ -22,7 +22,7 @@ namespace GifAtMe.Service
             };
         }
 
-        public static IEnumerable<GifEntryDTO> ConvertToViewModels(this IEnumerable<GifEntry> gifEntries)
+        public static IEnumerable<GifEntryDTO> ConvertToDTO(this IEnumerable<GifEntry> gifEntries)
         {
             List<GifEntryDTO> gifEntryDTOs = new List<GifEntryDTO>();
             foreach (GifEntry gifEntry in gifEntries)

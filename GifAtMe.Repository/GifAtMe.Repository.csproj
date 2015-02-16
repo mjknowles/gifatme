@@ -48,10 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Repositories\GenericDomainEntityRepository.cs" />
+    <Compile Include="EfUnitOfWork.cs" />
+    <Compile Include="Repositories\GenericDomainTypeRepository.cs" />
     <Compile Include="GifAtMeContext.cs" />
     <Compile Include="GifAtMeInitializer.cs" />
-    <Compile Include="DatabaseObjects\DatabaseGifEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GifEntryRepository.cs" />
   </ItemGroup>

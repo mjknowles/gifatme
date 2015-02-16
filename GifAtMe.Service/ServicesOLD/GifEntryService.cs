@@ -1,15 +1,18 @@
-﻿using System;
+﻿using GifAtMe.Domain.Entities.GifEntry;
+using GifAtMe.Repository.Repositories;
+using GifAtMe.Service.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GifAtMe.SL.Services
+namespace GifAtMe.Service.ServicesOLD
 {
-    public class GifEntryService : IGifEntryService
+    /*public class GifEntryService : IGifEntryService
     {
-        /*private readonly IGifEntryRepository _gifEntryRepository;
+        private readonly IGifEntryRepository _gifEntryRepository;
 
         public GifEntryService()
         {
@@ -24,7 +27,7 @@ namespace GifAtMe.SL.Services
         public IList<GifEntryDTO> GetGifEntriesByUserName(string userName)
         {
             return _gifEntryRepository.GetList(g => g.UserName.Equals(userName)).Select(g => new GifEntryDTO { 
-                ID = g.ID,
+                ID = g.,
                 UserName = g.UserName,
                 Url = g.Url,
                 Keyword = g.Keyword,
@@ -65,6 +68,6 @@ namespace GifAtMe.SL.Services
                 Keyword = g.Keyword,
                 AlternateId = g.AlternateId
             }).ToArray<GifEntry>());
-        }*/
-    }
+        }
+    }*/
 }

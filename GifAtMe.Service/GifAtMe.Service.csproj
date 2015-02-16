@@ -39,14 +39,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOConverstions\ConversionHelper.cs" />
+    <Compile Include="DTOs\DTOConversions\ConversionHelper.cs" />
     <Compile Include="DTOs\GifEntryDTO.cs" />
+    <Compile Include="DTOs\GifEntryPropertiesDTO.cs" />
+    <Compile Include="Exceptions\ResourceNotFoundException.cs" />
+    <Compile Include="Implementations\GifEntryService.cs" />
+    <Compile Include="Interfaces\IGifEntryService.cs" />
+    <Compile Include="Messaging\GifEntries\DeleteGifEntryRequest.cs" />
+    <Compile Include="Messaging\GifEntries\DeleteGifEntryResponse.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntriesResponse.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntryRequest.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntryResponse.cs" />
+    <Compile Include="Messaging\GifEntries\InsertGifEntryRequest.cs" />
+    <Compile Include="Messaging\GifEntries\InsertGifEntryResponse.cs" />
+    <Compile Include="Messaging\GifEntries\UpdateGifEntryRequest.cs" />
+    <Compile Include="Messaging\GifEntries\UpdateGifEntryResponse.cs" />
+    <Compile Include="Messaging\IntegerIdRequest.cs" />
+    <Compile Include="Messaging\ServiceRequestBase.cs" />
+    <Compile Include="Messaging\ServiceResponseBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\GifEntryService.cs" />
-    <Compile Include="Services\IGifEntryService.cs" />
+    <Compile Include="ServicesOLD\GifEntryService.cs" />
+    <Compile Include="ServicesOLD\IGifEntryService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\GifAtMe.Common\GifAtMe.Common.csproj">
+      <Project>{cf5f9d12-6543-4173-a7af-8a45e76fb5cd}</Project>
+      <Name>GifAtMe.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GifAtMe.Domain\GifAtMe.Domain.csproj">
       <Project>{38c4710e-e911-41be-8801-c460a25d6af2}</Project>
       <Name>GifAtMe.Domain</Name>

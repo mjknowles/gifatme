@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GifAtMe.Service.Implementations;
+using GifAtMe.Service.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,20 +9,24 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using GifAtMe.SL.Services;
-using GifAtMe.SL.DTOs;
 
 namespace GifAtMe.Controllers
 {
     public class GifEntriesController : ApiController
     {
-        private GifEntryService _ges = new GifEntryService();
+        private readonly IGifEntryService _gifEntryService;
+
+        public GifEntriesController(IGifEntryService gifEntryService)
+        {
+            if (gifEntryService == null) throw new ArgumentNullException("GifEntry service in GifEntry controller");
+            _gifEntryService = gifEntryService;
+        }
 
         // GET: api/GifEntries/mknowles
-        public IList<GifEntryDTO> GetGifEntries(string userName)
+        public HttpResponseMessage GetGifEntries(string userName)
         {
             //ctx.GifEntries.Where(g => g.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
-            return _ges.GetGifEntriesByUserName(userName);
+            return _gifEntryService.GetAllGifEntries(userName);
         }
 
         // GET: api/GifEntries/5

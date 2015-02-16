@@ -1,4 +1,4 @@
-﻿using GifAtMe.Repository.DatabaseObjects;
+﻿using GifAtMe.Domain.Entities.GifEntry;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,7 +18,7 @@ namespace GifAtMe.Repository
             Configuration.ProxyCreationEnabled = false;
         }
 
-        public DbSet<DatabaseGifEntry> GifEntries { get; set; }
+        public DbSet<GifEntry> GifEntries { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

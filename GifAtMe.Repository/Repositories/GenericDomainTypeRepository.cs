@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using GifAtMe.Common.Domain;
 using GifAtMe.Repository;
 using GifAtMe.Domain.Entities;
+using GifAtMe.Common.UnitOfWork;
 
 namespace GifAtMe.Repository.Repositories
 {
@@ -21,21 +22,29 @@ namespace GifAtMe.Repository.Repositories
     /// may have more useful properties/methods needed to convert to a db type
     /// </typeparam>
     /// <typeparam name="DomainType">The type that maps to the actual database table</typeparam>
-    public abstract class GenericDomainTypeRepository<DomainType, DatabaseType, IdType> : IGenericDomainEntityRepository<DomainType, IdType>
-        where DomainType : IAggregateRoot
-        where DatabaseType : class
+    public abstract class GenericDomainTypeRepository<DomainType, IdType> : IGenericDomainEntityRepository<DomainType, IdType>
+        where DomainType : class, IAggregateRoot
     {
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly GifAtMeContext _context;
+
+        public GenericDomainTypeRepository(IUnitOfWork unitOfWork)
+        {
+            if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
+            _unitOfWork = unitOfWork;
+        }
+
         public virtual DomainType FindById(IdType id)
         {
-            DatabaseType dbGifEntry;
+            DomainType dbGifEntry;
             using (var context = new GifAtMeContext())
             {
-                dbGifEntry = context.Set<DatabaseType>().Find(id);
+                dbGifEntry = context.Set<DomainType>().Find(id);
             }
 
             if (dbGifEntry != null)
             {
-                return ConvertToDomainType(dbGifEntry);
+                return dbGifEntry;
             }
             return default(DomainType);
         }
@@ -106,39 +115,17 @@ namespace GifAtMe.Repository.Repositories
 
         public virtual void Insert(DomainType item)
         {
-            using (var context = new GifAtMeContext())
-            {
-
-                DatabaseType databaseItem = ConvertToDatabaseType(item);
-                context.Entry(databaseItem).State = System.Data.Entity.EntityState.Added;
-
-                context.SaveChanges();
-            }
+            _unitOfWork.RegisterInsertion(item);
         }
 
         public virtual void Update(DomainType item)
         {
-            using (var context = new GifAtMeContext())
-            {
-                DatabaseType databaseItem = ConvertToDatabaseType(item);
-                context.Entry(databaseItem).State = System.Data.Entity.EntityState.Modified;
-
-                context.SaveChanges();
-            }
+            _unitOfWork.RegisterUpdate(item);
         }
 
         public virtual void Delete(DomainType item)
         {
-            using (var context = new GifAtMeContext())
-            {
-                DatabaseType databaseItem = ConvertToDatabaseType(item);
-                context.Entry(databaseItem).State = System.Data.Entity.EntityState.Deleted;
-
-                context.SaveChanges();
-            }
+            _unitOfWork.RegisterDeletion(item);
         }
-
-        public abstract DatabaseType ConvertToDatabaseType(DomainType domainType);
-        public abstract DomainType ConvertToDomainType(DatabaseType databaseType);
     }
 }
