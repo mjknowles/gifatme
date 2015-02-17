@@ -47,8 +47,10 @@
     <Compile Include="Interfaces\IGifEntryService.cs" />
     <Compile Include="Messaging\GifEntries\DeleteGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\DeleteGifEntryResponse.cs" />
+    <Compile Include="Messaging\GifEntries\GetAllGifEntriesRequest.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntriesResponse.cs" />
-    <Compile Include="Messaging\GifEntries\GetGifEntryRequest.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntryByIdRequest.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntryByNonIdRequest.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntryResponse.cs" />
     <Compile Include="Messaging\GifEntries\InsertGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\InsertGifEntryResponse.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Messaging\IntegerIdRequest.cs" />
     <Compile Include="Messaging\ServiceRequestBase.cs" />
     <Compile Include="Messaging\ServiceResponseBase.cs" />
+    <Compile Include="Messaging\UserNameRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServicesOLD\GifEntryService.cs" />
     <Compile Include="ServicesOLD\IGifEntryService.cs" />

@@ -42,7 +42,6 @@
     <Compile Include="Entities\GifEntry\GifEntry.cs" />
     <Compile Include="Entities\GifEntry\GifEntryBusinessRule.cs" />
     <Compile Include="Entities\GifEntry\IGifEntryRepository.cs" />
-    <Compile Include="Entities\IGenericDomainEntityRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueObjects\Address.cs" />
     <Compile Include="ValueObjects\ValueObjectBusinessRule.cs" />

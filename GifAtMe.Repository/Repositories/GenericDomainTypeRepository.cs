@@ -13,20 +13,17 @@ using GifAtMe.Common.UnitOfWork;
 namespace GifAtMe.Repository.Repositories
 {
     /// <summary>
-    /// Not used in this project since I'm converting from
-    /// domain objects to database models, but good example
-    /// for the future where domain pbjects == database objects
+    /// Taken from http://blog.magnusmontin.net/2013/05/30/generic-dal-using-entity-framework/
     /// </summary>
     /// <typeparam name="DomainType">
     /// Use domain type instead of IRootAggregate bc the domain type
     /// may have more useful properties/methods needed to convert to a db type
     /// </typeparam>
-    /// <typeparam name="DomainType">The type that maps to the actual database table</typeparam>
-    public abstract class GenericDomainTypeRepository<DomainType, IdType> : IGenericDomainEntityRepository<DomainType, IdType>
+    /// <typeparam name="DomainType">The domain model saved to the db</typeparam>
+    public abstract class GenericDomainTypeRepository<DomainType, IdType>
         where DomainType : class, IAggregateRoot
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly GifAtMeContext _context;
 
         public GenericDomainTypeRepository(IUnitOfWork unitOfWork)
         {
@@ -56,7 +53,7 @@ namespace GifAtMe.Repository.Repositories
         /// </summary>
         /// <param name="navigationProperties"></param>
         /// <returns></returns>
-        public virtual IList<DomainType> GetAll(params Expression<Func<DomainType, object>>[] navigationProperties)
+        public virtual IEnumerable<DomainType> GetAll(params Expression<Func<DomainType, object>>[] navigationProperties)
         {
             List<DomainType> list;
             using (var context = new GifAtMeContext())

@@ -1,5 +1,8 @@
-﻿using GifAtMe.Service.Implementations;
+﻿using GifAtMe.Service.DTOs;
+using GifAtMe.Service.Implementations;
 using GifAtMe.Service.Interfaces;
+using GifAtMe.Service.Messaging;
+using GifAtMe.Service.Messaging.GifEntries;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,6 +12,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
+using GifAtMe.UIL;
 
 namespace GifAtMe.Controllers
 {
@@ -25,10 +29,11 @@ namespace GifAtMe.Controllers
         // GET: api/GifEntries/mknowles
         public HttpResponseMessage GetGifEntries(string userName)
         {
-            //ctx.GifEntries.Where(g => g.UserName.Equals(userName, StringComparison.InvariantCultureIgnoreCase));
-            return _gifEntryService.GetAllGifEntries(userName);
+            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userName));
+            
+            return Request.BuildResponse(resp);
         }
-
+        /*
         // GET: api/GifEntries/5
         [ResponseType(typeof(GifEntryDTO))]
         public async Task<IHttpActionResult> GetGifEntry(int id)
@@ -80,7 +85,7 @@ namespace GifAtMe.Controllers
 
         // PUT: api/GifEntries/highfive
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutGifEntry(string keyword, GifEntry gifEntry)
+        public async Task<IHttpActionResult> PutGifEntry(string keyword, GifEntryDTO gifEntry)
         {
             if (!ModelState.IsValid)
             {
@@ -122,8 +127,8 @@ namespace GifAtMe.Controllers
         }
 
         // POST: api/GifEntries
-        [ResponseType(typeof(GifEntry))]
-        public async Task<IHttpActionResult> PostGifEntry(GifEntry gifEntry)
+        [ResponseType(typeof(GifEntryDTO))]
+        public async Task<IHttpActionResult> PostGifEntry(GifEntryDTO gifEntry)
         {
             if (!ModelState.IsValid)
             {
@@ -151,10 +156,10 @@ namespace GifAtMe.Controllers
         }
 
         // DELETE: api/GifEntries/5
-        [ResponseType(typeof(GifEntry))]
-        public async Task<IHttpActionResult> DeleteGifEntry(GifEntry gifEntry)
+        [ResponseType(typeof(GifEntryDTO))]
+        public async Task<IHttpActionResult> DeleteGifEntry(GifEntryDTO gifEntry)
         {
-            GifEntry gifEntry = await db.GifEntries.FindAsync(id);
+            GifEntryDTO gifEntry = await db.GifEntries.FindAsync(id);
             if (gifEntry == null)
             {
                 return NotFound();
@@ -179,5 +184,6 @@ namespace GifAtMe.Controllers
         {
             return db.GifEntries.Count(e => e.ID == id) > 0;
         }
+         */
     }
 }

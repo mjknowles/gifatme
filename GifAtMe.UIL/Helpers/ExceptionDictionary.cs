@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 
-namespace GifAtMe.UIL.Helpers
+namespace GifAtMe.UIL
 {
     public static class ExceptionDictionary
     {

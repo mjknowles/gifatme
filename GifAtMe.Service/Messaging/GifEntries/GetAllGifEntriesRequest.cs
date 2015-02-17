@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GifAtMe.Service.Messaging.GifEntries
 {
-    public class GetGifEntryRequest : IntegerIdRequest
+    public class GetAllGifEntriesRequest: UserNameRequest
     {
-        public GetGifEntryRequest(int gifEntryId) : base(gifEntryId) { }
+        public GetAllGifEntriesRequest(string userName) : base(userName) { }
     }
 }

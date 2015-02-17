@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 
-namespace GifAtMe.UIL.Helpers
+namespace GifAtMe.UIL
 {
     public static class HttpResponseBuilder
     {

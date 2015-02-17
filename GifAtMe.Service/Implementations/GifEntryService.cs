@@ -26,13 +26,37 @@ namespace GifAtMe.Service.Implementations
             _unitOfWork = unitOfWork;
         }
 
-        public GetGifEntryResponse GetGifEntry(GetGifEntryRequest getGifEntryRequest)
+        public GetGifEntryResponse GetGifEntryById(GetGifEntryByIdRequest getGifEntryByIdRequest)
         {
             GetGifEntryResponse getGifEntryResponse = new GetGifEntryResponse();
             GifEntry gifEntry = null;
             try
             {
-                gifEntry = _gifEntryRepository.FindById(getGifEntryRequest.Id);
+                gifEntry = _gifEntryRepository.FindById(getGifEntryByIdRequest.Id);
+                if (gifEntry == null)
+                {
+                    getGifEntryResponse.Exception = GetStandardGifEntryNotFoundException();
+                }
+                else
+                {
+                    getGifEntryResponse.GifEntry = gifEntry.ConvertToDTO();
+                }
+            }
+            catch (Exception ex)
+            {
+                getGifEntryResponse.Exception = ex;
+            }
+
+            return getGifEntryResponse;
+        }
+
+        public GetGifEntryResponse GetGifEntryByNonId(GetGifEntryByNonIdRequest getGifEntryByNonIdRequest)
+        {
+            GetGifEntryResponse getGifEntryResponse = new GetGifEntryResponse();
+            GifEntry gifEntry = null;
+            try
+            {
+                gifEntry = _gifEntryRepository.GetByNonIdFields(getGifEntryByNonIdRequest.UserName, getGifEntryByNonIdRequest.Keyword, getGifEntryByNonIdRequest.AlternateId);
                 if(gifEntry == null)
                 {
                     getGifEntryResponse.Exception = GetStandardGifEntryNotFoundException();
@@ -50,14 +74,14 @@ namespace GifAtMe.Service.Implementations
             return getGifEntryResponse;
         }
 
-        public GetGifEntriesResponse GetAllGifEntries()
+        public GetGifEntriesResponse GetAllGifEntries(GetAllGifEntriesRequest getAllGifEntriesRequest)
         {
             GetGifEntriesResponse getGifEntriesResponse = new GetGifEntriesResponse();
             IEnumerable<GifEntry> allGifEntries = null;
 
             try
             {
-                allGifEntries = _gifEntryRepository.GetAll();
+                allGifEntries = _gifEntryRepository.GetAllByUserName(getAllGifEntriesRequest.UserName);
                 getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO();
             }
             catch (Exception ex)

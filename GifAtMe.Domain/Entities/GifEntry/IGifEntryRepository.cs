@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace GifAtMe.Domain.Entities.GifEntry
 {
-    public interface IGifEntryRepository : IGenericDomainEntityRepository<GifEntry, int>
+    public interface IGifEntryRepository : IAggregateRootRepository<GifEntry, int>
     {
+        IEnumerable<GifEntry> GetAllByUserName(string userName);
+        GifEntry GetByNonIdFields(string userName, string keyword, int alternateId);
     }
 }
