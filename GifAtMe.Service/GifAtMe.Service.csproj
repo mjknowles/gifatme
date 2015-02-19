@@ -74,10 +74,6 @@
       <Project>{38c4710e-e911-41be-8801-c460a25d6af2}</Project>
       <Name>GifAtMe.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GifAtMe.Repository\GifAtMe.Repository.csproj">
-      <Project>{c33c0fe5-4295-4339-9e09-d9f3740b1f54}</Project>
-      <Name>GifAtMe.Repository</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

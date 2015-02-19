@@ -29,28 +29,18 @@ namespace GifAtMe.Controllers
         // GET: api/GifEntries/mknowles
         public HttpResponseMessage GetGifEntries(string userName)
         {
-            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userName));
-            
+            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userName, String.Empty));
             return Request.BuildResponse(resp);
-        }
-        /*
-        // GET: api/GifEntries/5
-        [ResponseType(typeof(GifEntryDTO))]
-        public async Task<IHttpActionResult> GetGifEntry(int id)
-        {
-            GifEntry gifEntry = await db.GifEntries.FindAsync(id);
-            if (gifEntry == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(gifEntry);
         }
 
         // GET: api/GifEntries/thisguy
         [ResponseType(typeof(System.String))]
-        public async Task<IHttpActionResult> GetGifEntry(string keyword, string userName, int? alternateID)
+        public HttpResponseMessage GetGifEntry(string keyword, string userName, int? alternateID)
         {
+            ServiceResponseBase resp = _gifEntryService.GetGifEntryByNonId(new GetGifEntryByNonIdRequest(userName, keyword, alternateID.Value));
+            return Request.BuildResponse(resp);
+        }
+        /*
             try
             {
                 GifEntry gif;
@@ -81,6 +71,20 @@ namespace GifAtMe.Controllers
             {
                 return NotFound();
             }
+        }
+        */
+        /*
+        // GET: api/GifEntries/5
+        [ResponseType(typeof(GifEntryDTO))]
+        public async Task<IHttpActionResult> GetGifEntry(int id)
+        {
+            GifEntry gifEntry = await db.GifEntries.FindAsync(id);
+            if (gifEntry == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(gifEntry);
         }
 
         // PUT: api/GifEntries/highfive

@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Entities\GifEntry\GifEntry.cs" />
     <Compile Include="Entities\GifEntry\GifEntryBusinessRule.cs" />
+    <Compile Include="Entities\GifEntry\GifEntryRepoAccessor.cs" />
+    <Compile Include="Entities\GifEntry\IGifEntryRepoAccessor.cs" />
     <Compile Include="Entities\GifEntry\IGifEntryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValueObjects\Address.cs" />

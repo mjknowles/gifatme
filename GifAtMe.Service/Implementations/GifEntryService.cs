@@ -15,15 +15,12 @@ namespace GifAtMe.Service.Implementations
 {
     public class GifEntryService : IGifEntryService
     {
-        private readonly IGifEntryRepository _gifEntryRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGifEntryRepoAccessor _gifEntryRepoAccessor;
 
-        public GifEntryService(IGifEntryRepository gifEntryRepository, IUnitOfWork unitOfWork)
+        public GifEntryService(IGifEntryRepoAccessor gifEntryRepoAccessor)
         {
-            if (gifEntryRepository == null) throw new ArgumentNullException("GifEntry Repo");
-            if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
-            _gifEntryRepository = gifEntryRepository;
-            _unitOfWork = unitOfWork;
+            if (gifEntryRepoAccessor == null) throw new ArgumentNullException("GifEntry Repo Accessor");
+            _gifEntryRepoAccessor = gifEntryRepoAccessor;        
         }
 
         public GetGifEntryResponse GetGifEntryById(GetGifEntryByIdRequest getGifEntryByIdRequest)
@@ -32,7 +29,7 @@ namespace GifAtMe.Service.Implementations
             GifEntry gifEntry = null;
             try
             {
-                gifEntry = _gifEntryRepository.FindById(getGifEntryByIdRequest.Id);
+                gifEntry = _gifEntryRepoAccessor.FindById(getGifEntryByIdRequest.Id);
                 if (gifEntry == null)
                 {
                     getGifEntryResponse.Exception = GetStandardGifEntryNotFoundException();
@@ -56,7 +53,7 @@ namespace GifAtMe.Service.Implementations
             GifEntry gifEntry = null;
             try
             {
-                gifEntry = _gifEntryRepository.GetByNonIdFields(getGifEntryByNonIdRequest.UserName, getGifEntryByNonIdRequest.Keyword, getGifEntryByNonIdRequest.AlternateId);
+                gifEntry = _gifEntryRepoAccessor.FindByNonIdFields(getGifEntryByNonIdRequest.UserName, getGifEntryByNonIdRequest.Keyword, getGifEntryByNonIdRequest.AlternateId);
                 if(gifEntry == null)
                 {
                     getGifEntryResponse.Exception = GetStandardGifEntryNotFoundException();
@@ -81,7 +78,7 @@ namespace GifAtMe.Service.Implementations
 
             try
             {
-                allGifEntries = _gifEntryRepository.GetAllByUserName(getAllGifEntriesRequest.UserName);
+                allGifEntries = _gifEntryRepoAccessor.GetAllByUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword);
                 getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO();
             }
             catch (Exception ex)
