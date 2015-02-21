@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GifAtMe.Service.DTOs
 {
-    public class GifEntryPropertiesDTO
+    public class GifEntryDTOProperties
     {
         public string UserName { get; set; }
         public string Url { get; set; }

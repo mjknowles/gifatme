@@ -9,6 +9,6 @@ namespace GifAtMe.Service.Messaging.GifEntries
 {
     public class InsertGifEntryRequest : ServiceRequestBase
     {
-        public GifEntryPropertiesDTO GifEntryProperties { get; set; }
+        public GifEntryDTOProperties GifEntryDTOProperties { get; set; }
     }
 }

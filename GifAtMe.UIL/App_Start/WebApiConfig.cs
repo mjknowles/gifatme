@@ -14,22 +14,25 @@ namespace GifAtMe.UIL
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
-                name: "RouteToUserName",
-                routeTemplate: "api/{controller}/{userName}"
-            );
-
-            config.Routes.MapHttpRoute(
+            /* Switching to AttributeRouting
+               config.Routes.MapHttpRoute(
                 name: "RouteToUserNameKeywordAlternateIndex",
                 routeTemplate: "api/{controller}/{userName}/{keyword}/{alternateIndex}",
                 defaults: new { alternateIndex = RouteParameter.Optional }
             );
 
             config.Routes.MapHttpRoute(
+                name: "RouteToUserName",
+                routeTemplate: "api/{controller}/{userName}"
+            );
+            */
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+             
 
             // Needed for StructureMap initialization
             var json = config.Formatters.JsonFormatter;

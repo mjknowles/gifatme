@@ -16,6 +16,7 @@ using GifAtMe.UIL;
 
 namespace GifAtMe.UIL.Controllers
 {
+    [RoutePrefix("api/gifentries")]
     public class GifEntriesController : ApiController
     {
         private readonly IGifEntryService _gifEntryService;
@@ -26,168 +27,124 @@ namespace GifAtMe.UIL.Controllers
             _gifEntryService = gifEntryService;
         }
 
-        // GET: api/GifEntries/mknowles
+        // GET: api/gifentries/mknowles
+        [Route("{userName}")]
         public HttpResponseMessage GetGifEntries(string userName)
         {
             ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userName, String.Empty));
             return Request.BuildResponse(resp);
         }
 
-        // GET: api/GifEntries/thisguy
-        [ResponseType(typeof(System.String))]
-        public HttpResponseMessage GetGifEntry(string userName, string keyword, int? alternateIndex)
+        // GET: api/gifentries/mknowles
+        [Route("{userName}/{keyword}")]
+        public HttpResponseMessage GetGifEntries(string userName, string keyword)
         {
-            ServiceResponseBase resp = _gifEntryService.GetGifEntryByNonId(new GetGifEntryByNonIdRequest(userName, keyword, alternateIndex.Value));
+            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userName, keyword));
             return Request.BuildResponse(resp);
         }
-        /*
-            try
-            {
-                GifEntry gif;
-                if (!AlternateIndex.HasValue)
-                {
-                    // If user doesn't want a specific gif from their alternates for the chosen keyword, select a random one for them
-                    var totalUserGifsForKeyword = await db.GifEntries.Where(g => g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
-                        && g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)).ToListAsync();
-                    int rand = new Random().Next(totalUserGifsForKeyword.Count());
 
-                    gif = totalUserGifsForKeyword.Skip(rand).First();
-                }
-                else
-                {
-                    gif = await db.GifEntries
-                        .Where(e => e.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
-                            && e.AlternateIndex == AlternateIndex
-                            && e.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase))
-                        .SingleOrDefaultAsync();
-                }
-                if (gif == null)
-                {
-                    return NotFound();
-                }
-                return Ok(gif);
-            }
-            catch
-            {
-                return NotFound();
-            }
-        }
-        */
-        /*
-        // GET: api/GifEntries/5
-        [ResponseType(typeof(GifEntryDTO))]
-        public async Task<IHttpActionResult> GetGifEntry(int id)
+        // GET: api/gifentries/mknowles/thisguy
+        // GET: api/gifentries/mknowles/thisguy/2
+        [Route("{userName}/{keyword}/{alternateIndex}")]
+        public HttpResponseMessage GetGifEntry(string userName, string keyword, int alternateIndex)
         {
-            GifEntry gifEntry = await db.GifEntries.FindAsync(id);
-            if (gifEntry == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(gifEntry);
+            ServiceResponseBase resp = _gifEntryService.GetGifEntry(new GetGifEntryRequest(userName, keyword, alternateIndex));
+            return Request.BuildResponse(resp);
         }
-
-        // PUT: api/GifEntries/highfive
-        [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutGifEntry(string keyword, GifEntryDTO gifEntry)
+        
+        // GET: api/gifentries/5
+        [Route("{id:int}")]
+        public HttpResponseMessage GetGifEntry(int id)
+        {
+            ServiceResponseBase resp = _gifEntryService.GetGifEntry(new GetGifEntryRequest(id));
+            return Request.BuildResponse(resp);
+        }
+        
+        // POST: api/gifentries
+        [Route("")]
+        public HttpResponseMessage PostGifEntry(GifEntryDTOProperties gifEntry)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ServiceResponseBase exResp = new InsertGifEntryResponse();
+                exResp.Exception = new ArgumentException("ModelState invalid.");
+                return Request.BuildResponse(exResp);
             }
 
-            if (keyword != gifEntry.Keyword)
-            {
-                return BadRequest();
-            }
-
-            try
-            {
-                // Check to see if the client new the gifs id when sending update request
-                if (gifEntry.ID == 0)
-                {
-                    // Because clients do not pass an id for this method,
-                    // select the appropriate item by keyword field
-                    gifEntry.ID = db.GifEntries.Where(g => g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
-                        && g.AlternateIndex == gifEntry.AlternateIndex
-                        && g.UserName.Equals(gifEntry.UserName, StringComparison.OrdinalIgnoreCase)).SingleOrDefault().ID;
-                }
-
-                db.Entry(gifEntry).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                if (ex is ArgumentNullException || ex is InvalidOperationException)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return StatusCode(HttpStatusCode.NoContent);
+            InsertGifEntryResponse insertGifEntryResponse = _gifEntryService.InsertGifEntry(
+                new InsertGifEntryRequest() { GifEntryDTOProperties = gifEntry });
+            return Request.BuildResponse(insertGifEntryResponse);
         }
 
-        // POST: api/GifEntries
-        [ResponseType(typeof(GifEntryDTO))]
-        public async Task<IHttpActionResult> PostGifEntry(GifEntryDTO gifEntry)
+        // PUT: api/gifentries/mknowles/highfive
+        // PUT: api/gifentries/mknowles/highfive
+        [Route("{id:int}")]
+        public HttpResponseMessage PutGifEntry(GifEntryDTO gifEntry)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ServiceResponseBase exResp = new UpdateGifEntryResponse();
+                exResp.Exception = new ArgumentException("ModelState invalid.");
+                return Request.BuildResponse(exResp);
             }
 
-            try
+            UpdateGifEntryRequest req = new UpdateGifEntryRequest(gifEntry.Id)
             {
-                // Set the alternate ID of the new entry to 1 more than the previous for the same keyword
-                var latestEntryByAlternateIndex = await db.GifEntries.Where(g => g.Keyword.Equals(gifEntry.Keyword, StringComparison.OrdinalIgnoreCase)
-                    && g.UserName.Equals(gifEntry.UserName, StringComparison.OrdinalIgnoreCase)).OrderByDescending(g => g.AlternateIndex).FirstOrDefaultAsync();
-                if (latestEntryByAlternateIndex != null)
+                GifEntryProperties = new GifEntryDTOProperties()
                 {
-                    gifEntry.AlternateIndex = latestEntryByAlternateIndex.AlternateIndex + 1;
+                    UserName = gifEntry.UserName,
+                    Keyword = gifEntry.Keyword,
+                    Url = gifEntry.Url,
+                    AlternateIndex = gifEntry.AlternateIndex
                 }
-            }
-            catch
-            {
+            };
 
-            }
-            db.GifEntries.Add(gifEntry);
-            await db.SaveChangesAsync();
-
-            return CreatedAtRoute("DefaultApi", new { id = gifEntry.ID }, gifEntry);
+            ServiceResponseBase resp = _gifEntryService.UpdateGifEntry(req);
+            return Request.BuildResponse(resp);
         }
 
-        // DELETE: api/GifEntries/5
-        [ResponseType(typeof(GifEntryDTO))]
-        public async Task<IHttpActionResult> DeleteGifEntry(GifEntryDTO gifEntry)
+        // PUT: api/gifentries/mknowles/highfive
+        // PUT: api/gifentries/mknowles/highfive
+        [Route("{userName}/{keyword}/{alternateIndex}")]
+        public HttpResponseMessage PutGifEntry(string userName, string keyword, int alternateIndex, GifEntryDTO gifEntry)
         {
-            GifEntryDTO gifEntry = await db.GifEntries.FindAsync(id);
-            if (gifEntry == null)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                ServiceResponseBase exResp = new UpdateGifEntryResponse();
+                exResp.Exception = new ArgumentException("ModelState invalid.");
+                return Request.BuildResponse(exResp);
             }
 
-            db.GifEntries.Remove(gifEntry);
-            await db.SaveChangesAsync();
-
-            return Ok(gifEntry);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
+            UpdateGifEntryRequest req = new UpdateGifEntryRequest(userName, keyword, alternateIndex)
             {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+                GifEntryProperties = new GifEntryDTOProperties()
+                {
+                    UserName = gifEntry.UserName,
+                    Keyword = gifEntry.Keyword,
+                    Url = gifEntry.Url,
+                    AlternateIndex = gifEntry.AlternateIndex
+                }
+            };
+
+            ServiceResponseBase resp = _gifEntryService.UpdateGifEntry(req);
+            return Request.BuildResponse(resp);
         }
 
-        private bool GifEntryExists(int id)
+        // DELETE: api/gifentries/5
+        [Route("{id:int}")]
+        public HttpResponseMessage DeleteGifEntry(int id)
         {
-            return db.GifEntries.Count(e => e.ID == id) > 0;
+            DeleteGifEntryResponse deleteGifEntryResponse = _gifEntryService.DeleteGifEntry(new DeleteGifEntryRequest(id));
+            return Request.BuildResponse(deleteGifEntryResponse);
         }
-         */
+
+        // DELETE: api/gifentries/mknowles/highfive
+        // DELETE: api/gifentries/mknowles/highfive/2
+        [Route("{userName}/{keyword}/{alternateIndex}")]
+        public HttpResponseMessage DeleteGifEntry(GifEntryDTO gifEntry)
+        {
+            DeleteGifEntryResponse deleteGifEntryResponse = _gifEntryService.DeleteGifEntry(new DeleteGifEntryRequest(gifEntry.UserName, gifEntry.Keyword, gifEntry.AlternateIndex));
+            return Request.BuildResponse(deleteGifEntryResponse);
+        }
     }
 }

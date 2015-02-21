@@ -10,23 +10,42 @@ namespace GifAtMe.Service
 {
     public static class ConversionHelper
     {
+        public static GifEntryDTO ConvertToDTO(this GifEntry g, int altIndex)
+        {
+            return new GifEntryDTO
+            {
+                Id = g.Id,
+                UserName = g.UserName,
+                Url = g.Url,
+                Keyword = g.Keyword,
+                AlternateIndex = altIndex
+            };
+        }
+
         public static GifEntryDTO ConvertToDTO(this GifEntry g)
         {
             return new GifEntryDTO
             {
-                ID = g.Id,
+                Id = g.Id,
                 UserName = g.UserName,
                 Url = g.Url,
                 Keyword = g.Keyword,
+                AlternateIndex = 1
             };
         }
 
         public static IEnumerable<GifEntryDTO> ConvertToDTO(this IEnumerable<GifEntry> gifEntries)
         {
             List<GifEntryDTO> gifEntryDTOs = new List<GifEntryDTO>();
-            foreach (GifEntry gifEntry in gifEntries)
+            var groupedGifEntries = gifEntries.ToLookup(g => g.Keyword, StringComparer.OrdinalIgnoreCase);
+            foreach (var key in groupedGifEntries)
             {
-                gifEntryDTOs.Add(gifEntry.ConvertToDTO());
+                int altIndex = 1;
+                foreach (var gifEntry in key)
+                {
+                    gifEntryDTOs.Add(gifEntry.ConvertToDTO(altIndex));
+                    altIndex++;
+                }
             }
             return gifEntryDTOs;
         }

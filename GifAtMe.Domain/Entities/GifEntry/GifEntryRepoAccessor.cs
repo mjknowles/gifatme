@@ -40,7 +40,7 @@ namespace GifAtMe.Domain.Entities.GifEntry
         /// <returns></returns>
         public GifEntry FindByNonIdFields(string userName, string keyword, int? alternateIndex)
         {
-            if (!(alternateIndex.HasValue))
+            if (!(alternateIndex.HasValue) || alternateIndex.Value < 0)
             {
                 // If user doesn't want a specific gif from their alternates for the chosen keyword, select a random one for them
                 // Random.Next() is exclusive of the upper bound
@@ -48,17 +48,20 @@ namespace GifAtMe.Domain.Entities.GifEntry
                 int rand = new Random().Next(totalUserGifsForKeyword.Count());
                 return totalUserGifsForKeyword.ElementAtOrDefault(rand);
             }
+
+            // Alt index is 0-based
             GifEntry gif = _gifEntryRepository.GetGifEntryForUserNameAndKeywordAndAlternateIndex(userName, keyword, alternateIndex.Value);
 
             return gif;
         }
 
-        public IEnumerable<GifEntry> GetAllByUserNameAndKeyword(string userName, string keyword)
+        public IEnumerable<GifEntry> GetAllForUserName(string userName)
         {
-            if(String.IsNullOrEmpty(userName))
-            {
-                return _gifEntryRepository.GetAllForUserName(userName);
-            }
+            return _gifEntryRepository.GetAllForUserName(userName);
+        }
+
+        public IEnumerable<GifEntry> GetAllForUserNameAndKeyword(string userName, string keyword)
+        {
             return _gifEntryRepository.GetAllForUserNameAndKeyword(userName, keyword);
         }
 

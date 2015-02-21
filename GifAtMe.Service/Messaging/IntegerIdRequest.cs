@@ -12,9 +12,9 @@ namespace GifAtMe.Service.Messaging
 
         public IntegerIdRequest(int id)
         {
-            if(id < 1)
+            if(id < 0)
             {
-                throw new ArgumentException("ID must be positive.");
+                throw new ArgumentException("ID must be 0 or positive.");
             }
             _id = id;
         }

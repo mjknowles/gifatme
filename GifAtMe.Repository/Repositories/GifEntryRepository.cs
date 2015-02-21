@@ -26,8 +26,8 @@ namespace GifAtMe.Repository.Repositories
 
         public GifEntry GetGifEntryForUserNameAndKeywordAndAlternateIndex(string userName, string keyword, int altIndex)
         {
-            return this.GetList(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
-                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)).ElementAtOrDefault(altIndex);
+            return this.GetSingle(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
+                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase), altIndex);
         }
     }
 }

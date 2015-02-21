@@ -41,16 +41,16 @@
   <ItemGroup>
     <Compile Include="DTOs\DTOConversions\ConversionHelper.cs" />
     <Compile Include="DTOs\GifEntryDTO.cs" />
-    <Compile Include="DTOs\GifEntryPropertiesDTO.cs" />
+    <Compile Include="DTOs\GifEntryDTOProperties.cs" />
     <Compile Include="Exceptions\ResourceNotFoundException.cs" />
     <Compile Include="Implementations\GifEntryService.cs" />
     <Compile Include="Interfaces\IGifEntryService.cs" />
+    <Compile Include="Messaging\GifEntries\BaseGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\DeleteGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\DeleteGifEntryResponse.cs" />
     <Compile Include="Messaging\GifEntries\GetAllGifEntriesRequest.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntriesResponse.cs" />
-    <Compile Include="Messaging\GifEntries\GetGifEntryByIdRequest.cs" />
-    <Compile Include="Messaging\GifEntries\GetGifEntryByNonIdRequest.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntryResponse.cs" />
     <Compile Include="Messaging\GifEntries\InsertGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\InsertGifEntryResponse.cs" />

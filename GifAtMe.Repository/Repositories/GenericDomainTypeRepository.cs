@@ -91,7 +91,7 @@ namespace GifAtMe.Repository.Repositories
             return list;
         }
 
-        public virtual DomainType GetSingle(Func<DomainType, bool> where,
+        public virtual DomainType GetSingle(Func<DomainType, bool> where, int index,
              params Expression<Func<DomainType, object>>[] navigationProperties)
         {
             DomainType item = null;
@@ -105,7 +105,8 @@ namespace GifAtMe.Repository.Repositories
 
                 item = dbQuery
                     .AsNoTracking() //Don't track any changes for the selected item
-                    .FirstOrDefault(where); //Apply where clause
+                    .Where(where)
+                    .ElementAtOrDefault(index); ; //Apply where clause
             }
             return item;
         }

@@ -23,13 +23,20 @@ namespace GifAtMe.Service.Implementations
             _gifEntryRepoAccessor = gifEntryRepoAccessor;        
         }
 
-        public GetGifEntryResponse GetGifEntryById(GetGifEntryByIdRequest getGifEntryByIdRequest)
+        public GetGifEntryResponse GetGifEntry(GetGifEntryRequest getGifEntryRequest)
         {
             GetGifEntryResponse getGifEntryResponse = new GetGifEntryResponse();
             GifEntry gifEntry = null;
             try
             {
-                gifEntry = _gifEntryRepoAccessor.FindById(getGifEntryByIdRequest.Id);
+                if (getGifEntryRequest.Id > 0)
+                {
+                    gifEntry = _gifEntryRepoAccessor.FindById(getGifEntryRequest.Id);
+                }
+                else
+                {
+                    gifEntry = _gifEntryRepoAccessor.FindByNonIdFields(getGifEntryRequest.UserName, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
+                }
                 if (gifEntry == null)
                 {
                     getGifEntryResponse.Exception = GetStandardGifEntryNotFoundException();
@@ -47,30 +54,6 @@ namespace GifAtMe.Service.Implementations
             return getGifEntryResponse;
         }
 
-        public GetGifEntryResponse GetGifEntryByNonId(GetGifEntryByNonIdRequest getGifEntryByNonIdRequest)
-        {
-            GetGifEntryResponse getGifEntryResponse = new GetGifEntryResponse();
-            GifEntry gifEntry = null;
-            try
-            {
-                gifEntry = _gifEntryRepoAccessor.FindByNonIdFields(getGifEntryByNonIdRequest.UserName, getGifEntryByNonIdRequest.Keyword, getGifEntryByNonIdRequest.AlternateIndex);
-                if(gifEntry == null)
-                {
-                    getGifEntryResponse.Exception = GetStandardGifEntryNotFoundException();
-                }
-                else
-                {
-                    getGifEntryResponse.GifEntry = gifEntry.ConvertToDTO();
-                }
-            }
-            catch(Exception ex)
-            {
-                getGifEntryResponse.Exception = ex;
-            }
-
-            return getGifEntryResponse;
-        }
-
         public GetGifEntriesResponse GetAllGifEntries(GetAllGifEntriesRequest getAllGifEntriesRequest)
         {
             GetGifEntriesResponse getGifEntriesResponse = new GetGifEntriesResponse();
@@ -78,9 +61,17 @@ namespace GifAtMe.Service.Implementations
 
             try
             {
+                if (String.IsNullOrEmpty(getAllGifEntriesRequest.Keyword))
+                {
+                    allGifEntries = _gifEntryRepoAccessor.GetAllForUserName(getAllGifEntriesRequest.UserName);
+                }
+                else
+                {
+                    allGifEntries = _gifEntryRepoAccessor.GetAllForUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword);
+                }
+
                 // Use the service layer to sort in appropriate ordering for outside applications
-                allGifEntries = _gifEntryRepoAccessor.GetAllByUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword).OrderBy(g => g.Id);
-                getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO();
+                getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO().OrderBy(g => g.Keyword).ThenBy(g => g.AlternateIndex);
             }
             catch (Exception ex)
             {
@@ -91,7 +82,7 @@ namespace GifAtMe.Service.Implementations
 
         public InsertGifEntryResponse InsertGifEntry(InsertGifEntryRequest insertGifEntryRequest)
         {
-            GifEntry newGifEntry = AssignAvailablePropertiesToDomain(insertGifEntryRequest.GifEntryProperties);
+            GifEntry newGifEntry = AssignAvailablePropertiesToDomain(insertGifEntryRequest.GifEntryDTOProperties);
             ThrowExceptionIfGifEntryIsInvalid(newGifEntry);
             try
             {
@@ -108,7 +99,15 @@ namespace GifAtMe.Service.Implementations
         {
             try
             {
-                GifEntry existingGifEntry = _gifEntryRepoAccessor.FindById(updateGifEntryRequest.Id);
+                GifEntry existingGifEntry = null;
+                if (updateGifEntryRequest.Id > 0)
+                {
+                    existingGifEntry = _gifEntryRepoAccessor.FindById(updateGifEntryRequest.Id);
+                }
+                else
+                {
+                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(updateGifEntryRequest.UserName, updateGifEntryRequest.Keyword, updateGifEntryRequest.AlternateIndex - 1); 
+                }
                 if (existingGifEntry != null)
                 {
                     GifEntry assignableProperties = AssignAvailablePropertiesToDomain(updateGifEntryRequest.GifEntryProperties);
@@ -134,10 +133,18 @@ namespace GifAtMe.Service.Implementations
         {
             try
             {
-                GifEntry gifEntry = _gifEntryRepoAccessor.FindById(deleteGifEntryRequest.Id);
-                if (gifEntry != null)
+                GifEntry existingGifEntry = null;
+                if (deleteGifEntryRequest.Id > 0)
                 {
-                    _gifEntryRepoAccessor.Delete(gifEntry);
+                    existingGifEntry = _gifEntryRepoAccessor.FindById(deleteGifEntryRequest.Id);
+                }
+                else
+                {
+                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(deleteGifEntryRequest.UserName, deleteGifEntryRequest.Keyword, deleteGifEntryRequest.AlternateIndex - 1); 
+                }
+                if (existingGifEntry != null)
+                {
+                    _gifEntryRepoAccessor.Delete(existingGifEntry);
                     return new DeleteGifEntryResponse();
                 }
                 else
@@ -156,7 +163,7 @@ namespace GifAtMe.Service.Implementations
             return new ResourceNotFoundException("The requested gif entry was not found.");
         }
 
-        private GifEntry AssignAvailablePropertiesToDomain(GifEntryPropertiesDTO gifEntryProperties)
+        private GifEntry AssignAvailablePropertiesToDomain(GifEntryDTOProperties gifEntryProperties)
         {
             GifEntry gifEntry = new GifEntry();
             gifEntry.Keyword = gifEntryProperties.Keyword;
