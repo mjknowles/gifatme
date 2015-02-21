@@ -31,29 +31,25 @@ namespace GifAtMe.Domain.Entities.GifEntry
         }
 
         /// <summary>
-        /// If alternateId does not exist, then select a random
+        /// If AlternateIndex does not exist, then select a random
         /// gif from the same keyword
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="keyword"></param>
-        /// <param name="alternateId"></param>
+        /// <param name="alternateIndex"></param>
         /// <returns></returns>
-        public GifEntry FindByNonIdFields(string userName, string keyword, int? alternateId)
+        public GifEntry FindByNonIdFields(string userName, string keyword, int? alternateIndex)
         {
-            GifEntry gif;
-            if (!(alternateId.HasValue))
+            if (!(alternateIndex.HasValue))
             {
                 // If user doesn't want a specific gif from their alternates for the chosen keyword, select a random one for them
+                // Random.Next() is exclusive of the upper bound
                 IEnumerable<GifEntry> totalUserGifsForKeyword = _gifEntryRepository.GetAllForUserNameAndKeyword(userName, keyword);
                 int rand = new Random().Next(totalUserGifsForKeyword.Count());
+                return totalUserGifsForKeyword.ElementAtOrDefault(rand);
+            }
+            GifEntry gif = _gifEntryRepository.GetGifEntryForUserNameAndKeywordAndAlternateIndex(userName, keyword, alternateIndex.Value);
 
-                gif = totalUserGifsForKeyword.Skip(rand).First();
-            }
-            else
-            {
-                // If alternate ID is present select the appropriate one
-                gif = _gifEntryRepository.GetByNonIdFields(userName, keyword, alternateId.Value);
-            }
             return gif;
         }
 
@@ -66,5 +62,22 @@ namespace GifAtMe.Domain.Entities.GifEntry
             return _gifEntryRepository.GetAllForUserNameAndKeyword(userName, keyword);
         }
 
+        public void Insert(GifEntry gifEntry)
+        {
+            _gifEntryRepository.Insert(gifEntry);
+            _unitOfWork.Commit();
+        }
+
+        public void Update(GifEntry gifEntry)
+        {
+            _gifEntryRepository.Update(gifEntry);
+            _unitOfWork.Commit();
+        }
+
+        public void Delete(GifEntry gifEntry)
+        {
+            _gifEntryRepository.Delete(gifEntry);
+            _unitOfWork.Commit();
+        }
     }
 }

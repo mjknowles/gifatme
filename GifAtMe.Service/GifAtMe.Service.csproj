@@ -61,8 +61,6 @@
     <Compile Include="Messaging\ServiceResponseBase.cs" />
     <Compile Include="Messaging\UserNameRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServicesOLD\GifEntryService.cs" />
-    <Compile Include="ServicesOLD\IGifEntryService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

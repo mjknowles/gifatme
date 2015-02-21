@@ -35,16 +35,16 @@ namespace GifAtMe.Controllers
 
         // GET: api/GifEntries/thisguy
         [ResponseType(typeof(System.String))]
-        public HttpResponseMessage GetGifEntry(string keyword, string userName, int? alternateID)
+        public HttpResponseMessage GetGifEntry(string userName, string keyword, int? alternateIndex)
         {
-            ServiceResponseBase resp = _gifEntryService.GetGifEntryByNonId(new GetGifEntryByNonIdRequest(userName, keyword, alternateID.Value));
+            ServiceResponseBase resp = _gifEntryService.GetGifEntryByNonId(new GetGifEntryByNonIdRequest(userName, keyword, alternateIndex.Value));
             return Request.BuildResponse(resp);
         }
         /*
             try
             {
                 GifEntry gif;
-                if (!alternateID.HasValue)
+                if (!AlternateIndex.HasValue)
                 {
                     // If user doesn't want a specific gif from their alternates for the chosen keyword, select a random one for them
                     var totalUserGifsForKeyword = await db.GifEntries.Where(g => g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
@@ -57,7 +57,7 @@ namespace GifAtMe.Controllers
                 {
                     gif = await db.GifEntries
                         .Where(e => e.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
-                            && e.AlternateId == alternateID
+                            && e.AlternateIndex == AlternateIndex
                             && e.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase))
                         .SingleOrDefaultAsync();
                 }
@@ -109,7 +109,7 @@ namespace GifAtMe.Controllers
                     // Because clients do not pass an id for this method,
                     // select the appropriate item by keyword field
                     gifEntry.ID = db.GifEntries.Where(g => g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
-                        && g.AlternateId == gifEntry.AlternateId
+                        && g.AlternateIndex == gifEntry.AlternateIndex
                         && g.UserName.Equals(gifEntry.UserName, StringComparison.OrdinalIgnoreCase)).SingleOrDefault().ID;
                 }
 
@@ -142,11 +142,11 @@ namespace GifAtMe.Controllers
             try
             {
                 // Set the alternate ID of the new entry to 1 more than the previous for the same keyword
-                var latestEntryByAlternateID = await db.GifEntries.Where(g => g.Keyword.Equals(gifEntry.Keyword, StringComparison.OrdinalIgnoreCase)
-                    && g.UserName.Equals(gifEntry.UserName, StringComparison.OrdinalIgnoreCase)).OrderByDescending(g => g.AlternateId).FirstOrDefaultAsync();
-                if (latestEntryByAlternateID != null)
+                var latestEntryByAlternateIndex = await db.GifEntries.Where(g => g.Keyword.Equals(gifEntry.Keyword, StringComparison.OrdinalIgnoreCase)
+                    && g.UserName.Equals(gifEntry.UserName, StringComparison.OrdinalIgnoreCase)).OrderByDescending(g => g.AlternateIndex).FirstOrDefaultAsync();
+                if (latestEntryByAlternateIndex != null)
                 {
-                    gifEntry.AlternateId = latestEntryByAlternateID.AlternateId + 1;
+                    gifEntry.AlternateIndex = latestEntryByAlternateIndex.AlternateIndex + 1;
                 }
             }
             catch

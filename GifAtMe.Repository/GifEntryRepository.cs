@@ -24,11 +24,10 @@ namespace GifAtMe.Repository.Repositories
                 g.Keyword.Equals(keyword,StringComparison.OrdinalIgnoreCase));
         }
 
-        public GifEntry GetByNonIdFields(string userName, string keyword, int alternateId)
+        public GifEntry GetGifEntryForUserNameAndKeywordAndAlternateIndex(string userName, string keyword, int altIndex)
         {
-            return this.GetSingle(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
-                && g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)
-                && g.AlternateId == alternateId);
+            return this.GetAll(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
+                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)).ElementAtOrDefault(altIndex);
         }
     }
 }

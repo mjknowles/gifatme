@@ -11,7 +11,6 @@ namespace GifAtMe.Domain.Entities.GifEntry
         public string UserName { get; set; }
         public string Url { get; set; }
         public string Keyword { get; set; }
-        public int AlternateId { get; set; }
 
         protected override void Validate()
         {

@@ -53,7 +53,7 @@ namespace GifAtMe.Service.Implementations
             GifEntry gifEntry = null;
             try
             {
-                gifEntry = _gifEntryRepoAccessor.FindByNonIdFields(getGifEntryByNonIdRequest.UserName, getGifEntryByNonIdRequest.Keyword, getGifEntryByNonIdRequest.AlternateId);
+                gifEntry = _gifEntryRepoAccessor.FindByNonIdFields(getGifEntryByNonIdRequest.UserName, getGifEntryByNonIdRequest.Keyword, getGifEntryByNonIdRequest.AlternateIndex);
                 if(gifEntry == null)
                 {
                     getGifEntryResponse.Exception = GetStandardGifEntryNotFoundException();
@@ -78,7 +78,8 @@ namespace GifAtMe.Service.Implementations
 
             try
             {
-                allGifEntries = _gifEntryRepoAccessor.GetAllByUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword);
+                // Use the service layer to sort in appropriate ordering for outside applications
+                allGifEntries = _gifEntryRepoAccessor.GetAllByUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword).OrderBy(g => g.Id);
                 getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO();
             }
             catch (Exception ex)
@@ -94,8 +95,7 @@ namespace GifAtMe.Service.Implementations
             ThrowExceptionIfGifEntryIsInvalid(newGifEntry);
             try
             {
-                _gifEntryRepository.Insert(newGifEntry);
-                _unitOfWork.Commit();
+                _gifEntryRepoAccessor.Insert(newGifEntry);
                 return new InsertGifEntryResponse();
             }
             catch (Exception ex)
@@ -108,18 +108,15 @@ namespace GifAtMe.Service.Implementations
         {
             try
             {
-                GifEntry existingGifEntry = _gifEntryRepository.FindById(updateGifEntryRequest.Id);
+                GifEntry existingGifEntry = _gifEntryRepoAccessor.FindById(updateGifEntryRequest.Id);
                 if (existingGifEntry != null)
                 {
                     GifEntry assignableProperties = AssignAvailablePropertiesToDomain(updateGifEntryRequest.GifEntryProperties);
-                    existingGifEntry.AlternateId = assignableProperties.AlternateId;
                     existingGifEntry.Keyword = assignableProperties.Keyword;
                     existingGifEntry.Url = assignableProperties.Url;
                     existingGifEntry.UserName = assignableProperties.UserName;
-                    existingGifEntry.AlternateId = assignableProperties.AlternateId;
                     ThrowExceptionIfGifEntryIsInvalid(existingGifEntry);
-                    _gifEntryRepository.Update(existingGifEntry);
-                    _unitOfWork.Commit();
+                    _gifEntryRepoAccessor.Update(existingGifEntry);
                     return new UpdateGifEntryResponse();
                 }
                 else
@@ -137,11 +134,10 @@ namespace GifAtMe.Service.Implementations
         {
             try
             {
-                GifEntry gifEntry = _gifEntryRepository.FindById(deleteGifEntryRequest.Id);
+                GifEntry gifEntry = _gifEntryRepoAccessor.FindById(deleteGifEntryRequest.Id);
                 if (gifEntry != null)
                 {
-                    _gifEntryRepository.Delete(gifEntry);
-                    _unitOfWork.Commit();
+                    _gifEntryRepoAccessor.Delete(gifEntry);
                     return new DeleteGifEntryResponse();
                 }
                 else
@@ -166,7 +162,6 @@ namespace GifAtMe.Service.Implementations
             gifEntry.Keyword = gifEntryProperties.Keyword;
             gifEntry.Url = gifEntryProperties.Url;
             gifEntry.UserName = gifEntryProperties.UserName;
-            gifEntry.AlternateId = gifEntryProperties.AlternateId;
 
             return gifEntry;
         }

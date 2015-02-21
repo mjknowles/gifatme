@@ -18,7 +18,6 @@ namespace GifAtMe.Service
                 UserName = g.UserName,
                 Url = g.Url,
                 Keyword = g.Keyword,
-                AlternateId = g.AlternateId
             };
         }
 
