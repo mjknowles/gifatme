@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace GifAtMe
+namespace GifAtMe.UIL
 {
     public static class WebApiConfig
     {
@@ -16,12 +16,12 @@ namespace GifAtMe
 
             config.Routes.MapHttpRoute(
                 name: "RouteToUserName",
-                routeTemplate: "api/GifEntries/{userName}"
+                routeTemplate: "api/{controller}/{userName}"
             );
 
             config.Routes.MapHttpRoute(
                 name: "RouteToUserNameKeywordAlternateIndex",
-                routeTemplate: "api/GifEntries/{userName}/{keyword}/{alternateIndex}",
+                routeTemplate: "api/{controller}/{userName}/{keyword}/{alternateIndex}",
                 defaults: new { alternateIndex = RouteParameter.Optional }
             );
 

@@ -15,18 +15,18 @@ namespace GifAtMe.Repository.Repositories
 
         public IEnumerable<GifEntry> GetAllForUserName(string userName)
         {
-            return this.GetAll(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
+            return this.GetList(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
         }
 
         public IEnumerable<GifEntry> GetAllForUserNameAndKeyword(string userName, string keyword)
         {
-            return this.GetAll(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
+            return this.GetList(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
                 g.Keyword.Equals(keyword,StringComparison.OrdinalIgnoreCase));
         }
 
         public GifEntry GetGifEntryForUserNameAndKeywordAndAlternateIndex(string userName, string keyword, int altIndex)
         {
-            return this.GetAll(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
+            return this.GetList(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
                 g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)).ElementAtOrDefault(altIndex);
         }
     }

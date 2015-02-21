@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IoC.cs" company="Web Advanced">
+// <copyright file="DefaultRegistry.cs" company="Web Advanced">
 // Copyright 2012 Web Advanced (www.webadvanced.com)
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,32 +15,22 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 namespace GifAtMe.UIL.DependencyResolution {
-    using GifAtMe.Common.Domain;
-    using GifAtMe.Common.UnitOfWork;
-    using GifAtMe.Domain.Entities.GifEntry;
-    using GifAtMe.Repository;
-    using GifAtMe.Repository.Repositories;
-    using GifAtMe.Service.Interfaces;
-    using StructureMap;
+    using StructureMap.Configuration.DSL;
+    using StructureMap.Graph;
 	
-    public static class IoC {
-        public static IContainer Initialize() {
-            ObjectFactory.Initialize(x =>
-            {
-                x.Scan(scan =>
-                {
-                    scan.AssemblyContainingType<IGifEntryRepository>();
-                    scan.AssemblyContainingType<GifEntryRepository>();
-                    scan.AssemblyContainingType<IGifEntryService>();
-                    scan.AssemblyContainingType<IAggregateRoot>();
+    public class DefaultRegistry : Registry {
+        #region Constructors and Destructors
+
+        public DefaultRegistry() {
+            Scan(
+                scan => {
+                    scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
                 });
-                x.For<IUnitOfWork>().Use<EfUnitOfWork>();
-            });
-            //return new Container(c => c.AddRegistry<DefaultRegistry>());
-            return ObjectFactory.Container;
+            //For<IExample>().Use<Example>();
         }
+
+        #endregion
     }
 }

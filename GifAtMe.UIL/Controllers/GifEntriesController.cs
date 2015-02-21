@@ -14,7 +14,7 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using GifAtMe.UIL;
 
-namespace GifAtMe.Controllers
+namespace GifAtMe.UIL.Controllers
 {
     public class GifEntriesController : ApiController
     {
