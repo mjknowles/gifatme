@@ -15,7 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace GifAtMe.UIL.DependencyResolution {
+namespace GifAtMe.UI.DependencyResolution {
     using System;
     using System.Collections.Generic;
     using System.Linq;

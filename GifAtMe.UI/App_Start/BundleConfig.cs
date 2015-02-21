@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace GifAtMe.UIL
+namespace GifAtMe.UI
 {
     public class BundleConfig
     {

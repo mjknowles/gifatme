@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace GifAtMe.UIL
+namespace GifAtMe.UI
 {
     public class FilterConfig
     {

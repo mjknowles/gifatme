@@ -18,6 +18,23 @@ namespace GifAtMe.Domain.Entities.GifEntry
             {
                 AddBrokenRule(GifEntryBusinessRule.UserNameRequired);
             }
+            if(!IsValidUrl(Url))
+            {
+                AddBrokenRule(GifEntryBusinessRule.UrlMustStartwithHttpAndEndWithDotGif);
+            }
+        }
+
+        private bool IsValidUrl(string url)
+        {
+            if (url.Length > 7)
+            {
+                string prefix = url.Substring(0, 7);
+                string suffix = url.Substring(Math.Max(0, url.Length - 4));
+
+                if (prefix.Equals("http://", StringComparison.OrdinalIgnoreCase) && suffix.Equals(".gif", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
         }
     }
 }

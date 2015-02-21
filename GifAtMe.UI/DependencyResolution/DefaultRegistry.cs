@@ -15,7 +15,7 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace GifAtMe.UIL.DependencyResolution {
+namespace GifAtMe.UI.DependencyResolution {
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
 	

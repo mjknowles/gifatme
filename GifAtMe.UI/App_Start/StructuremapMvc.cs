@@ -15,19 +15,19 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using GifAtMe.UIL.App_Start;
+using GifAtMe.UI.App_Start;
 
 using WebActivatorEx;
 
 [assembly: PreApplicationStartMethod(typeof(StructuremapMvc), "Start")]
 [assembly: ApplicationShutdownMethod(typeof(StructuremapMvc), "End")]
 
-namespace GifAtMe.UIL.App_Start {
+namespace GifAtMe.UI.App_Start {
 	using System.Web.Mvc;
 
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-	using GifAtMe.UIL.DependencyResolution;
+	using GifAtMe.UI.DependencyResolution;
 
     using StructureMap;
     

@@ -12,9 +12,9 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
-using GifAtMe.UIL;
+using GifAtMe.UI;
 
-namespace GifAtMe.UIL.Controllers
+namespace GifAtMe.UI.Controllers
 {
     [RoutePrefix("api/gifentries")]
     public class GifEntriesController : ApiController

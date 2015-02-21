@@ -18,7 +18,7 @@
 using System.Web.Http.Dependencies;
 using StructureMap;
 
-namespace GifAtMe.UIL.DependencyResolution
+namespace GifAtMe.UI.DependencyResolution
 {
     /// <summary>
     /// The structure map dependency resolver.

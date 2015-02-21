@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace GifAtMe.UIL
+namespace GifAtMe.UI
 {
     public class RouteConfig
     {

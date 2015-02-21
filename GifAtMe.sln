@@ -23,8 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AB0C19
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.UIL", "GifAtMe.UIL\GifAtMe.UIL.csproj", "{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.Common", "GifAtMe.Common\GifAtMe.Common.csproj", "{CF5F9D12-6543-4173-A7AF-8A45E76FB5CD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.Domain", "GifAtMe.Domain\GifAtMe.Domain.csproj", "{38C4710E-E911-41BE-8801-C460A25D6AF2}"
@@ -32,6 +30,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.Repository", "GifAtMe.Repository\GifAtMe.Repository.csproj", "{C33C0FE5-4295-4339-9E09-D9F3740B1F54}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.Service", "GifAtMe.Service\GifAtMe.Service.csproj", "{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GifAtMe.UI", "GifAtMe.UI\GifAtMe.UI.csproj", "{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,6 @@ Global
 		{D4B5B204-0E88-4685-B362-166E3C73E9A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4B5B204-0E88-4685-B362-166E3C73E9A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4B5B204-0E88-4685-B362-166E3C73E9A1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF5F9D12-6543-4173-A7AF-8A45E76FB5CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF5F9D12-6543-4173-A7AF-8A45E76FB5CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF5F9D12-6543-4173-A7AF-8A45E76FB5CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7D80ADA-28DC-4677-BFF6-FFF5DFDCD7FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ADBEFC0-717B-4CD0-B2C5-4CCD8E6B9170}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

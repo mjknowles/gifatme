@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace GifAtMe.UIL
+namespace GifAtMe.UI
 {
     public static class WebApiConfig
     {

@@ -1,7 +1,7 @@
-namespace GifAtMe.UIL.DependencyResolution {
+namespace GifAtMe.UI.DependencyResolution {
     using System.Web;
 
-    using GifAtMe.UIL.App_Start;
+    using GifAtMe.UI.App_Start;
 
     using StructureMap.Web.Pipeline;
 

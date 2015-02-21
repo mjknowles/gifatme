@@ -16,11 +16,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 
-namespace GifAtMe.UIL.DependencyResolution {
+namespace GifAtMe.UI.DependencyResolution {
     using GifAtMe.Common.Domain;
     using GifAtMe.Common.UnitOfWork;
     using GifAtMe.Domain.Entities.GifEntry;
-    using GifAtMe.Repository;
     using GifAtMe.Repository.Repositories;
     using GifAtMe.Service.Interfaces;
     using StructureMap;
@@ -37,7 +36,7 @@ namespace GifAtMe.UIL.DependencyResolution {
                     scan.AssemblyContainingType<IAggregateRoot>();
                     scan.WithDefaultConventions();
                 });
-                x.For<IUnitOfWork>().Use<EfUnitOfWork>();
+                x.For<IUnitOfWork>().Use<GifAtMe.Repository.EfUnitOfWork>();
             });
             //return new Container(c => c.AddRegistry<DefaultRegistry>());
             return ObjectFactory.Container;

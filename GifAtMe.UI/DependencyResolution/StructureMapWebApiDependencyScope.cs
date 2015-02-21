@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StructuremapWebApi.cs" company="Web Advanced">
+// <copyright file="StructureMapWebApiDependencyScope.cs" company="Web Advanced">
 // Copyright 2012 Web Advanced (www.webadvanced.com)
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,16 +15,22 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Web.Http;
-using GifAtMe.UIL.DependencyResolution;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http.Dependencies;
+using Microsoft.Practices.ServiceLocation;
+using StructureMap;
 
-[assembly: WebActivatorEx.PostApplicationStartMethod(typeof(GifAtMe.UIL.App_Start.StructuremapWebApi), "Start")]
-
-namespace GifAtMe.UIL.App_Start {
-    public static class StructuremapWebApi {
-        public static void Start() {
-			var container = StructuremapMvc.StructureMapDependencyScope.Container;
-            GlobalConfiguration.Configuration.DependencyResolver = new StructureMapWebApiDependencyResolver(container);
+namespace GifAtMe.UI.DependencyResolution
+{
+    /// <summary>
+    /// The structure map web api dependency scope.
+    /// </summary>
+    public class StructureMapWebApiDependencyScope : StructureMapDependencyScope, IDependencyScope
+    {
+        public StructureMapWebApiDependencyScope(IContainer container)
+            : base(container) {
         }
     }
 }
