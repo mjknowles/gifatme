@@ -20,15 +20,25 @@ namespace GifAtMe.Repository.Repositories
     /// may have more useful properties/methods needed to convert to a db type
     /// </typeparam>
     /// <typeparam name="DomainType">The domain model saved to the db</typeparam>
-    public abstract class GenericDomainTypeRepository<DomainType, IdType>
+    public abstract class GenericDomainTypeRepository<DomainType, IdType> : IDisposable
         where DomainType : class, IAggregateRoot
     {
         private readonly IUnitOfWork _unitOfWork;
+        private GifAtMeContext _context;
 
         public GenericDomainTypeRepository(IUnitOfWork unitOfWork)
         {
             if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
             _unitOfWork = unitOfWork;
+        }
+
+        public GenericDomainTypeRepository(IUnitOfWork unitOfWork, GifAtMeContext context)
+        {
+            if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
+            _unitOfWork = unitOfWork;
+
+            if (context == null) throw new ArgumentNullException("GifAtMeContext");
+            _context = context;
         }
 
         public virtual DomainType FindById(IdType id)
@@ -124,6 +134,28 @@ namespace GifAtMe.Repository.Repositories
         public virtual void Delete(DomainType item)
         {
             _unitOfWork.RegisterDeletion(item);
+        }
+
+        public void Dispose()
+        {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                return;
+            }
+
+            if (_context == null)
+            {
+                return;
+            }
+
+            _context.Dispose();
+            _context = null;
         }
     }
 }

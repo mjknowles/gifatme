@@ -18,7 +18,7 @@ namespace GifAtMe.Repository
             Configuration.ProxyCreationEnabled = false;
         }
 
-        public DbSet<GifEntry> GifEntries { get; set; }
+        public virtual DbSet<GifEntry> GifEntries { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

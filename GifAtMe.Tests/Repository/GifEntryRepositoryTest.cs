@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GifAtMe.Repository.Repositories;
 using GifAtMe.Domain.Entities.GifEntry;
 using System.Collections.Generic;
+using GifAtMe.Repository;
 
 namespace GifAtMe.Tests.Repository
 {
@@ -32,12 +33,9 @@ namespace GifAtMe.Tests.Repository
 
             // Act
             repo.Insert(new GifEntry() { Id = 1 });
-            List<GifEntry> entries = (List<GifEntry>)repo.GetAll();
 
             // Assert
             Assert.AreEqual(1, uow.AddedEntities.Count);
-            Assert.IsNotNull(entries);
-            Assert.AreEqual(0, entries.Count);
         }
 
         [TestMethod]
@@ -54,8 +52,22 @@ namespace GifAtMe.Tests.Repository
 
             // Assert
             Assert.AreEqual(0, uow.AddedEntities.Count);
-            Assert.AreEqual(1, entries.Count);
-            Assert.AreEqual(1, entries[0].Id);
+        }
+
+        [TestMethod]
+        public void TestGetAllGifEntriesForTestUser()
+        {
+            // Arrange
+            EfUnitOfWork uow = new EfUnitOfWork();
+            GifEntryRepository repo = new GifEntryRepository(uow);
+
+            // Act
+            repo.Insert(new GifEntry() { Id = 1 });
+            uow.Commit();
+            List<GifEntry> entries = (List<GifEntry>)repo.GetAll();
+
+            // Assert
+            Assert.AreEqual(0, uow.AddedEntities.Count);
         }
     }
 }

@@ -11,31 +11,31 @@ namespace GifAtMe.Repository
 {
     public class EfUnitOfWork : IUnitOfWork, IDisposable
     {
-        private GifAtMeContext _ctx;
+        private GifAtMeContext _context;
 
         public EfUnitOfWork()
         {
-            _ctx = new GifAtMeContext();
+            _context = new GifAtMeContext();
         }
 
         public void RegisterInsertion(IAggregateRoot aggregateRoot)
         {
-            _ctx.Entry(aggregateRoot).State = System.Data.Entity.EntityState.Added;
+            _context.Entry(aggregateRoot).State = System.Data.Entity.EntityState.Added;
         }
 
         public void RegisterUpdate(IAggregateRoot aggregateRoot)
         {
-            _ctx.Entry(aggregateRoot).State = System.Data.Entity.EntityState.Modified;
+            _context.Entry(aggregateRoot).State = System.Data.Entity.EntityState.Modified;
         }
 
         public void RegisterDeletion(IAggregateRoot aggregateRoot)
         {
-            _ctx.Entry(aggregateRoot).State = System.Data.Entity.EntityState.Deleted;
+            _context.Entry(aggregateRoot).State = System.Data.Entity.EntityState.Deleted;
         }
 
         public void Commit()
         {
-            _ctx.SaveChanges();
+            _context.SaveChanges();
         }
 
         public void Dispose()
@@ -51,13 +51,13 @@ namespace GifAtMe.Repository
                 return;
             }
 
-            if (_ctx == null)
+            if (_context == null)
             {
                 return;
             }
 
-            _ctx.Dispose();
-            _ctx = null;
+            _context.Dispose();
+            _context = null;
         }
     }
 }

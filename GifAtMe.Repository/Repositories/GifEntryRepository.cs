@@ -12,6 +12,7 @@ namespace GifAtMe.Repository.Repositories
     public class GifEntryRepository : GenericDomainTypeRepository<GifEntry, int>, IGifEntryRepository
     {
         public GifEntryRepository(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public GifEntryRepository(IUnitOfWork unitOfWork, GifAtMeContext context) : base(unitOfWork, context) { }
 
         public IEnumerable<GifEntry> GetAllForUserName(string userName)
         {
