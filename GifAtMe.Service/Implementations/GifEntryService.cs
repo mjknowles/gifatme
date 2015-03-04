@@ -83,9 +83,9 @@ namespace GifAtMe.Service.Implementations
         public InsertGifEntryResponse InsertGifEntry(InsertGifEntryRequest insertGifEntryRequest)
         {
             GifEntry newGifEntry = AssignAvailablePropertiesToDomain(insertGifEntryRequest.GifEntryDTOProperties);
-            ThrowExceptionIfGifEntryIsInvalid(newGifEntry);
             try
             {
+                ThrowExceptionIfGifEntryIsInvalid(newGifEntry);
                 _gifEntryRepoAccessor.Insert(newGifEntry);
                 return new InsertGifEntryResponse();
             }

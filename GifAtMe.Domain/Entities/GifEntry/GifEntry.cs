@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using GifAtMe.Common.Domain;
+using System.Net;
+using System.Configuration;
 
 namespace GifAtMe.Domain.Entities.GifEntry
 {
@@ -18,9 +20,16 @@ namespace GifAtMe.Domain.Entities.GifEntry
             {
                 AddBrokenRule(GifEntryBusinessRule.UserNameRequired);
             }
-            if(!IsValidUrl(Url))
+            if (!IsValidUrl(Url))
             {
                 AddBrokenRule(GifEntryBusinessRule.UrlMustStartwithHttpAndEndWithDotGif);
+            }
+            else
+            {
+                if (!IsValidSizeGif(Url))
+                {
+                    AddBrokenRule(GifEntryBusinessRule.GifSizeTooLarge);
+                }
             }
         }
 
@@ -35,6 +44,21 @@ namespace GifAtMe.Domain.Entities.GifEntry
                     return true;
             }
             return false;
+        }
+
+        private bool IsValidSizeGif(string url)
+        {
+            int length;
+            using (WebClient client = new WebClient())
+            {
+                length = client.DownloadData(url).Length;
+            }
+            int limit;
+            bool result = Int32.TryParse(ConfigurationManager.AppSettings["MaxGifSizeBytes"], out limit);
+            if (result && (length < limit))
+                return true;
+            else
+                return false;
         }
     }
 }
