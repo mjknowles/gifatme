@@ -20,15 +20,23 @@ namespace GifAtMe.Domain.Entities.GifEntry
             {
                 AddBrokenRule(GifEntryBusinessRule.UserNameRequired);
             }
-            if (!IsValidUrl(Url))
+
+            if (String.IsNullOrEmpty(Url))
             {
-                AddBrokenRule(GifEntryBusinessRule.UrlMustStartwithHttpAndEndWithDotGif);
+                AddBrokenRule(GifEntryBusinessRule.UrlNotReceived);
             }
             else
             {
-                if (!IsValidSizeGif(Url))
+                if (!IsValidUrl(Url))
                 {
-                    AddBrokenRule(GifEntryBusinessRule.GifSizeTooLarge);
+                    AddBrokenRule(GifEntryBusinessRule.UrlMustStartwithHttpAndEndWithDotGif);
+                }
+                else
+                {
+                    if (!IsValidSizeGif(Url))
+                    {
+                        AddBrokenRule(GifEntryBusinessRule.GifSizeTooLarge);
+                    }
                 }
             }
         }
