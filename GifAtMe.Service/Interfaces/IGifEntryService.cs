@@ -14,5 +14,6 @@ namespace GifAtMe.Service.Interfaces
         InsertGifEntryResponse InsertGifEntry(InsertGifEntryRequest insertGifEntryRequest);
         UpdateGifEntryResponse UpdateGifEntry(UpdateGifEntryRequest updateGifEntryRequest);
         DeleteGifEntryResponse DeleteGifEntry(DeleteGifEntryRequest deleteGifEntryRequest);
+        GetGifEntryUsersResponse GetAllGifEntryUsers();
     }
 }

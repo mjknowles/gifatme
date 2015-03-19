@@ -80,6 +80,21 @@ namespace GifAtMe.Service.Implementations
             return getGifEntriesResponse;
         }
 
+        public GetGifEntryUsersResponse GetAllGifEntryUsers()
+        {
+            GetGifEntryUsersResponse getGifEntryUsersResponse = new GetGifEntryUsersResponse();
+
+            try
+            {
+                getGifEntryUsersResponse.Users = _gifEntryRepoAccessor.GetAllUserNames();
+            }
+            catch (Exception ex)
+            {
+                getGifEntryUsersResponse.Exception = ex;
+            }
+            return getGifEntryUsersResponse;
+        }
+
         public InsertGifEntryResponse InsertGifEntry(InsertGifEntryRequest insertGifEntryRequest)
         {
             GifEntry newGifEntry = AssignAvailablePropertiesToDomain(insertGifEntryRequest.GifEntryDTOProperties);

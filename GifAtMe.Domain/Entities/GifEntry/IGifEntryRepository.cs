@@ -12,5 +12,6 @@ namespace GifAtMe.Domain.Entities.GifEntry
         IEnumerable<GifEntry> GetAllForUserName(string userName);
         IEnumerable<GifEntry> GetAllForUserNameAndKeyword(string userName, string keyword);
         GifEntry GetGifEntryForUserNameAndKeywordAndAlternateIndex(string userName, string keyword, int altIndex);
+        IEnumerable<string> GetAllUserNames();
     }
 }

@@ -52,6 +52,7 @@
     <Compile Include="Messaging\GifEntries\GetGifEntriesResponse.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntryResponse.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntryUsersResponse.cs" />
     <Compile Include="Messaging\GifEntries\InsertGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\InsertGifEntryResponse.cs" />
     <Compile Include="Messaging\GifEntries\UpdateGifEntryRequest.cs" />

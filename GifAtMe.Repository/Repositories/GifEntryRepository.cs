@@ -30,5 +30,10 @@ namespace GifAtMe.Repository.Repositories
             return this.GetSingle(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
                 g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase), altIndex);
         }
+
+        public IEnumerable<string> GetAllUserNames()
+        {
+            return this.GetAll().GroupBy(g => g.UserName).Select(g => g.First().UserName);
+        }
     }
 }
