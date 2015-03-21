@@ -37,7 +37,7 @@ namespace GifAtMe.Service
         public static IEnumerable<GifEntryDTO> ConvertToDTO(this IEnumerable<GifEntry> gifEntries)
         {
             List<GifEntryDTO> gifEntryDTOs = new List<GifEntryDTO>();
-            var groupedGifEntries = gifEntries.ToLookup(g => g.Keyword, StringComparer.OrdinalIgnoreCase);
+            var groupedGifEntries = gifEntries.ToLookup(g => g.Keyword+g.UserName, StringComparer.OrdinalIgnoreCase);
             foreach (var key in groupedGifEntries)
             {
                 int altIndex = 1;

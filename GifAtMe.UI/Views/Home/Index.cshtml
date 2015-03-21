@@ -6,16 +6,19 @@
     <div class="row">
         <div class="col-md-2">
             <!--Sidebar content-->
-            Search: <input ng-model="query">
+            Keyword Search: <input ng-model="keywordFilter">
+            Select a User:
+            <select ng-model="userFilter">
+                <option ng-repeat="user in users | orderBy: 'name'">{{user.name}}</option>
+            </select>
         </div>
         <div class="col-md-10">
-            <ul>
-                <li ng-repeat="gif in gifs"
+            <div ng-repeat="user in users | filter:userFilter" ng-if="user.name === userFilter">
+                <div ng-repeat="gif in user.gifs | filter:keywordFilter">
                     <p>{{gif.Keyword}} {{gif.AlternateIndex}}</p>
                     <p>{{gif.Url}}</p>
-                </li>
-            </ul>
-
+                </div>
+            </div>
         </div>
     </div>
 </div>
