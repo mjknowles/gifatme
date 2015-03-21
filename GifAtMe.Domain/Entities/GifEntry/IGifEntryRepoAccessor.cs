@@ -10,9 +10,9 @@ namespace GifAtMe.Domain.Entities.GifEntry
     {
         GifEntry FindById(int id);
         GifEntry FindByNonIdFields(string userName, string keyword, int? alternateIndex);
+        IEnumerable<GifEntry> GetAll();
         IEnumerable<GifEntry> GetAllForUserName(string userName);
         IEnumerable<GifEntry> GetAllForUserNameAndKeyword(string userName, string keyword);
-        IEnumerable<string> GetAllUserNames();
         void Insert(GifEntry gifEntry);
         void Update(GifEntry gifEntry);
         void Delete(GifEntry gifEntry);

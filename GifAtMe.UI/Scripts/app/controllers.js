@@ -10,11 +10,6 @@ var gifAtMeControllers = angular.module('gifAtMeControllers', []);
       $scope.orderProp = 'age';
   }]);
   */
-gifAtMeControllers.controller('UserListCtrl', ['$scope', 'User',
-  function ($scope, User) {
-      $scope.users = User.query();
-      $scope.orderProp = 'userName';
-  }]);
 
 /*phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
   function ($scope, $routeParams, Phone) {
@@ -27,9 +22,9 @@ gifAtMeControllers.controller('UserListCtrl', ['$scope', 'User',
       }
   }]);
  */
-gifAtMeControllers.controller('UserGifsCtrl', ['$scope', '$routeParams', 'User',
-  function ($scope, $routeParams, Gif) {
-      $scope.phone = Gif.get({ userName: $routeParams.userName }, function (gifs) {
-          $scope.gifs = gifs;
+gifAtMeControllers.controller('GifsCtrl', ['$scope', 'Gif',
+  function ($scope, Gif) {
+      Gif.get(function(resp) {
+          $scope.gifs = resp.GifEntries;
       });
   }]);

@@ -55,10 +55,9 @@ namespace GifAtMe.Domain.Entities.GifEntry
             return gif;
         }
 
-
-        public IEnumerable<string> GetAllUserNames()
+        public IEnumerable<GifEntry> GetAll()
         {
-            return _gifEntryRepository.GetAllUserNames();
+            return _gifEntryRepository.GetAllForAllUserNames();
         }
 
         public IEnumerable<GifEntry> GetAllForUserName(string userName)

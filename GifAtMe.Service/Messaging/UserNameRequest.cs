@@ -12,10 +12,6 @@ namespace GifAtMe.Service.Messaging
 
         public UserNameRequest(string userName)
         {
-            if (String.IsNullOrEmpty(userName))
-            {
-                throw new ArgumentException("User name cannot be empty.");
-            }
             _userName = userName;
         }
 

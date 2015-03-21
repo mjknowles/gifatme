@@ -27,6 +27,14 @@ namespace GifAtMe.UI.Controllers
             _gifEntryService = gifEntryService;
         }
 
+        // GET: api/gifentries
+        [Route("")]
+        public HttpResponseMessage GetGifEntries()
+        {
+            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(String.Empty, String.Empty));
+            return Request.BuildResponse(resp);
+        }
+
         // GET: api/gifentries/mknowles
         [Route("{userName}")]
         public HttpResponseMessage GetGifEntries(string userName)

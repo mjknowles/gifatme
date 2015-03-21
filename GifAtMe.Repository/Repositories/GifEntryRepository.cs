@@ -14,6 +14,11 @@ namespace GifAtMe.Repository.Repositories
         public GifEntryRepository(IUnitOfWork unitOfWork) : base(unitOfWork) { }
         public GifEntryRepository(IUnitOfWork unitOfWork, GifAtMeContext context) : base(unitOfWork, context) { }
 
+        public IEnumerable<GifEntry> GetAllForAllUserNames()
+        {
+            return this.GetAll();
+        }
+
         public IEnumerable<GifEntry> GetAllForUserName(string userName)
         {
             return this.GetList(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
@@ -29,11 +34,6 @@ namespace GifAtMe.Repository.Repositories
         {
             return this.GetSingle(g => g.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase) &&
                 g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase), altIndex);
-        }
-
-        public IEnumerable<string> GetAllUserNames()
-        {
-            return this.GetAll().GroupBy(g => g.UserName).Select(g => g.First().UserName);
         }
     }
 }

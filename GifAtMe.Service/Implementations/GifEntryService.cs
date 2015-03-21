@@ -61,15 +61,21 @@ namespace GifAtMe.Service.Implementations
 
             try
             {
-                if (String.IsNullOrEmpty(getAllGifEntriesRequest.Keyword))
+                if (String.IsNullOrEmpty(getAllGifEntriesRequest.UserName))
                 {
-                    allGifEntries = _gifEntryRepoAccessor.GetAllForUserName(getAllGifEntriesRequest.UserName);
+                    allGifEntries = _gifEntryRepoAccessor.GetAll();
                 }
                 else
                 {
-                    allGifEntries = _gifEntryRepoAccessor.GetAllForUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword);
+                    if (String.IsNullOrEmpty(getAllGifEntriesRequest.Keyword))
+                    {
+                        allGifEntries = _gifEntryRepoAccessor.GetAllForUserName(getAllGifEntriesRequest.UserName);
+                    }
+                    else
+                    {
+                        allGifEntries = _gifEntryRepoAccessor.GetAllForUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword);
+                    }
                 }
-
                 // Use the service layer to sort in appropriate ordering for outside applications
                 getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO().OrderBy(g => g.Keyword).ThenBy(g => g.AlternateIndex);
             }
@@ -78,21 +84,6 @@ namespace GifAtMe.Service.Implementations
                 getGifEntriesResponse.Exception = ex;
             }
             return getGifEntriesResponse;
-        }
-
-        public GetGifEntryUsersResponse GetAllGifEntryUsers()
-        {
-            GetGifEntryUsersResponse getGifEntryUsersResponse = new GetGifEntryUsersResponse();
-
-            try
-            {
-                getGifEntryUsersResponse.Users = _gifEntryRepoAccessor.GetAllUserNames();
-            }
-            catch (Exception ex)
-            {
-                getGifEntryUsersResponse.Exception = ex;
-            }
-            return getGifEntryUsersResponse;
         }
 
         public InsertGifEntryResponse InsertGifEntry(InsertGifEntryRequest insertGifEntryRequest)
