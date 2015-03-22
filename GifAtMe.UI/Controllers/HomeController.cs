@@ -10,8 +10,7 @@ namespace GifAtMe.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
-
+            ViewBag.Title = "Gif At Me";
             return View();
         }
     }

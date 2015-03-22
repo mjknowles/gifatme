@@ -77,7 +77,7 @@ namespace GifAtMe.Service.Implementations
                     }
                 }
                 // Use the service layer to sort in appropriate ordering for outside applications
-                getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO().OrderBy(g => g.Keyword).ThenBy(g => g.AlternateIndex);
+                getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO().OrderBy(g => g.Keyword).ThenByDescending(g => g.AlternateIndex);
             }
             catch (Exception ex)
             {

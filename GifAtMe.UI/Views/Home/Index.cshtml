@@ -1,24 +1,30 @@
 ﻿<div class="jumbotron">
-    <h1>Gif At Me</h1>
+    <h1>Gif List</h1>
     <p class="lead">Ue this site to view the gifs you've uploaded via robort.</p>
 </div>
 <div class="container-fluid" ng-controller="GifsCtrl">
     <div class="row">
         <div class="col-md-2">
             <!--Sidebar content-->
-            Keyword Search: <input ng-model="keywordFilter">
             Select a User:
-            <select ng-model="userFilter">
-                <option ng-repeat="user in users | orderBy: 'name'">{{user.name}}</option>
+            <select ng-model="query.UserName">
+                <option ng-repeat="user in users | orderBy: 'name'">{{user}}</option>
             </select>
         </div>
-        <div class="col-md-10">
-            <div ng-repeat="user in users | filter:userFilter" ng-if="user.name === userFilter">
-                <div ng-repeat="gif in user.gifs | filter:keywordFilter">
-                    <p>{{gif.Keyword}} {{gif.AlternateIndex}}</p>
-                    <p>{{gif.Url}}</p>
-                </div>
-            </div>
+        <div class="col-md-2">
+            Keyword Search: <input ng-model="query.Keyword">
         </div>
-    </div>
+            <table class="table">
+                <tr>
+                    <td>Keyword</td>
+                    <td>Index</td>
+                    <td>URL</td>
+                </tr>
+                <tr ng-repeat="gif in gifs | filter:query">
+                    <td>{{gif.Keyword}}</td>
+                    <td>{{gif.AlternateIndex}}</td>
+                    <td><img ng-src="{{gif.Url}}" /></td>
+                </tr>
+            </table>
+        </div>
 </div>
