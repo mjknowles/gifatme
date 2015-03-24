@@ -53,21 +53,5 @@ namespace GifAtMe.Tests.Repository
             // Assert
             Assert.AreEqual(0, uow.AddedEntities.Count);
         }
-
-        [TestMethod]
-        public void TestGetAllGifEntriesForTestUser()
-        {
-            // Arrange
-            EfUnitOfWork uow = new EfUnitOfWork();
-            GifEntryRepository repo = new GifEntryRepository(uow);
-
-            // Act
-            repo.Insert(new GifEntry() { Id = 1 });
-            uow.Commit();
-            List<GifEntry> entries = (List<GifEntry>)repo.GetAll();
-
-            // Assert
-            Assert.AreEqual(0, uow.AddedEntities.Count);
-        }
     }
 }
