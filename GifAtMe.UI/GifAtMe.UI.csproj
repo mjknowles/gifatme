@@ -269,6 +269,9 @@
     <Content Include="Scripts\angular\angular-aria.min.js.map" />
     <Content Include="Scripts\angular\angular-animate.min.js.map" />
     <Content Include="Scripts\angular\angular.min.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map">
+      <DependentUpon>bootstrap.min.js</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\angular\i18n\angular-locale_aa-dj.js" />
     <Content Include="Scripts\angular\i18n\angular-locale_aa-er.js" />
@@ -1038,6 +1041,12 @@
     <Content Include="Scripts\angular\version.json" />
     <Content Include="Views\Home\_UserList.cshtml" />
     <Content Include="Views\Home\_GifList.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.js.map">
+      <DependentUpon>jquery-1.10.2.min.js</DependentUpon>
+    </Content>
+    <Content Include="Scripts\respond.min.js.map">
+      <DependentUpon>respond.min.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

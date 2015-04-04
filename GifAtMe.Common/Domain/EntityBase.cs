@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace GifAtMe.Common.Domain
 {
     /// <summary>
     /// http://dotnetcodr.com/2013/09/16/a-model-net-web-service-based-on-domain-driven-design-part-2-ddd-basics/
-    /// 
-    /// An entity is an object with a unique ID. This unique ID 
-    /// is the most important property of an entity: it helps distinguish 
+    ///
+    /// An entity is an object with a unique ID. This unique ID
+    /// is the most important property of an entity: it helps distinguish
     /// between two otherwise identical objects.
-    /// 
+    ///
     /// IdType can be an int, string, guid, etc.
     /// </summary>
     /// <typeparam name="IdType"></typeparam>

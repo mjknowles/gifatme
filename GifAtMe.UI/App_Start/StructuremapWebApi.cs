@@ -15,15 +15,18 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Web.Http;
 using GifAtMe.UI.DependencyResolution;
+using System.Web.Http;
 
 [assembly: WebActivatorEx.PostApplicationStartMethod(typeof(GifAtMe.UI.App_Start.StructuremapWebApi), "Start")]
 
-namespace GifAtMe.UI.App_Start {
-    public static class StructuremapWebApi {
-        public static void Start() {
-			var container = StructuremapMvc.StructureMapDependencyScope.Container;
+namespace GifAtMe.UI.App_Start
+{
+    public static class StructuremapWebApi
+    {
+        public static void Start()
+        {
+            var container = StructuremapMvc.StructureMapDependencyScope.Container;
             GlobalConfiguration.Configuration.DependencyResolver = new StructureMapWebApiDependencyResolver(container);
         }
     }

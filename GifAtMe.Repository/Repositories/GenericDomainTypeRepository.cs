@@ -1,14 +1,10 @@
-﻿using System;
+﻿using GifAtMe.Common.Domain;
+using GifAtMe.Common.UnitOfWork;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq.Expressions;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GifAtMe.Common.Domain;
-using GifAtMe.Repository;
-using GifAtMe.Domain.Entities;
-using GifAtMe.Common.UnitOfWork;
+using System.Linq.Expressions;
 
 namespace GifAtMe.Repository.Repositories
 {
@@ -20,38 +16,29 @@ namespace GifAtMe.Repository.Repositories
     /// may have more useful properties/methods needed to convert to a db type
     /// </typeparam>
     /// <typeparam name="DomainType">The domain model saved to the db</typeparam>
-    public abstract class GenericDomainTypeRepository<DomainType, IdType> : IDisposable
-        where DomainType : class, IAggregateRoot
+    public abstract class GenericDomainTypeRepository<DomainType, IdType>
+        where DomainType : EntityBase<IdType>, IAggregateRoot
     {
         private readonly IUnitOfWork _unitOfWork;
-        private GifAtMeContext _context;
+        private DbContext _context;
 
-        public GenericDomainTypeRepository(IUnitOfWork unitOfWork)
-        {
-            if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
-            _unitOfWork = unitOfWork;
-        }
-
-        public GenericDomainTypeRepository(IUnitOfWork unitOfWork, GifAtMeContext context)
+        public GenericDomainTypeRepository(IUnitOfWork unitOfWork, IDbContextFactory dbContextFactory)
         {
             if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
             _unitOfWork = unitOfWork;
 
-            if (context == null) throw new ArgumentNullException("GifAtMeContext");
-            _context = context;
+            if (dbContextFactory == null) throw new ArgumentNullException("DbContextFactory");
+            _context = dbContextFactory.Create();
         }
 
         public virtual DomainType FindById(IdType id)
         {
-            DomainType dbGifEntry;
-            using (var context = new GifAtMeContext())
-            {
-                dbGifEntry = context.Set<DomainType>().Find(id);
-            }
+            DomainType domainObj;
+            domainObj = _context.Set<DomainType>().SingleOrDefault<DomainType>(x => x.Id.Equals(id));
 
-            if (dbGifEntry != null)
+            if (domainObj != null)
             {
-                return dbGifEntry;
+                return domainObj;
             }
             return default(DomainType);
         }
@@ -66,18 +53,15 @@ namespace GifAtMe.Repository.Repositories
         public virtual IEnumerable<DomainType> GetAll(params Expression<Func<DomainType, object>>[] navigationProperties)
         {
             List<DomainType> list;
-            using (var context = new GifAtMeContext())
-            {
-                IQueryable<DomainType> dbQuery = context.Set<DomainType>();
+            IQueryable<DomainType> dbQuery = _context.Set<DomainType>();
 
-                //Apply eager loading
-                foreach (Expression<Func<DomainType, object>> navigationProperty in navigationProperties)
-                    dbQuery = dbQuery.Include<DomainType, object>(navigationProperty);
+            //Apply eager loading
+            foreach (Expression<Func<DomainType, object>> navigationProperty in navigationProperties)
+                dbQuery = dbQuery.Include<DomainType, object>(navigationProperty);
 
-                list = dbQuery
-                    .AsNoTracking()
-                    .ToList<DomainType>();
-            }
+            list = dbQuery
+                .AsNoTracking()
+                .ToList<DomainType>();
             return list;
         }
 
@@ -85,19 +69,16 @@ namespace GifAtMe.Repository.Repositories
             params Expression<Func<DomainType, object>>[] navigationProperties)
         {
             List<DomainType> list;
-            using (var context = new GifAtMeContext())
-            {
-                IQueryable<DomainType> dbQuery = context.Set<DomainType>();
+            IQueryable<DomainType> dbQuery = _context.Set<DomainType>();
 
-                //Apply eager loading
-                foreach (Expression<Func<DomainType, object>> navigationProperty in navigationProperties)
-                    dbQuery = dbQuery.Include<DomainType, object>(navigationProperty);
+            //Apply eager loading
+            foreach (Expression<Func<DomainType, object>> navigationProperty in navigationProperties)
+                dbQuery = dbQuery.Include<DomainType, object>(navigationProperty);
 
-                list = dbQuery
-                    .AsNoTracking()
-                    .Where(where)
-                    .ToList<DomainType>();
-            }
+            list = dbQuery
+                .AsNoTracking()
+                .Where(where)
+                .ToList<DomainType>();
             return list;
         }
 
@@ -105,19 +86,16 @@ namespace GifAtMe.Repository.Repositories
              params Expression<Func<DomainType, object>>[] navigationProperties)
         {
             DomainType item = null;
-            using (var context = new GifAtMeContext())
-            {
-                IQueryable<DomainType> dbQuery = context.Set<DomainType>();
+            IQueryable<DomainType> dbQuery = _context.Set<DomainType>();
 
-                //Apply eager loading
-                foreach (Expression<Func<DomainType, object>> navigationProperty in navigationProperties)
-                    dbQuery = dbQuery.Include<DomainType, object>(navigationProperty);
+            //Apply eager loading
+            foreach (Expression<Func<DomainType, object>> navigationProperty in navigationProperties)
+                dbQuery = dbQuery.Include<DomainType, object>(navigationProperty);
 
-                item = dbQuery
-                    .AsNoTracking() //Don't track any changes for the selected item
-                    .Where(where)
-                    .ElementAtOrDefault(index); ; //Apply where clause
-            }
+            item = dbQuery
+                .AsNoTracking() //Don't track any changes for the selected item
+                .Where(where)
+                .ElementAtOrDefault(index); ; //Apply where clause
             return item;
         }
 
@@ -134,28 +112,6 @@ namespace GifAtMe.Repository.Repositories
         public virtual void Delete(DomainType item)
         {
             _unitOfWork.RegisterDeletion(item);
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
-                return;
-            }
-
-            if (_context == null)
-            {
-                return;
-            }
-
-            _context.Dispose();
-            _context = null;
         }
     }
 }

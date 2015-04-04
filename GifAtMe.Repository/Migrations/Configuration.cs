@@ -1,11 +1,8 @@
 namespace GifAtMe.Repository.Migrations
 {
     using GifAtMe.Domain.Entities.GifEntry;
-    using System;
     using System.Collections.Generic;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<GifAtMe.Repository.GifAtMeContext>
     {
@@ -18,7 +15,7 @@ namespace GifAtMe.Repository.Migrations
         {
             //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
+            //  You can use the DbSet<T>.AddOrUpdate() helper extension method
             //  to avoid creating duplicate seed data. E.g.
             //
             //    context.People.AddOrUpdate(

@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using GifAtMe.Common.Domain;
-using System.Net;
+﻿using GifAtMe.Common.Domain;
+using System;
 using System.Configuration;
+using System.Net;
 
 namespace GifAtMe.Domain.Entities.GifEntry
 {
     public class GifEntry : EntityBase<int>, IAggregateRoot
     {
         public string UserName { get; set; }
+
         public string Url { get; set; }
+
         public string Keyword { get; set; }
 
         protected override void Validate()

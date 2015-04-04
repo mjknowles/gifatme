@@ -15,17 +15,19 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-
-namespace GifAtMe.UI.DependencyResolution {
+namespace GifAtMe.UI.DependencyResolution
+{
     using GifAtMe.Common.Domain;
     using GifAtMe.Common.UnitOfWork;
     using GifAtMe.Domain.Entities.GifEntry;
     using GifAtMe.Repository.Repositories;
     using GifAtMe.Service.Interfaces;
     using StructureMap;
-	
-    public static class IoC {
-        public static IContainer Initialize() {
+
+    public static class IoC
+    {
+        public static IContainer Initialize()
+        {
             ObjectFactory.Initialize(x =>
             {
                 x.Scan(scan =>

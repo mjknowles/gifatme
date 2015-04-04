@@ -1,18 +1,10 @@
 ﻿using GifAtMe.Service.DTOs;
-using GifAtMe.Service.Implementations;
 using GifAtMe.Service.Interfaces;
 using GifAtMe.Service.Messaging;
 using GifAtMe.Service.Messaging.GifEntries;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Description;
-using GifAtMe.UI;
 
 namespace GifAtMe.UI.Controllers
 {
@@ -59,7 +51,7 @@ namespace GifAtMe.UI.Controllers
             ServiceResponseBase resp = _gifEntryService.GetGifEntry(new GetGifEntryRequest(userName, keyword, alternateIndex));
             return Request.BuildResponse(resp);
         }
-        
+
         // GET: api/gifentries/5
         [Route("{id:int}")]
         public HttpResponseMessage GetGifEntry(int id)
@@ -67,7 +59,7 @@ namespace GifAtMe.UI.Controllers
             ServiceResponseBase resp = _gifEntryService.GetGifEntry(new GetGifEntryRequest(id));
             return Request.BuildResponse(resp);
         }
-        
+
         // POST: api/gifentries
         [Route("")]
         public HttpResponseMessage PostGifEntry(GifEntryDTOProperties gifEntry)

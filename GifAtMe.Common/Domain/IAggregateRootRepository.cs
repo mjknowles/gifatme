@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GifAtMe.Common.Domain
+﻿namespace GifAtMe.Common.Domain
 {
     /// <summary>
-    /// Expose the most common actions that are applicable across all 
+    /// Expose the most common actions that are applicable across all
     /// aggregate roots.
     /// </summary>
     /// <typeparam name="AggregateType"></typeparam>
@@ -17,8 +11,9 @@ namespace GifAtMe.Common.Domain
         : IAggregateRoot
     {
         void Update(AggregateType aggregate);
+
         void Insert(AggregateType aggregate);
+
         void Delete(AggregateType aggregate);
     }
-
 }

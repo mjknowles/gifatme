@@ -318,7 +318,6 @@ angular.module('ngMessages', [])
     };
   }])
 
-
    /**
     * @ngdoc directive
     * @name ngMessage
@@ -395,6 +394,4 @@ angular.module('ngMessages', [])
       }
     };
   }]);
-
-
 })(window, window.angular);

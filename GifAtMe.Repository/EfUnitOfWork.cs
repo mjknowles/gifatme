@@ -1,21 +1,16 @@
 ﻿using GifAtMe.Common.Domain;
 using GifAtMe.Common.UnitOfWork;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GifAtMe.Repository
 {
-    public class EfUnitOfWork : IUnitOfWork, IDisposable
+    public class EfUnitOfWork : IUnitOfWork
     {
-        private GifAtMeContext _context;
+        private DbContext _context;
 
-        public EfUnitOfWork()
+        public EfUnitOfWork(IDbContextFactory dbContextFactory)
         {
-            _context = new GifAtMeContext();
+            _context = dbContextFactory.Create();
         }
 
         public void RegisterInsertion(IAggregateRoot aggregateRoot)
@@ -36,28 +31,6 @@ namespace GifAtMe.Repository
         public void Commit()
         {
             _context.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            this.Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposing)
-            {
-                return;
-            }
-
-            if (_context == null)
-            {
-                return;
-            }
-
-            _context.Dispose();
-            _context = null;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using GifAtMe.Common.Domain;
-using GifAtMe.Common.UnitOfWork;
 using GifAtMe.Domain.Entities.GifEntry;
 using GifAtMe.Service.DTOs;
 using GifAtMe.Service.Exceptions;
@@ -9,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GifAtMe.Service.Implementations
 {
@@ -20,7 +18,7 @@ namespace GifAtMe.Service.Implementations
         public GifEntryService(IGifEntryRepoAccessor gifEntryRepoAccessor)
         {
             if (gifEntryRepoAccessor == null) throw new ArgumentNullException("GifEntry Repo Accessor");
-            _gifEntryRepoAccessor = gifEntryRepoAccessor;        
+            _gifEntryRepoAccessor = gifEntryRepoAccessor;
         }
 
         public GetGifEntryResponse GetGifEntry(GetGifEntryRequest getGifEntryRequest)
@@ -112,7 +110,7 @@ namespace GifAtMe.Service.Implementations
                 }
                 else
                 {
-                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(updateGifEntryRequest.UserName, updateGifEntryRequest.Keyword, updateGifEntryRequest.AlternateIndex - 1); 
+                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(updateGifEntryRequest.UserName, updateGifEntryRequest.Keyword, updateGifEntryRequest.AlternateIndex - 1);
                 }
                 if (existingGifEntry != null)
                 {
@@ -146,7 +144,7 @@ namespace GifAtMe.Service.Implementations
                 }
                 else
                 {
-                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(deleteGifEntryRequest.UserName, deleteGifEntryRequest.Keyword, deleteGifEntryRequest.AlternateIndex - 1); 
+                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(deleteGifEntryRequest.UserName, deleteGifEntryRequest.Keyword, deleteGifEntryRequest.AlternateIndex - 1);
                 }
                 if (existingGifEntry != null)
                 {
@@ -178,6 +176,7 @@ namespace GifAtMe.Service.Implementations
 
             return gifEntry;
         }
+
         private void ThrowExceptionIfGifEntryIsInvalid(GifEntry gifEntry)
         {
             IEnumerable<BusinessRule> brokenRules = gifEntry.GetBrokenRules();
@@ -193,10 +192,5 @@ namespace GifAtMe.Service.Implementations
                 throw new Exception(brokenRulesBuilder.ToString());
             }
         }
-
-
-
-
-
     }
 }

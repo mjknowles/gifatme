@@ -15,22 +15,26 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace GifAtMe.UI.DependencyResolution {
+namespace GifAtMe.UI.DependencyResolution
+{
     using StructureMap.Configuration.DSL;
     using StructureMap.Graph;
-	
-    public class DefaultRegistry : Registry {
+
+    public class DefaultRegistry : Registry
+    {
         #region Constructors and Destructors
 
-        public DefaultRegistry() {
+        public DefaultRegistry()
+        {
             Scan(
-                scan => {
+                scan =>
+                {
                     scan.TheCallingAssembly();
                     scan.WithDefaultConventions();
                 });
             //For<IExample>().Use<Example>();
         }
 
-        #endregion
+        #endregion Constructors and Destructors
     }
 }

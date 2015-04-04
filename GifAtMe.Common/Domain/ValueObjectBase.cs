@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace GifAtMe.Common.Domain
 {
     /// <summary>
     /// Value objects lack an Id field because it is not important
-    /// to track each individual one. Value objects are often used 
-    /// to group certain properties of an Entity. E.g. a Person 
-    /// entity can have an Address property which includes other 
-    /// properties such as Street and City. 
+    /// to track each individual one. Value objects are often used
+    /// to group certain properties of an Entity. E.g. a Person
+    /// entity can have an Address property which includes other
+    /// properties such as Street and City.
     /// </summary>
     public abstract class ValueObjectBase
     {

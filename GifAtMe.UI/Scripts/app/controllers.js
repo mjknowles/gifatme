@@ -41,6 +41,5 @@ gifAtMeControllers.controller('GifsCtrl', ['$scope', 'Gif',
               UserName: "not a user",
               Keyword: ""
           };
-
       });
   }]);

@@ -1,8 +1,8 @@
+using GifAtMe.Areas.HelpPage.ModelDescriptions;
+using GifAtMe.Areas.HelpPage.Models;
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using GifAtMe.Areas.HelpPage.ModelDescriptions;
-using GifAtMe.Areas.HelpPage.Models;
 
 namespace GifAtMe.Areas.HelpPage.Controllers
 {

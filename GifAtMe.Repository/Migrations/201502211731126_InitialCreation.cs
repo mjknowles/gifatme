@@ -1,8 +1,7 @@
 namespace GifAtMe.Repository.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class InitialCreation : DbMigration
     {
         public override void Up()
@@ -17,9 +16,8 @@ namespace GifAtMe.Repository.Migrations
                         Keyword = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
-            
         }
-        
+
         public override void Down()
         {
             DropTable("dbo.GifEntry");

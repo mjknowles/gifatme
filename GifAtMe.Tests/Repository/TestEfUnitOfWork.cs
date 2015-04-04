@@ -1,22 +1,21 @@
 ﻿using GifAtMe.Common.Domain;
 using GifAtMe.Common.UnitOfWork;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GifAtMe.Tests.Repository
 {
-    public class TestEfUnitOfWork<T>  : IUnitOfWork
+    public class TestEfUnitOfWork<T> : IUnitOfWork
         where T : EntityBase<int>
     {
         public List<T> TestEntities { get; set; }
+
         public List<T> AddedEntities { get; set; }
+
         public List<T> UpdatedEntities { get; set; }
+
         public List<T> DeletedEntities { get; set; }
 
-        public TestEfUnitOfWork() 
+        public TestEfUnitOfWork()
         {
             TestEntities = new List<T>();
             AddedEntities = new List<T>();
@@ -41,16 +40,16 @@ namespace GifAtMe.Tests.Repository
 
         public void Commit()
         {
-            foreach(T entity in AddedEntities)
+            foreach (T entity in AddedEntities)
             {
                 TestEntities.Add(entity);
             }
-            foreach(T entity in UpdatedEntities)
+            foreach (T entity in UpdatedEntities)
             {
                 int index = TestEntities.FindIndex(x => x.Id == ((T)entity).Id);
                 TestEntities[index] = (T)entity;
             }
-            foreach(T entity in DeletedEntities)
+            foreach (T entity in DeletedEntities)
             {
                 TestEntities.Remove(entity);
             }

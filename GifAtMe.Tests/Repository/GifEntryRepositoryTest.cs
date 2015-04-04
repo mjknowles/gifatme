@@ -1,16 +1,11 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GifAtMe.Repository.Repositories;
-using GifAtMe.Domain.Entities.GifEntry;
-using System.Collections.Generic;
-using GifAtMe.Repository;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GifAtMe.Tests.Repository
 {
     [TestClass]
     public class GifEntryRepositoryTest
     {
-        [TestMethod]
+        /*[TestMethod]
         public void TestRepoIsEmpty()
         {
             // Arrange
@@ -52,6 +47,6 @@ namespace GifAtMe.Tests.Repository
 
             // Assert
             Assert.AreEqual(0, uow.AddedEntities.Count);
-        }
+        }*/
     }
 }

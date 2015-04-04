@@ -1,8 +1,4 @@
-﻿using System.Web.Mvc;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GifAtMe;
-
-namespace GifAtMe.Tests.Controllers
+﻿namespace GifAtMe.Tests.Controllers
 {
     /*[TestClass]
     public class HomeControllerTest

@@ -1,24 +1,27 @@
-namespace GifAtMe.UI.DependencyResolution {
+namespace GifAtMe.UI.DependencyResolution
+{
+    using GifAtMe.UI.App_Start;
+    using StructureMap.Web.Pipeline;
     using System.Web;
 
-    using GifAtMe.UI.App_Start;
-
-    using StructureMap.Web.Pipeline;
-
-    public class StructureMapScopeModule : IHttpModule {
+    public class StructureMapScopeModule : IHttpModule
+    {
         #region Public Methods and Operators
 
-        public void Dispose() {
+        public void Dispose()
+        {
         }
 
-        public void Init(HttpApplication context) {
+        public void Init(HttpApplication context)
+        {
             context.BeginRequest += (sender, e) => StructuremapMvc.StructureMapDependencyScope.CreateNestedContainer();
-            context.EndRequest += (sender, e) => {
+            context.EndRequest += (sender, e) =>
+            {
                 HttpContextLifecycle.DisposeAndClearAll();
                 StructuremapMvc.StructureMapDependencyScope.DisposeNestedContainer();
             };
         }
 
-        #endregion
+        #endregion Public Methods and Operators
     }
 }

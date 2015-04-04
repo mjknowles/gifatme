@@ -3,8 +3,6 @@ using GifAtMe.Service.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GifAtMe.Service
 {
@@ -37,7 +35,7 @@ namespace GifAtMe.Service
         public static IEnumerable<GifEntryDTO> ConvertToDTO(this IEnumerable<GifEntry> gifEntries)
         {
             List<GifEntryDTO> gifEntryDTOs = new List<GifEntryDTO>();
-            var groupedGifEntries = gifEntries.ToLookup(g => g.Keyword+g.UserName, StringComparer.OrdinalIgnoreCase);
+            var groupedGifEntries = gifEntries.ToLookup(g => g.Keyword + g.UserName, StringComparer.OrdinalIgnoreCase);
             foreach (var key in groupedGifEntries)
             {
                 int altIndex = 1;
@@ -49,6 +47,5 @@ namespace GifAtMe.Service
             }
             return gifEntryDTOs;
         }
-
     }
 }

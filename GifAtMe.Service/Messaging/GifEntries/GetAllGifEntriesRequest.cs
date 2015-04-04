@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GifAtMe.Service.Messaging.GifEntries
+﻿namespace GifAtMe.Service.Messaging.GifEntries
 {
-    public class GetAllGifEntriesRequest: UserNameRequest
+    public class GetAllGifEntriesRequest : UserNameRequest
     {
         private string _keyword;
 
-        public GetAllGifEntriesRequest(string userName, string keyword) : base(userName) 
+        public GetAllGifEntriesRequest(string userName, string keyword)
+            : base(userName)
         {
             _keyword = keyword;
         }

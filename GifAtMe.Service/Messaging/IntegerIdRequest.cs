@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GifAtMe.Service.Messaging
 {
@@ -12,7 +8,7 @@ namespace GifAtMe.Service.Messaging
 
         public IntegerIdRequest(int id)
         {
-            if(id < 0)
+            if (id < 0)
             {
                 throw new ArgumentException("ID must be 0 or positive.");
             }
