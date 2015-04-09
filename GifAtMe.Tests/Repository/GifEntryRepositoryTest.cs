@@ -1,52 +1,70 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using GifAtMe.Domain.Entities.GifEntry;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+using System.Linq;
+using Moq;
+using System.Data.Entity;
+using GifAtMe.Common.UnitOfWork;
+using GifAtMe.Repository;
+using GifAtMe.Repository.Repositories;
+using System;
 
 namespace GifAtMe.Tests.Repository
 {
     [TestClass]
     public class GifEntryRepositoryTest
     {
-        /*[TestMethod]
-        public void TestRepoIsEmpty()
+        private Mock<IUnitOfWork> _mockUnitOfWork;
+        private Mock<IDbContextFactory> _mockDbContextFactory;
+
+        [TestInitialize]
+        public void TestInitialize()
         {
-            // Arrange
-            GifEntryRepository repo = new GifEntryRepository(new TestEfUnitOfWork<GifEntry>());
+            _mockUnitOfWork = new Mock<IUnitOfWork>();
+            _mockDbContextFactory = new Mock<IDbContextFactory>();
+        }
 
-            // Act
-            List<GifEntry> entries = (List<GifEntry>)repo.GetAll();
-
-            // Assert
-            Assert.IsNotNull(entries);
-            Assert.AreEqual(0, entries.Count);
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            _mockUnitOfWork.VerifyAll();
+            _mockDbContextFactory.VerifyAll();
         }
 
         [TestMethod]
-        public void TestAddOneGifEntryWithoutCommit()
+        public void GenericRepo_FindByUserNameKeywordAndIndex_ObjectExistsInRepo()
         {
-            // Arrange
-            TestEfUnitOfWork<GifEntry> uow = new TestEfUnitOfWork<GifEntry>();
-            GifEntryRepository repo = new GifEntryRepository(uow);
 
-            // Act
-            repo.Insert(new GifEntry() { Id = 1 });
+            // Setup
+            var data = new List<GifEntry> 
+            { 
+                new GifEntry { Id = 1, Keyword = "Test1", UserName = "TestUser" }, 
+                new GifEntry { Id = 2, Keyword = "Test2", UserName = "TestUser" }, 
+                new GifEntry { Id = 3, Keyword = "Test3", UserName = "TestUser" }
+            }.AsQueryable();
 
-            // Assert
-            Assert.AreEqual(1, uow.AddedEntities.Count);
+            var mockSet = new Mock<DbSet<GifEntry>>();
+            mockSet.As<IQueryable<GifEntry>>().Setup(m => m.Provider).Returns(data.Provider);
+            mockSet.As<IQueryable<GifEntry>>().Setup(m => m.Expression).Returns(data.Expression);
+            mockSet.As<IQueryable<GifEntry>>().Setup(m => m.ElementType).Returns(data.ElementType);
+            mockSet.As<IQueryable<GifEntry>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+            mockSet.Setup(m => m.AsNoTracking()).Returns(mockSet.Object);
+            //mockSet.As<IQueryable<GifEntry>>().Setup(m => m.AsNoTracking().Returns<int>((x) => data.ElementAtOrDefault(x));
+            //mockSet.As<IQueryable<GifEntry>>().Setup(m => m.AsNoTracking()).Returns(mockSet.Object);
+
+            var mockContext = new Mock<DbContext>();
+            mockContext.Setup(c => c.Set<GifEntry>()).Returns(mockSet.Object);
+
+            _mockDbContextFactory.Setup(x => x.Create()).Returns(mockContext.Object);
+
+            var expectedModel = new GifEntry { Id = 1, Keyword = "Test1", UserName = "TestUser" };
+            var sut = new GifEntryRepository(_mockUnitOfWork.Object, _mockDbContextFactory.Object);
+
+            //Act
+            var actualModel = sut.GetGifEntryForUserNameAndKeywordAndAlternateIndex("TestUser", "Test1", 0);
+
+            //Assert
+            Assert.AreEqual(expectedModel.Id, actualModel.Id);
         }
-
-        [TestMethod]
-        public void TestAddOneGifEntryWithCommit()
-        {
-            // Arrange
-            TestEfUnitOfWork<GifEntry> uow = new TestEfUnitOfWork<GifEntry>();
-            GifEntryRepository repo = new GifEntryRepository(uow);
-
-            // Act
-            repo.Insert(new GifEntry() { Id = 1 });
-            uow.Commit();
-            List<GifEntry> entries = (List<GifEntry>)repo.GetAll();
-
-            // Assert
-            Assert.AreEqual(0, uow.AddedEntities.Count);
-        }*/
     }
 }

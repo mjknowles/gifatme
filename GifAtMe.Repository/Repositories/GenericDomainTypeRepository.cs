@@ -92,10 +92,7 @@ namespace GifAtMe.Repository.Repositories
             foreach (Expression<Func<DomainType, object>> navigationProperty in navigationProperties)
                 dbQuery = dbQuery.Include<DomainType, object>(navigationProperty);
 
-            item = dbQuery
-                .AsNoTracking() //Don't track any changes for the selected item
-                .Where(where)
-                .ElementAtOrDefault(index); ; //Apply where clause
+            item = dbQuery.AsNoTracking().Where(where).ElementAtOrDefault(index);
             return item;
         }
 
