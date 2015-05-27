@@ -8,6 +8,7 @@ using GifAtMe.Common.UnitOfWork;
 using GifAtMe.Repository;
 using GifAtMe.Repository.Repositories;
 using System;
+using GifAtMe.Repository.Contexts;
 
 namespace GifAtMe.Tests.Repository
 {
@@ -49,8 +50,6 @@ namespace GifAtMe.Tests.Repository
             mockSet.As<IQueryable<GifEntry>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<GifEntry>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
             mockSet.Setup(m => m.AsNoTracking()).Returns(mockSet.Object);
-            //mockSet.As<IQueryable<GifEntry>>().Setup(m => m.AsNoTracking().Returns<int>((x) => data.ElementAtOrDefault(x));
-            //mockSet.As<IQueryable<GifEntry>>().Setup(m => m.AsNoTracking()).Returns(mockSet.Object);
 
             var mockContext = new Mock<DbContext>();
             mockContext.Setup(c => c.Set<GifEntry>()).Returns(mockSet.Object);

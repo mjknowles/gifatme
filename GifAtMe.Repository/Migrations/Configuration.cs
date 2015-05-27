@@ -4,14 +4,14 @@ namespace GifAtMe.Repository.Migrations
     using System.Collections.Generic;
     using System.Data.Entity.Migrations;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<GifAtMe.Repository.GifAtMeContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<GifAtMe.Repository.Contexts.GifAtMeContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(GifAtMe.Repository.GifAtMeContext context)
+        protected override void Seed(GifAtMe.Repository.Contexts.GifAtMeContext context)
         {
             //  This method will be called after migrating to the latest version.
 

@@ -20,6 +20,7 @@ namespace GifAtMe.UI.DependencyResolution
     using GifAtMe.Common.Domain;
     using GifAtMe.Common.UnitOfWork;
     using GifAtMe.Domain.Entities.GifEntry;
+    using GifAtMe.Repository.Contexts;
     using GifAtMe.Repository.Repositories;
     using GifAtMe.Service.Interfaces;
     using StructureMap;

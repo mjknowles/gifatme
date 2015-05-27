@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using GifAtMe.Repository.Contexts;
+using System.Data.Entity;
 using System.Web;
 
 namespace GifAtMe.Repository

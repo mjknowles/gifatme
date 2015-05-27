@@ -49,16 +49,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DbContextFactory.cs" />
+    <Compile Include="Contexts\DbContextFactory.cs" />
     <Compile Include="EfUnitOfWork.cs" />
-    <Compile Include="IDbContextFactory.cs" />
+    <Compile Include="Contexts\IDbContextFactory.cs" />
     <Compile Include="Migrations\201502211731126_InitialCreation.cs" />
     <Compile Include="Migrations\201502211731126_InitialCreation.Designer.cs">
       <DependentUpon>201502211731126_InitialCreation.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\GenericDomainTypeRepository.cs" />
-    <Compile Include="GifAtMeContext.cs" />
+    <Compile Include="Contexts\GifAtMeContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\GifEntryRepository.cs" />
   </ItemGroup>

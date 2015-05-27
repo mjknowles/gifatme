@@ -2,7 +2,7 @@
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace GifAtMe.Repository
+namespace GifAtMe.Repository.Contexts
 {
     public class GifAtMeContext : DbContext
     {

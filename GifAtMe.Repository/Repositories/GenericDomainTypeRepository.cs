@@ -1,5 +1,6 @@
 ﻿using GifAtMe.Common.Domain;
 using GifAtMe.Common.UnitOfWork;
+using GifAtMe.Repository.Contexts;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
