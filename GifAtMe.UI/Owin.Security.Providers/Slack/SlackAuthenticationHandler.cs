@@ -21,7 +21,7 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
     public class SlackAuthenticationHandler : AuthenticationHandler<SlackAuthenticationOptions>
     {
         private const string XmlSchemaString = "http://www.w3.org/2001/XMLSchema#string";
-        private const string TokenEndpoint = "https://accounts.spotify.com/api/token";
+        private const string TokenEndpoint = "https://slack.com/api/oauth.access";
         private const string UserInfoEndpoint = "https://slack.com/api/auth.test";
 
         private readonly ILogger logger;
@@ -76,6 +76,8 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
                 // Build up the body for the token request
                 var body = new List<KeyValuePair<string, string>>();
                 body.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
+                body.Add(new KeyValuePair<string, string>("client_id", Options.ClientId));
+                body.Add(new KeyValuePair<string, string>("client_secret", Options.ClientSecret));
                 body.Add(new KeyValuePair<string, string>("code", code));
                 body.Add(new KeyValuePair<string, string>("redirect_uri", redirectUri));
 
@@ -94,19 +96,17 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
                 // Deserializes the token response
                 dynamic response = JsonConvert.DeserializeObject<dynamic>(text);
                 string accessToken = (string)response.access_token;
-                string refreshToken = (string)response.refresh_token;
-                string expiresIn = (string)response.expires_in;
+                string scope = (string)response.scope;
 
                 // Get the Slack user
-                HttpRequestMessage graphRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoEndpoint);
-                graphRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                HttpRequestMessage userRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoEndpoint + "?token=" + Uri.EscapeDataString(accessToken));
 
-                HttpResponseMessage graphResponse = await httpClient.SendAsync(graphRequest, Request.CallCancelled);
-                graphResponse.EnsureSuccessStatusCode();
-                text = await graphResponse.Content.ReadAsStringAsync();
+                HttpResponseMessage userResponse = await httpClient.SendAsync(userRequest, Request.CallCancelled);
+                userResponse.EnsureSuccessStatusCode();
+                text = await userResponse.Content.ReadAsStringAsync();
                 JObject user = JObject.Parse(text);
 
-                var context = new SlackAuthenticatedContext(Context, user, accessToken, refreshToken, expiresIn);
+                var context = new SlackAuthenticatedContext(Context, user, accessToken, scope);
                 context.Identity = new ClaimsIdentity(
                     Options.AuthenticationType,
                     ClaimsIdentity.DefaultNameClaimType,
@@ -179,7 +179,8 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
                 // OAuth2 10.12 CSRF
                 GenerateCorrelationId(properties);
 
-                string scope = string.Join(" ", Options.Scope);
+                // comma separated
+                string scope = string.Join(",", Options.Scope);
 
                 string state = Options.StateDataFormat.Protect(properties);
 
@@ -189,11 +190,9 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
                     "&client_id=" + Uri.EscapeDataString(Options.ClientId) +
                     "&redirect_uri=" + Uri.EscapeDataString(redirectUri) +
                     "&scope=" + Uri.EscapeDataString(scope) +
-                    "&state=" + Uri.EscapeDataString(state);
-                if(!String.IsNullOrEmpty(Options.TeamId))
-                {
-                    authorizationEndpoint += "&team=" + Uri.EscapeDataString(Options.TeamId);
-                }
+                    "&state=" + Uri.EscapeDataString(state) +
+                    "&team=" + Uri.EscapeDataString(Options.TeamId ?? "");
+
                 Response.Redirect(authorizationEndpoint); 
             }
 

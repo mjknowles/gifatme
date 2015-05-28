@@ -19,18 +19,12 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack.Provider
         /// <param name="context">The OWIN environment</param>
         /// <param name="user">The JSON-serialized user</param>
         /// <param name="accessToken">Slack Access token</param>
-        /// <param name="expires">Seconds until expiration</param>
-        public SlackAuthenticatedContext(IOwinContext context, JObject user, string accessToken, string expires, string refreshToken)
+        /// <param name="scope">Indicates access level of application</param>
+        public SlackAuthenticatedContext(IOwinContext context, JObject user, string accessToken, string scope)
             : base(context)
         {
             User = user;
-            AccessToken = accessToken;
-            RefreshToken = refreshToken;
-            int expiresValue;
-            if (Int32.TryParse(expires, NumberStyles.Integer, CultureInfo.InvariantCulture, out expiresValue))
-            {
-                ExpiresIn = TimeSpan.FromSeconds(expiresValue);
-            }
+            Scope = scope.Split(',');
 
             UserId = TryGetValue(user, "user_id");
             UserName = TryGetValue(user, "user");
@@ -53,14 +47,9 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack.Provider
         public string AccessToken { get; private set; }
 
         /// <summary>
-        /// Gets Slack refresh token
+        /// Gets the scope of the application's access to user info
         /// </summary>
-        public string RefreshToken { get; private set; }
-
-        /// <summary>
-        /// Gets the Slack access token expiration time
-        /// </summary>
-        public TimeSpan? ExpiresIn { get; set; }
+        public IList<string> Scope { get; private set; }
 
         /// <summary>
         /// Gets the Slack team ID

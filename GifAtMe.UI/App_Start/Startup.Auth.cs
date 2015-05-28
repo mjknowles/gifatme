@@ -47,7 +47,9 @@ namespace AuthApp
 
             app.UseSlackAuthentication(
                 clientId: "2151486654.5076169708",
-                clientSecret: "e4ac3b0271dab5b2928401acd3ad408e"
+                clientSecret: "e4ac3b0271dab5b2928401acd3ad408e",
+                //teamId: ""
+                scope: "identify"
             );
             
             // Uncomment the following lines to enable logging in with third party login providers
