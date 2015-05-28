@@ -9,7 +9,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Web;
 
-namespace GifAtMe.UI.SlackAuth.Provider
+namespace GifAtMe.UI.Owin.Security.Providers.Slack.Provider
 {
     public class SlackAuthenticatedContext : BaseContext
     {
@@ -32,29 +32,12 @@ namespace GifAtMe.UI.SlackAuth.Provider
                 ExpiresIn = TimeSpan.FromSeconds(expiresValue);
             }
 
-            /*{
-          "has_mail": false,
-          "name": "************",
-          "created": 1313605620.0,
-          "created_utc": 1313602020.0,
-          "link_karma": 344,
-          "comment_karma": 1782,
-          "over_18": true,
-          "is_gold": false,
-          "is_mod": true,
-          "has_verified_email": true,
-          "id": "5omjg",
-          "has_mod_mail": false
-        }*/
-            Id = TryGetValue(user, "id");
-            UserName = TryGetValue(user, "name");
-            OverEighteen = bool.Parse(TryGetValue(user, "over_18"));
-
+            UserId = TryGetValue(user, "user_id");
+            UserName = TryGetValue(user, "user");
+            TeamId = TryGetValue(user, "team_id");
+            TeamName = TryGetValue(user, "team");
+            Url = TryGetValue(user, "url");
         }
-
-        public bool OverEighteen { get; set; }
-
-        public string RefreshToken { get; set; }
 
         /// <summary>
         /// Gets the JSON-serialized user
@@ -70,16 +53,34 @@ namespace GifAtMe.UI.SlackAuth.Provider
         public string AccessToken { get; private set; }
 
         /// <summary>
+        /// Gets Slack refresh token
+        /// </summary>
+        public string RefreshToken { get; private set; }
+
+        /// <summary>
         /// Gets the Slack access token expiration time
         /// </summary>
         public TimeSpan? ExpiresIn { get; set; }
 
         /// <summary>
+        /// Gets the Slack team ID
+        /// </summary>
+        public string TeamId { get; private set; }
+
+        /// <summary>
+        /// Gets the Slack team name
+        /// </summary>
+        public string TeamName { get; private set; }
+
+        /// <summary>
+        /// Gets the Slack user's URL
+        /// </summary>
+        public string Url { get; private set; }
+
+        /// <summary>
         /// Gets the Slack user ID
         /// </summary>
-        public string Id { get; private set; }
-
-        public string Link { get; private set; }
+        public string UserId { get; private set; }
 
         /// <summary>
         /// Gets the Slack username

@@ -1,4 +1,4 @@
-﻿using GifAtMe.UI.SlackAuth.Provider;
+﻿using GifAtMe.UI.Owin.Security.Providers.Slack.Provider;
 using Microsoft.Owin;
 using Microsoft.Owin.Infrastructure;
 using Microsoft.Owin.Logging;
@@ -16,13 +16,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace GifAtMe.UI.SlackAuth
+namespace GifAtMe.UI.Owin.Security.Providers.Slack
 {
     public class SlackAuthenticationHandler : AuthenticationHandler<SlackAuthenticationOptions>
     {
         private const string XmlSchemaString = "http://www.w3.org/2001/XMLSchema#string";
         private const string TokenEndpoint = "https://accounts.spotify.com/api/token";
-        private const string UserInfoEndpoint = "https://api.spotify.com/v1/me";
+        private const string UserInfoEndpoint = "https://slack.com/api/auth.test";
 
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
@@ -97,7 +97,7 @@ namespace GifAtMe.UI.SlackAuth
                 string refreshToken = (string)response.refresh_token;
                 string expiresIn = (string)response.expires_in;
 
-                // Get the Spotify user
+                // Get the Slack user
                 HttpRequestMessage graphRequest = new HttpRequestMessage(HttpMethod.Get, UserInfoEndpoint);
                 graphRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
@@ -111,13 +111,25 @@ namespace GifAtMe.UI.SlackAuth
                     Options.AuthenticationType,
                     ClaimsIdentity.DefaultNameClaimType,
                     ClaimsIdentity.DefaultRoleClaimType);
-                if (!string.IsNullOrEmpty(context.Id))
+                if (!string.IsNullOrEmpty(context.UserId))
                 {
-                    context.Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.Id, XmlSchemaString, Options.AuthenticationType));
+                    context.Identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, context.UserId, XmlSchemaString, Options.AuthenticationType));
                 }
                 if (!string.IsNullOrEmpty(context.UserName))
                 {
                     context.Identity.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, context.UserName, XmlSchemaString, Options.AuthenticationType));
+                }
+                if (!string.IsNullOrEmpty(context.TeamId))
+                {
+                    context.Identity.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, context.TeamId, XmlSchemaString, Options.AuthenticationType));
+                }
+                if (!string.IsNullOrEmpty(context.TeamName))
+                {
+                    context.Identity.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, context.TeamName, XmlSchemaString, Options.AuthenticationType));
+                }
+                if (!string.IsNullOrEmpty(context.Url))
+                {
+                    context.Identity.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, context.Url, XmlSchemaString, Options.AuthenticationType));
                 }
                 context.Properties = properties;
 
@@ -172,13 +184,16 @@ namespace GifAtMe.UI.SlackAuth
                 string state = Options.StateDataFormat.Protect(properties);
 
                 string authorizationEndpoint =
-                    "https://accounts.spotify.com/authorize" +
+                    "https://slack.com/oauth/authorize" +
                     "?response_type=code" +
                     "&client_id=" + Uri.EscapeDataString(Options.ClientId) +
                     "&redirect_uri=" + Uri.EscapeDataString(redirectUri) +
                     "&scope=" + Uri.EscapeDataString(scope) +
                     "&state=" + Uri.EscapeDataString(state);
-
+                if(!String.IsNullOrEmpty(Options.TeamId))
+                {
+                    authorizationEndpoint += "&team=" + Uri.EscapeDataString(Options.TeamId);
+                }
                 Response.Redirect(authorizationEndpoint); 
             }
 

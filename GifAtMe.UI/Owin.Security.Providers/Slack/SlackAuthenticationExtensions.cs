@@ -1,7 +1,7 @@
 ﻿using Owin;
 using System;
 
-namespace GifAtMe.UI.SlackAuth
+namespace GifAtMe.UI.Owin.Security.Providers.Slack
 {
     public static class SlackAuthenticationExtensions
     {

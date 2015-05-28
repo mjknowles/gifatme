@@ -1,4 +1,5 @@
-﻿using GifAtMe.UI.SlackAuth.Provider;
+﻿using GifAtMe.UI.Owin.Security.Providers.Properties;
+using GifAtMe.UI.Owin.Security.Providers.Slack.Provider;
 using Microsoft.Owin;
 using Microsoft.Owin.Logging;
 using Microsoft.Owin.Security;
@@ -14,7 +15,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 
-namespace GifAtMe.UI.SlackAuth
+namespace GifAtMe.UI.Owin.Security.Providers.Slack
 {
     public class SlackAuthenticationMiddleware : AuthenticationMiddleware<SlackAuthenticationOptions>
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace GifAtMe.UI.SlackAuth.Provider
+namespace GifAtMe.UI.Owin.Security.Providers.Slack.Provider
 {
     public class SlackReturnEndpointContext : ReturnEndpointContext
     {

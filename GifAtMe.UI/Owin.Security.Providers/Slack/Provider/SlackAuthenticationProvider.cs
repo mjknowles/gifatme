@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace GifAtMe.UI.SlackAuth.Provider
+namespace GifAtMe.UI.Owin.Security.Providers.Slack.Provider
 {
     public class SlackAuthenticationProvider : ISlackAuthenticationProvider
     {

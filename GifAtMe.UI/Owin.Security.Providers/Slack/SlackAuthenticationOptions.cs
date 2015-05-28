@@ -1,4 +1,4 @@
-﻿using GifAtMe.UI.SlackAuth.Provider;
+﻿using GifAtMe.UI.Owin.Security.Providers.Slack.Provider;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Web;
 
-namespace GifAtMe.UI.SlackAuth
+namespace GifAtMe.UI.Owin.Security.Providers.Slack
 {
     public class SlackAuthenticationOptions : AuthenticationOptions
     {
@@ -85,6 +85,11 @@ namespace GifAtMe.UI.SlackAuth
         ///     Gets or sets the type used to secure data handled by the middleware.
         /// </summary>
         public ISecureDataFormat<AuthenticationProperties> StateDataFormat { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the Slack team ID to restrict to.
+        /// </summary>
+        public string TeamId { get; set; }
 
         /// <summary>
         ///     Initializes a new <see cref="SlackAuthenticationOptions" />

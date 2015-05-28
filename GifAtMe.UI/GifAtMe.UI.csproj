@@ -225,16 +225,21 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Owin.Security.Providers\Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SlackAuth\Constants.cs" />
-    <Compile Include="SlackAuth\Provider\ISlackAuthenticationProvider.cs" />
-    <Compile Include="SlackAuth\Provider\SlackAuthenticatedContext.cs" />
-    <Compile Include="SlackAuth\Provider\SlackAuthenticationProvider.cs" />
-    <Compile Include="SlackAuth\Provider\SlackReturnEndpointContext.cs" />
-    <Compile Include="SlackAuth\SlackAuthenticationExtensions.cs" />
-    <Compile Include="SlackAuth\SlackAuthenticationHandler.cs" />
-    <Compile Include="SlackAuth\SlackAuthenticationMiddleware.cs" />
-    <Compile Include="SlackAuth\SlackAuthenticationOptions.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\Constants.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\Provider\ISlackAuthenticationProvider.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\Provider\SlackAuthenticatedContext.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\Provider\SlackAuthenticationProvider.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\Provider\SlackReturnEndpointContext.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\SlackAuthenticationExtensions.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\SlackAuthenticationHandler.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\SlackAuthenticationMiddleware.cs" />
+    <Compile Include="Owin.Security.Providers\Slack\SlackAuthenticationOptions.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\User.cs" />
   </ItemGroup>
@@ -1108,6 +1113,8 @@
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1130,6 +1137,13 @@
       <Project>{c7d80ada-28dc-4677-bff6-fff5dfdcd7ff}</Project>
       <Name>GifAtMe.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Owin.Security.Providers\Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

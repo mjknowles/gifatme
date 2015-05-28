@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using AuthApp.Models;
-using GifAtMe.UI.SlackAuth;
+using GifAtMe.UI.Owin.Security.Providers.Slack;
 
 namespace AuthApp
 {
@@ -46,10 +46,8 @@ namespace AuthApp
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
             app.UseSlackAuthentication(
-                client_id: "",
-                state: new Guid().ToString(),
-                team: "CTS",
-                scope: "identity"
+                clientId: "2151486654.5076169708",
+                clientSecret: "e4ac3b0271dab5b2928401acd3ad408e"
             );
             
             // Uncomment the following lines to enable logging in with third party login providers
