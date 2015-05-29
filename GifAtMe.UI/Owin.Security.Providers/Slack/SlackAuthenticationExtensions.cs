@@ -17,14 +17,12 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
             return app;
         }
 
-        public static IAppBuilder UseSlackAuthentication(this IAppBuilder app, string clientId, string clientSecret, string teamId = "", string scope = "")
+        public static IAppBuilder UseSlackAuthentication(this IAppBuilder app, string clientId, string clientSecret)
         {
             return app.UseSlackAuthentication(new SlackAuthenticationOptions
             {
                 ClientId = clientId,
                 ClientSecret = clientSecret,
-                TeamId = teamId,
-                Scope = scope.Split(',')
             });
         }
     }

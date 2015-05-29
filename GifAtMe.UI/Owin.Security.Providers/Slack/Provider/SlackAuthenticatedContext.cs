@@ -24,13 +24,14 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack.Provider
             : base(context)
         {
             User = user;
+            AccessToken = accessToken;
             Scope = scope.Split(',');
 
             UserId = TryGetValue(user, "user_id");
             UserName = TryGetValue(user, "user");
             TeamId = TryGetValue(user, "team_id");
             TeamName = TryGetValue(user, "team");
-            Url = TryGetValue(user, "url");
+            TeamUrl = TryGetValue(user, "url");
         }
 
         /// <summary>
@@ -62,9 +63,9 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack.Provider
         public string TeamName { get; private set; }
 
         /// <summary>
-        /// Gets the Slack user's URL
+        /// Gets the Slack user's team URL
         /// </summary>
-        public string Url { get; private set; }
+        public string TeamUrl { get; private set; }
 
         /// <summary>
         /// Gets the Slack user ID

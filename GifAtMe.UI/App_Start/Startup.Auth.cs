@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Cookies;
 using Owin;
 using AuthApp.Models;
 using GifAtMe.UI.Owin.Security.Providers.Slack;
+using GifAtMe.UI.Owin.Security.Providers.Slack.Provider;
 
 namespace AuthApp
 {
@@ -45,12 +46,14 @@ namespace AuthApp
             // This is similar to the RememberMe option when you log in.
             app.UseTwoFactorRememberBrowserCookie(DefaultAuthenticationTypes.TwoFactorRememberBrowserCookie);
 
-            app.UseSlackAuthentication(
-                clientId: "2151486654.5076169708",
-                clientSecret: "e4ac3b0271dab5b2928401acd3ad408e",
-                //teamId: ""
-                scope: "identify"
-            );
+            var options = new SlackAuthenticationOptions
+            {
+                ClientId = "2151486654.5076169708",
+                ClientSecret = "e4ac3b0271dab5b2928401acd3ad408e",
+                TeamId = "T024FEAK8"
+            };
+            options.Scope.Add("identify");
+            app.UseSlackAuthentication(options);
             
             // Uncomment the following lines to enable logging in with third party login providers
             //app.UseMicrosoftAccountAuthentication(

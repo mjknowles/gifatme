@@ -102,6 +102,7 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
             AuthenticationMode = AuthenticationMode.Passive;
             Scope = new List<string>();
             BackchannelTimeout = TimeSpan.FromSeconds(60);
+            TeamId = "";
         }
     }
 }

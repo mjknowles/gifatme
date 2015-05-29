@@ -121,15 +121,15 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
                 }
                 if (!string.IsNullOrEmpty(context.TeamId))
                 {
-                    context.Identity.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, context.TeamId, XmlSchemaString, Options.AuthenticationType));
+                    context.Identity.AddClaim(new Claim("urn:slack:teamid", context.TeamId, XmlSchemaString, Options.AuthenticationType));
                 }
                 if (!string.IsNullOrEmpty(context.TeamName))
                 {
-                    context.Identity.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, context.TeamName, XmlSchemaString, Options.AuthenticationType));
+                    context.Identity.AddClaim(new Claim("urn:slack:teamname", context.TeamName, XmlSchemaString, Options.AuthenticationType));
                 }
-                if (!string.IsNullOrEmpty(context.Url))
+                if (!string.IsNullOrEmpty(context.TeamUrl))
                 {
-                    context.Identity.AddClaim(new Claim(ClaimsIdentity.DefaultNameClaimType, context.Url, XmlSchemaString, Options.AuthenticationType));
+                    context.Identity.AddClaim(new Claim("urn:slack:teamurl", context.TeamUrl, XmlSchemaString, Options.AuthenticationType));
                 }
                 context.Properties = properties;
 
@@ -191,7 +191,7 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
                     "&redirect_uri=" + Uri.EscapeDataString(redirectUri) +
                     "&scope=" + Uri.EscapeDataString(scope) +
                     "&state=" + Uri.EscapeDataString(state) +
-                    "&team=" + Uri.EscapeDataString(Options.TeamId ?? "");
+                    "&team=" + Uri.EscapeDataString(Options.TeamId);
 
                 Response.Redirect(authorizationEndpoint); 
             }
