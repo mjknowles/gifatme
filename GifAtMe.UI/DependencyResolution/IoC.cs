@@ -17,11 +17,11 @@
 
 namespace GifAtMe.UI.DependencyResolution
 {
-    using AuthApp.Models;
     using GifAtMe.Common.Domain;
     using GifAtMe.Common.UnitOfWork;
     using GifAtMe.Domain.Entities.GifEntry;
     using GifAtMe.Repository.Contexts;
+    using GifAtMe.Repository.DatabaseModels;
     using GifAtMe.Repository.Repositories;
     using GifAtMe.Service.Interfaces;
     using Microsoft.AspNet.Identity;
@@ -46,8 +46,8 @@ namespace GifAtMe.UI.DependencyResolution
                     scan.WithDefaultConventions();
                 });
                 x.For<IUnitOfWork>().Use<GifAtMe.Repository.EfUnitOfWork>();
-                x.For<IUserStore<ApplicationUser>>().Use<UserStore<ApplicationUser>>();
-                x.For<DbContext>().Use(() => new ApplicationDbContext());
+                x.For<IUserStore<UserDb>>().Use<UserStore<UserDb>>();
+                x.For<DbContext>().Use(() => new GifAtMeContext());
                 x.For<IAuthenticationManager>().Use(() => HttpContext.Current.GetOwinContext().Authentication);
             });
             //return new Container(c => c.AddRegistry<DefaultRegistry>());

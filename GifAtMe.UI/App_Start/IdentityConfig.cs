@@ -10,7 +10,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using AuthApp.Models;
+using GifAtMe.Repository.DatabaseModels;
+using GifAtMe.Repository.Contexts;
 
 namespace AuthApp
 {
@@ -33,18 +34,18 @@ namespace AuthApp
     }
 
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-    public class ApplicationUserManager : UserManager<ApplicationUser>
+    public class UserDbManager : UserManager<UserDb>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
+        public UserDbManager(IUserStore<UserDb> store)
             : base(store)
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 
+        public static UserDbManager Create(IdentityFactoryOptions<UserDbManager> options, IOwinContext context) 
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
+            var manager = new UserDbManager(new UserStore<UserDb>(context.Get<GifAtMeContext>()));
             // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser>(manager)
+            manager.UserValidator = new UserValidator<UserDb>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
                 RequireUniqueEmail = true
@@ -67,11 +68,11 @@ namespace AuthApp
 
             // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
             // You can write your own provider and plug it in here.
-            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<UserDb>
             {
                 MessageFormat = "Your security code is {0}"
             });
-            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser>
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<UserDb>
             {
                 Subject = "Security Code",
                 BodyFormat = "Your security code is {0}"
@@ -81,29 +82,29 @@ namespace AuthApp
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = 
-                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<UserDb>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
     }
 
     // Configure the application sign-in manager which is used in this application.
-    public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
+    public class ApplicationSignInManager : SignInManager<UserDb, string>
     {
-        public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
+        public ApplicationSignInManager(UserDbManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager)
         {
         }
 
-        public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+        public override Task<ClaimsIdentity> CreateUserIdentityAsync(UserDb user)
         {
-            return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+            return user.GenerateUserIdentityAsync((UserDbManager)UserManager, DefaultAuthenticationTypes.ApplicationCookie);
         }
 
         public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
         {
-            return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+            return new ApplicationSignInManager(context.GetUserManager<UserDbManager>(), context.Authentication);
         }
     }
 }

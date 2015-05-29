@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using AuthApp.Models;
+using GifAtMe.UI.Models;
 
 namespace AuthApp.Controllers
 {
@@ -14,13 +14,13 @@ namespace AuthApp.Controllers
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private UserDbManager _userManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(UserDbManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -38,11 +38,11 @@ namespace AuthApp.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        public UserDbManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<UserDbManager>();
             }
             private set
             {

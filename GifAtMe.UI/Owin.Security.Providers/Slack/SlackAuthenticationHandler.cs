@@ -129,7 +129,7 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
                 }
                 if (!string.IsNullOrEmpty(context.TeamUrl))
                 {
-                    context.Identity.AddClaim(new Claim("urn:slack:teamurl", context.TeamUrl, XmlSchemaString, Options.AuthenticationType));
+                    context.Identity.AddClaim(new Claim(ClaimTypes.Webpage, context.TeamUrl, XmlSchemaString, Options.AuthenticationType));
                 }
                 context.Properties = properties;
 

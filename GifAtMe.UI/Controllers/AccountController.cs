@@ -8,7 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using AuthApp.Models;
+using GifAtMe.Repository.DatabaseModels;
+using GifAtMe.UI.Models;
+using System.Collections.Generic;
 
 namespace AuthApp.Controllers
 {
@@ -16,13 +18,13 @@ namespace AuthApp.Controllers
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private UserDbManager _userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(UserDbManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -40,11 +42,11 @@ namespace AuthApp.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        public UserDbManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<UserDbManager>();
             }
             private set
             {
@@ -151,7 +153,7 @@ namespace AuthApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new UserDb { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -333,6 +335,7 @@ namespace AuthApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    //TODO: update user name since it can change
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -343,7 +346,7 @@ namespace AuthApp.Controllers
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { UserName = loginInfo.DefaultUserName });
             }
         }
 
@@ -359,7 +362,7 @@ namespace AuthApp.Controllers
                 return RedirectToAction("Index", "Manage");
             }
 
-            if (ModelState.IsValid)
+             if (ModelState.IsValid)
             {
                 // Get the information about the user from the external login provider
                 var info = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -367,7 +370,14 @@ namespace AuthApp.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                var user = new UserDb { 
+                    UserName = model.UserName,
+                    UserId = info.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault(),
+                    TeamId = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamid").Select(c => c.Value).SingleOrDefault(),
+                    TeamName = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamname").Select(c => c.Value).SingleOrDefault(),
+                    TeamUrl = info.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.Webpage).Select(c => c.Value).SingleOrDefault()  
+                };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

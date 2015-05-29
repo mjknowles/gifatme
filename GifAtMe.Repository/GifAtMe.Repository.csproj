@@ -38,6 +38,12 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -50,11 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contexts\DbContextFactory.cs" />
+    <Compile Include="DatabaseModels\UserDb.cs" />
     <Compile Include="EfUnitOfWork.cs" />
     <Compile Include="Contexts\IDbContextFactory.cs" />
-    <Compile Include="Migrations\201502211731126_InitialCreation.cs" />
-    <Compile Include="Migrations\201502211731126_InitialCreation.Designer.cs">
-      <DependentUpon>201502211731126_InitialCreation.cs</DependentUpon>
+    <Compile Include="Migrations\201505291707156_InitialMigrations.cs" />
+    <Compile Include="Migrations\201505291707156_InitialMigrations.Designer.cs">
+      <DependentUpon>201505291707156_InitialMigrations.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\GenericDomainTypeRepository.cs" />
@@ -77,8 +84,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201502211731126_InitialCreation.resx">
-      <DependentUpon>201502211731126_InitialCreation.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201505291707156_InitialMigrations.resx">
+      <DependentUpon>201505291707156_InitialMigrations.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

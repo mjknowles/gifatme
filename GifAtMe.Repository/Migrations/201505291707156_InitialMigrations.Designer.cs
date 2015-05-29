@@ -7,13 +7,13 @@ namespace GifAtMe.Repository.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.2-31219")]
-    public sealed partial class InitialCreation : IMigrationMetadata
+    public sealed partial class InitialMigrations : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreation));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialMigrations));
         
         string IMigrationMetadata.Id
         {
-            get { return "201502211731126_InitialCreation"; }
+            get { return "201505291707156_InitialMigrations"; }
         }
         
         string IMigrationMetadata.Source

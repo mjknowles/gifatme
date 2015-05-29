@@ -4,9 +4,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using AuthApp.Models;
 using GifAtMe.UI.Owin.Security.Providers.Slack;
 using GifAtMe.UI.Owin.Security.Providers.Slack.Provider;
+using GifAtMe.Repository.Contexts;
+using GifAtMe.Repository.DatabaseModels;
 
 namespace AuthApp
 {
@@ -16,8 +17,8 @@ namespace AuthApp
         public void ConfigureAuth(IAppBuilder app)
         {
             // Configure the db context, user manager and signin manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext(GifAtMeContext.Create);
+            app.CreatePerOwinContext<UserDbManager>(UserDbManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
 
             // Enable the application to use a cookie to store information for the signed in user
@@ -31,9 +32,9 @@ namespace AuthApp
                 {
                     // Enables the application to validate the security stamp when the user logs in.
                     // This is a security feature which is used when you change a password or add an external login to your account.  
-                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
+                    OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<UserDbManager, UserDb>(
                         validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager, DefaultAuthenticationTypes.ApplicationCookie))
                 }
             });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
