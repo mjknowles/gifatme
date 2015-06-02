@@ -7,13 +7,13 @@
         {
         }
 
-        public GetGifEntryRequest(string userName, string keyword, int alternateIndex)
-            : base(userName, keyword, alternateIndex)
+        public GetGifEntryRequest(string userId, string uIdSource, string keyword, int alternateIndex)
+            : base(userId, uIdSource, keyword, alternateIndex)
         {
         }
 
-        public GetGifEntryRequest(int id, string userName, string keyword, int alternateIndex)
-            : base(id, userName, keyword, alternateIndex)
+        public GetGifEntryRequest(int id, string userId, string uIdSource, string keyword, int alternateIndex)
+            : base(id, userId, uIdSource, keyword, alternateIndex)
         {
         }
     }

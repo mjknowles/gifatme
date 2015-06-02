@@ -13,7 +13,8 @@ namespace GifAtMe.UI
 
             /* Switching to AttributeRouting
                config.Routes.MapHttpRoute(
-                name: "RouteToUserNameKeywordAlternateIndex",
+                name: "RouteTo
+             * KeywordAlternateIndex",
                 routeTemplate: "api/{controller}/{userName}/{keyword}/{alternateIndex}",
                 defaults: new { alternateIndex = RouteParameter.Optional }
             );

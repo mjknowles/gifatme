@@ -7,7 +7,7 @@ namespace GifAtMe.Domain.Entities.GifEntry
 {
     public class GifEntry : EntityBase<int>, IAggregateRoot
     {
-        public string UserName { get; set; }
+        public string UserId { get; set; }
 
         public string Url { get; set; }
 
@@ -15,9 +15,9 @@ namespace GifAtMe.Domain.Entities.GifEntry
 
         protected override void Validate()
         {
-            if (string.IsNullOrEmpty(UserName))
+            if (string.IsNullOrEmpty(UserId))
             {
-                AddBrokenRule(GifEntryBusinessRule.UserNameRequired);
+                AddBrokenRule(GifEntryBusinessRule.UserIdRequired);
             }
 
             if (String.IsNullOrEmpty(Url))

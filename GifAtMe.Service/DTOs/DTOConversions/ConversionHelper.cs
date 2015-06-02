@@ -13,7 +13,7 @@ namespace GifAtMe.Service
             return new GifEntryDTO
             {
                 Id = g.Id,
-                UserName = g.UserName,
+                UserId = g.UserId,
                 Url = g.Url,
                 Keyword = g.Keyword,
                 AlternateIndex = altIndex
@@ -25,7 +25,7 @@ namespace GifAtMe.Service
             return new GifEntryDTO
             {
                 Id = g.Id,
-                UserName = g.UserName,
+                UserId = g.UserId,
                 Url = g.Url,
                 Keyword = g.Keyword,
                 AlternateIndex = 1
@@ -35,7 +35,7 @@ namespace GifAtMe.Service
         public static IEnumerable<GifEntryDTO> ConvertToDTO(this IEnumerable<GifEntry> gifEntries)
         {
             List<GifEntryDTO> gifEntryDTOs = new List<GifEntryDTO>();
-            var groupedGifEntries = gifEntries.ToLookup(g => g.Keyword + g.UserName, StringComparer.OrdinalIgnoreCase);
+            var groupedGifEntries = gifEntries.ToLookup(g => g.Keyword + g.UserId, StringComparer.OrdinalIgnoreCase);
             foreach (var key in groupedGifEntries)
             {
                 int altIndex = 1;

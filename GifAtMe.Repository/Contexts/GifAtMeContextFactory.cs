@@ -4,11 +4,11 @@ using System.Web;
 
 namespace GifAtMe.Repository
 {
-    public class DbContextFactory : IDbContextFactory
+    public class GifAtMeContextFactory : IGifAtMeContextFactory
     {
         private string _dataContextKey = "EfObjectContext";
 
-        public DbContext Create()
+        public GifAtMeContext Create()
         {
             GifAtMeContext stContext = null;
             if (HttpContext.Current.Items.Contains(_dataContextKey))

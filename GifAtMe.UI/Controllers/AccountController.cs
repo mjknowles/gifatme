@@ -330,8 +330,16 @@ namespace AuthApp.Controllers
                 return RedirectToAction("Login");
             }
 
+            // Save latest to database
+            var slackUserName = loginInfo.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
+            var dbUser = await UserManager.FindAsync(new UserLoginInfo(loginInfo.Login.LoginProvider, loginInfo.Login.ProviderKey));
+            if (!dbUser.UserName.Equals(slackUserName, StringComparison.OrdinalIgnoreCase))
+                dbUser.UserName = slackUserName;
+            await UserManager.UpdateAsync(dbUser);
+
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
@@ -374,9 +382,9 @@ namespace AuthApp.Controllers
                 var user = new UserDb { 
                     UserName = model.UserName,
                     UserId = info.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault(),
-                    TeamId = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamid").Select(c => c.Value).SingleOrDefault(),
-                    TeamName = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamname").Select(c => c.Value).SingleOrDefault(),
-                    TeamUrl = info.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.Webpage).Select(c => c.Value).SingleOrDefault()  
+                    SlackTeamId = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamid").Select(c => c.Value).SingleOrDefault(),
+                    SlackTeamName = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamname").Select(c => c.Value).SingleOrDefault(),
+                    SlackTeamUrl = info.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.Webpage).Select(c => c.Value).SingleOrDefault()  
                 };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)

@@ -1,4 +1,5 @@
 ﻿using GifAtMe.Common.Domain;
+using GifAtMe.Common.UnitOfWork;
 using GifAtMe.Domain.Entities.GifEntry;
 using GifAtMe.Service.DTOs;
 using GifAtMe.Service.Exceptions;
@@ -13,12 +14,15 @@ namespace GifAtMe.Service.Implementations
 {
     public class GifEntryService : IGifEntryService
     {
-        private readonly IGifEntryRepoAccessor _gifEntryRepoAccessor;
+        private readonly IGifEntryRepository _gifEntryRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public GifEntryService(IGifEntryRepoAccessor gifEntryRepoAccessor)
+        public GifEntryService(IGifEntryRepository gifEntryRepository, IUnitOfWork unitOfWork)
         {
-            if (gifEntryRepoAccessor == null) throw new ArgumentNullException("GifEntry Repo Accessor");
-            _gifEntryRepoAccessor = gifEntryRepoAccessor;
+            if (gifEntryRepository == null) throw new ArgumentNullException("GifEntry Repo");
+            if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
+            _gifEntryRepository = gifEntryRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public GetGifEntryResponse GetGifEntry(GetGifEntryRequest getGifEntryRequest)
@@ -29,11 +33,18 @@ namespace GifAtMe.Service.Implementations
             {
                 if (getGifEntryRequest.Id > 0)
                 {
-                    gifEntry = _gifEntryRepoAccessor.FindById(getGifEntryRequest.Id);
+                    gifEntry = _gifEntryRepository.FindById(getGifEntryRequest.Id);
                 }
                 else
                 {
-                    gifEntry = _gifEntryRepoAccessor.FindByNonIdFields(getGifEntryRequest.UserName, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
+                    if (getGifEntryRequest.UserIdSource.Equals(Constants.SlackIdSource))
+                    {
+                        gifEntry = _gifEntryRepository.FindByNonIdFieldsAndSlackUserId(getGifEntryRequest.UserId, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
+                    }
+                    else
+                    {
+                        gifEntry = _gifEntryRepository.FindByNonIdFieldsAndAppId(getGifEntryRequest.UserId, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
+                    }
                 }
                 if (gifEntry == null)
                 {
@@ -59,19 +70,19 @@ namespace GifAtMe.Service.Implementations
 
             try
             {
-                if (String.IsNullOrEmpty(getAllGifEntriesRequest.UserName))
+                if (String.IsNullOrEmpty(getAllGifEntriesRequest.UserId))
                 {
-                    allGifEntries = _gifEntryRepoAccessor.GetAll();
+                    allGifEntries = _gifEntryRepository.GetAllForAllUserIds();
                 }
                 else
                 {
                     if (String.IsNullOrEmpty(getAllGifEntriesRequest.Keyword))
                     {
-                        allGifEntries = _gifEntryRepoAccessor.GetAllForUserName(getAllGifEntriesRequest.UserName);
+                        allGifEntries = _gifEntryRepository.GetAllForUserId(getAllGifEntriesRequest.UserId);
                     }
                     else
                     {
-                        allGifEntries = _gifEntryRepoAccessor.GetAllForUserNameAndKeyword(getAllGifEntriesRequest.UserName, getAllGifEntriesRequest.Keyword);
+                        allGifEntries = _gifEntryRepository.GetAllForUserIdAndKeyword(getAllGifEntriesRequest.UserId, getAllGifEntriesRequest.Keyword);
                     }
                 }
                 // Use the service layer to sort in appropriate ordering for outside applications
@@ -90,7 +101,7 @@ namespace GifAtMe.Service.Implementations
             try
             {
                 ThrowExceptionIfGifEntryIsInvalid(newGifEntry);
-                _gifEntryRepoAccessor.Insert(newGifEntry);
+                _gifEntryRepository.Insert(newGifEntry);
                 return new InsertGifEntryResponse();
             }
             catch (Exception ex)
@@ -99,6 +110,7 @@ namespace GifAtMe.Service.Implementations
             }
         }
 
+        /*
         public UpdateGifEntryResponse UpdateGifEntry(UpdateGifEntryRequest updateGifEntryRequest)
         {
             try
@@ -106,20 +118,20 @@ namespace GifAtMe.Service.Implementations
                 GifEntry existingGifEntry = null;
                 if (updateGifEntryRequest.Id > 0)
                 {
-                    existingGifEntry = _gifEntryRepoAccessor.FindById(updateGifEntryRequest.Id);
+                    existingGifEntry = _gifEntryRepository.FindById(updateGifEntryRequest.Id);
                 }
                 else
                 {
-                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(updateGifEntryRequest.UserName, updateGifEntryRequest.Keyword, updateGifEntryRequest.AlternateIndex - 1);
+                    existingGifEntry = _gifEntryRepository.FindByNonIdFields(updateGifEntryRequest.UserId, updateGifEntryRequest.Keyword, updateGifEntryRequest.AlternateIndex - 1);
                 }
                 if (existingGifEntry != null)
                 {
                     GifEntry assignableProperties = AssignAvailablePropertiesToDomain(updateGifEntryRequest.GifEntryProperties);
                     existingGifEntry.Keyword = assignableProperties.Keyword;
                     existingGifEntry.Url = assignableProperties.Url;
-                    existingGifEntry.UserName = assignableProperties.UserName;
+                    existingGifEntry.UserId = assignableProperties.UserId;
                     ThrowExceptionIfGifEntryIsInvalid(existingGifEntry);
-                    _gifEntryRepoAccessor.Update(existingGifEntry);
+                    _gifEntryRepository.Update(existingGifEntry);
                     return new UpdateGifEntryResponse();
                 }
                 else
@@ -140,15 +152,15 @@ namespace GifAtMe.Service.Implementations
                 GifEntry existingGifEntry = null;
                 if (deleteGifEntryRequest.Id > 0)
                 {
-                    existingGifEntry = _gifEntryRepoAccessor.FindById(deleteGifEntryRequest.Id);
+                    existingGifEntry = _gifEntryRepository.FindById(deleteGifEntryRequest.Id);
                 }
                 else
                 {
-                    existingGifEntry = _gifEntryRepoAccessor.FindByNonIdFields(deleteGifEntryRequest.UserName, deleteGifEntryRequest.Keyword, deleteGifEntryRequest.AlternateIndex - 1);
+                    existingGifEntry = _gifEntryRepository.FindByNonIdFields(deleteGifEntryRequest.UserId, deleteGifEntryRequest.Keyword, deleteGifEntryRequest.AlternateIndex - 1);
                 }
                 if (existingGifEntry != null)
                 {
-                    _gifEntryRepoAccessor.Delete(existingGifEntry);
+                    _gifEntryRepository.Delete(existingGifEntry);
                     return new DeleteGifEntryResponse();
                 }
                 else
@@ -161,6 +173,7 @@ namespace GifAtMe.Service.Implementations
                 return new DeleteGifEntryResponse() { Exception = ex };
             }
         }
+         * */
 
         private ResourceNotFoundException GetStandardGifEntryNotFoundException()
         {
@@ -172,7 +185,7 @@ namespace GifAtMe.Service.Implementations
             GifEntry gifEntry = new GifEntry();
             gifEntry.Keyword = gifEntryProperties.Keyword;
             gifEntry.Url = gifEntryProperties.Url;
-            gifEntry.UserName = gifEntryProperties.UserName;
+            gifEntry.UserId = gifEntryProperties.UserId;
 
             return gifEntry;
         }

@@ -23,32 +23,31 @@ namespace GifAtMe.UI.Controllers
         [Route("")]
         public HttpResponseMessage GetGifEntries()
         {
-            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(String.Empty, String.Empty));
+            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(String.Empty, String.Empty, String.Empty));
             return Request.BuildResponse(resp);
         }
 
-        // GET: api/gifentries/mknowles
-        [Route("{userName}")]
-        public HttpResponseMessage GetGifEntries(string userName)
+        // GET: api/gifentries/abc123?uidsource=slack
+        [Route("{userId}")]
+        public HttpResponseMessage GetGifEntries(string userId, string uIdSource = "")
         {
-            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userName, String.Empty));
+            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userId, uIdSource, String.Empty));
             return Request.BuildResponse(resp);
         }
 
-        // GET: api/gifentries/mknowles
-        [Route("{userName}/{keyword}")]
-        public HttpResponseMessage GetGifEntries(string userName, string keyword)
+        // GET: api/gifentries/u12345/highfive
+        [Route("{userId}/{keyword}")]
+        public HttpResponseMessage GetGifEntries(string userId, string keyword, string uIdSource = "")
         {
-            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userName, keyword));
+            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userId, uIdSource, keyword));
             return Request.BuildResponse(resp);
         }
 
-        // GET: api/gifentries/mknowles/thisguy
-        // GET: api/gifentries/mknowles/thisguy/2
-        [Route("{userName}/{keyword}/{alternateIndex}")]
-        public HttpResponseMessage GetGifEntry(string userName, string keyword, int alternateIndex)
+        // GET: api/gifentries/u12345/thisguy/2
+        [Route("{userId}/{keyword}/{alternateIndex}")]
+        public HttpResponseMessage GetGifEntry(string userId, string keyword, int alternateIndex, string uIdSource = "")
         {
-            ServiceResponseBase resp = _gifEntryService.GetGifEntry(new GetGifEntryRequest(userName, keyword, alternateIndex));
+            ServiceResponseBase resp = _gifEntryService.GetGifEntry(new GetGifEntryRequest(userId, uIdSource, keyword, alternateIndex));
             return Request.BuildResponse(resp);
         }
 
@@ -76,9 +75,8 @@ namespace GifAtMe.UI.Controllers
             return Request.BuildResponse(insertGifEntryResponse);
         }
 
-        // PUT: api/gifentries/mknowles/highfive
-        // PUT: api/gifentries/mknowles/highfive
-        [Route("{id:int}")]
+        // PUT: api/gifentries/u12345/highfive
+        /*[Route("{id:int}")]
         public HttpResponseMessage PutGifEntry(GifEntryDTO gifEntry)
         {
             if (!ModelState.IsValid)
@@ -92,7 +90,7 @@ namespace GifAtMe.UI.Controllers
             {
                 GifEntryProperties = new GifEntryDTOProperties()
                 {
-                    UserName = gifEntry.UserName,
+                    UserId = gifEntry.UserId,
                     Keyword = gifEntry.Keyword,
                     Url = gifEntry.Url,
                     AlternateIndex = gifEntry.AlternateIndex
@@ -103,10 +101,9 @@ namespace GifAtMe.UI.Controllers
             return Request.BuildResponse(resp);
         }
 
-        // PUT: api/gifentries/mknowles/highfive
-        // PUT: api/gifentries/mknowles/highfive
-        [Route("{userName}/{keyword}/{alternateIndex}")]
-        public HttpResponseMessage PutGifEntry(string userName, string keyword, int alternateIndex, GifEntryDTO gifEntry)
+        // PUT: api/gifentries/u12345/highfive
+        [Route("{userId}/{keyword}/{alternateIndex}")]
+        public HttpResponseMessage PutGifEntry(string userId, string keyword, int alternateIndex, GifEntryDTO gifEntry)
         {
             if (!ModelState.IsValid)
             {
@@ -115,11 +112,11 @@ namespace GifAtMe.UI.Controllers
                 return Request.BuildResponse(exResp);
             }
 
-            UpdateGifEntryRequest req = new UpdateGifEntryRequest(userName, keyword, alternateIndex)
+            UpdateGifEntryRequest req = new UpdateGifEntryRequest(userId, keyword, alternateIndex)
             {
                 GifEntryProperties = new GifEntryDTOProperties()
                 {
-                    UserName = gifEntry.UserName,
+                    UserId = gifEntry.UserId,
                     Keyword = gifEntry.Keyword,
                     Url = gifEntry.Url,
                     AlternateIndex = gifEntry.AlternateIndex
@@ -140,11 +137,11 @@ namespace GifAtMe.UI.Controllers
 
         // DELETE: api/gifentries/mknowles/highfive
         // DELETE: api/gifentries/mknowles/highfive/2
-        [Route("{userName}/{keyword}/{alternateIndex}")]
+        [Route("{UserId}/{keyword}/{alternateIndex}")]
         public HttpResponseMessage DeleteGifEntry(GifEntryDTO gifEntry)
         {
-            DeleteGifEntryResponse deleteGifEntryResponse = _gifEntryService.DeleteGifEntry(new DeleteGifEntryRequest(gifEntry.UserName, gifEntry.Keyword, gifEntry.AlternateIndex));
+            DeleteGifEntryResponse deleteGifEntryResponse = _gifEntryService.DeleteGifEntry(new DeleteGifEntryRequest(gifEntry.UserId, gifEntry.Keyword, gifEntry.AlternateIndex));
             return Request.BuildResponse(deleteGifEntryResponse);
-        }
+        }*/
     }
 }

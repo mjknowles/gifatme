@@ -17,22 +17,22 @@ namespace GifAtMe.Repository.Repositories
     /// may have more useful properties/methods needed to convert to a db type
     /// </typeparam>
     /// <typeparam name="DomainType">The domain model saved to the db</typeparam>
-    public abstract class GenericDomainTypeRepository<DomainType, IdType>
-        where DomainType : EntityBase<IdType>, IAggregateRoot
+    public abstract class GenericDomainTypeRepository<DomainType>
+        where DomainType : IAggregateRoot
     {
         private readonly IUnitOfWork _unitOfWork;
-        private DbContext _context;
+        private GifAtMeContext _context;
 
-        public GenericDomainTypeRepository(IUnitOfWork unitOfWork, IDbContextFactory dbContextFactory)
+        public GenericDomainTypeRepository(IUnitOfWork unitOfWork, IGifAtMeContextFactory contextFactory)
         {
             if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
             _unitOfWork = unitOfWork;
 
-            if (dbContextFactory == null) throw new ArgumentNullException("DbContextFactory");
-            _context = dbContextFactory.Create();
+            if (contextFactory == null) throw new ArgumentNullException("DbContextFactory");
+            _context = contextFactory.Create();
         }
 
-        public virtual DomainType FindById(IdType id)
+        /*public virtual DomainType FindById(IdType id)
         {
             DomainType domainObj;
             domainObj = _context.Set<DomainType>().SingleOrDefault<DomainType>(x => x.Id.Equals(id));
@@ -95,7 +95,7 @@ namespace GifAtMe.Repository.Repositories
 
             item = dbQuery.AsNoTracking().Where(where).ElementAtOrDefault(index);
             return item;
-        }
+        }*/
 
         public virtual void Insert(DomainType item)
         {

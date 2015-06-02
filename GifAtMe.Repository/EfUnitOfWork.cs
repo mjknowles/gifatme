@@ -9,7 +9,7 @@ namespace GifAtMe.Repository
     {
         private DbContext _context;
 
-        public EfUnitOfWork(IDbContextFactory dbContextFactory)
+        public EfUnitOfWork(IGifAtMeContextFactory dbContextFactory)
         {
             _context = dbContextFactory.Create();
         }

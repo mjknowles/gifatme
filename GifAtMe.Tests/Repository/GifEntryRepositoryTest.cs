@@ -16,13 +16,13 @@ namespace GifAtMe.Tests.Repository
     public class GifEntryRepositoryTest
     {
         private Mock<IUnitOfWork> _mockUnitOfWork;
-        private Mock<IDbContextFactory> _mockDbContextFactory;
+        private Mock<IGifAtMeContextFactory> _mockDbContextFactory;
 
         [TestInitialize]
         public void TestInitialize()
         {
             _mockUnitOfWork = new Mock<IUnitOfWork>();
-            _mockDbContextFactory = new Mock<IDbContextFactory>();
+            _mockDbContextFactory = new Mock<IGifAtMeContextFactory>();
         }
 
         [TestCleanup]
@@ -33,15 +33,15 @@ namespace GifAtMe.Tests.Repository
         }
 
         [TestMethod]
-        public void GenericRepo_FindByUserNameKeywordAndIndex_ObjectExistsInRepo()
+        public void GenericRepo_FindByUserIdKeywordAndIndex_ObjectExistsInRepo()
         {
 
             // Setup
             var data = new List<GifEntry> 
             { 
-                new GifEntry { Id = 1, Keyword = "Test1", UserName = "TestUser" }, 
-                new GifEntry { Id = 2, Keyword = "Test2", UserName = "TestUser" }, 
-                new GifEntry { Id = 3, Keyword = "Test3", UserName = "TestUser" }
+                new GifEntry { Id = 1, Keyword = "Test1", UserId = "12345" }, 
+                new GifEntry { Id = 2, Keyword = "Test2", UserId = "12345" }, 
+                new GifEntry { Id = 3, Keyword = "Test3", UserId = "12345" }
             }.AsQueryable();
 
             var mockSet = new Mock<DbSet<GifEntry>>();
@@ -56,11 +56,11 @@ namespace GifAtMe.Tests.Repository
 
             _mockDbContextFactory.Setup(x => x.Create()).Returns(mockContext.Object);
 
-            var expectedModel = new GifEntry { Id = 1, Keyword = "Test1", UserName = "TestUser" };
+            var expectedModel = new GifEntry { Id = 1, Keyword = "Test1", UserId = "12345" };
             var sut = new GifEntryRepository(_mockUnitOfWork.Object, _mockDbContextFactory.Object);
 
             //Act
-            var actualModel = sut.GetGifEntryForUserNameAndKeywordAndAlternateIndex("TestUser", "Test1", 0);
+            var actualModel = sut.GetGifEntryForUserIdAndKeywordAndAlternateIndex("TestUser", "Test1", 0);
 
             //Assert
             Assert.AreEqual(expectedModel.Id, actualModel.Id);

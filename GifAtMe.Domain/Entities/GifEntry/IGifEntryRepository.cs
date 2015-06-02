@@ -5,12 +5,12 @@ namespace GifAtMe.Domain.Entities.GifEntry
 {
     public interface IGifEntryRepository : IAggregateRootRepository<GifEntry, int>
     {
-        IEnumerable<GifEntry> GetAllForAllUserNames();
+        IEnumerable<GifEntry> GetAllForAllUserIds();
 
-        IEnumerable<GifEntry> GetAllForUserName(string userName);
+        IEnumerable<GifEntry> GetAllForUserId(string userId);
 
-        IEnumerable<GifEntry> GetAllForUserNameAndKeyword(string userName, string keyword);
+        IEnumerable<GifEntry> GetAllForUserIdAndKeyword(string userId, string keyword);
 
-        GifEntry GetGifEntryForUserNameAndKeywordAndAlternateIndex(string userName, string keyword, int altIndex);
+        GifEntry GetGifEntryForUserIdAndKeywordAndAlternateIndex(string userId, string keyword, int altIndex);
     }
 }

@@ -30,10 +30,10 @@ namespace GifAtMe.Repository.Migrations
             //
             var gifEntries = new List<GifEntry>
             {
-                new GifEntry{UserName="mknowles",Url="http://i.imgur.com/STVntis.gif",Keyword="rise"},
-                new GifEntry{UserName="mknowles",Url="http://i.imgur.com/rEYJesc.gif",Keyword="thisguy"},
-                new GifEntry{UserName="mknowles",Url="http://i.imgur.com/wJUHejF.gif",Keyword="highfive"},
-                new GifEntry{UserName="mknowles",Url="http://i.imgur.com/eIZgQL7.gif",Keyword="highfive"}
+                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/STVntis.gif",Keyword="rise"},
+                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/rEYJesc.gif",Keyword="thisguy"},
+                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/wJUHejF.gif",Keyword="highfive"},
+                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/eIZgQL7.gif",Keyword="highfive"}
             };
 
             gifEntries.ForEach(g => context.GifEntries.AddOrUpdate(g));

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="DTOs\DTOConversions\ConversionHelper.cs" />
     <Compile Include="DTOs\GifEntryDTO.cs" />
     <Compile Include="DTOs\GifEntryDTOProperties.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="Messaging\IntegerIdRequest.cs" />
     <Compile Include="Messaging\ServiceRequestBase.cs" />
     <Compile Include="Messaging\ServiceResponseBase.cs" />
-    <Compile Include="Messaging\UserNameRequest.cs" />
+    <Compile Include="Messaging\UserIdRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

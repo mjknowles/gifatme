@@ -2,8 +2,8 @@
 
 namespace GifAtMe.Repository.Contexts
 {
-    public interface IDbContextFactory
+    public interface IGifAtMeContextFactory
     {
-        DbContext Create();
+        GifAtMeContext Create();
     }
 }
