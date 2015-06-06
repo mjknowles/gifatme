@@ -75,7 +75,6 @@ namespace GifAtMe.UI.Owin.Security.Providers.Slack
 
                 // Build up the body for the token request
                 var body = new List<KeyValuePair<string, string>>();
-                body.Add(new KeyValuePair<string, string>("grant_type", "authorization_code"));
                 body.Add(new KeyValuePair<string, string>("client_id", Options.ClientId));
                 body.Add(new KeyValuePair<string, string>("client_secret", Options.ClientSecret));
                 body.Add(new KeyValuePair<string, string>("code", code));
