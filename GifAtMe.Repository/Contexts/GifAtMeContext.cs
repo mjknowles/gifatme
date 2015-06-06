@@ -17,7 +17,7 @@ namespace GifAtMe.Repository.Contexts
             Configuration.ProxyCreationEnabled = false;
         }
 
-        public virtual DbSet<GifEntry> GifEntries { get; set; }
+        public virtual DbSet<GifEntryDb> GifEntries { get; set; }
 
         public static GifAtMeContext Create()
         {

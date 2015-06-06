@@ -1,6 +1,7 @@
 ﻿using GifAtMe.Common.Domain;
 using GifAtMe.Common.UnitOfWork;
 using GifAtMe.Repository.Contexts;
+using GifAtMe.Repository.DatabaseModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -17,11 +18,11 @@ namespace GifAtMe.Repository.Repositories
     /// may have more useful properties/methods needed to convert to a db type
     /// </typeparam>
     /// <typeparam name="DomainType">The domain model saved to the db</typeparam>
-    public abstract class GenericDomainTypeRepository<DomainType>
+    public abstract class GenericDomainTypeRepository<DomainType, DbType>
         where DomainType : IAggregateRoot
     {
         private readonly IUnitOfWork _unitOfWork;
-        private GifAtMeContext _context;
+        internal GifAtMeContext _context;
 
         public GenericDomainTypeRepository(IUnitOfWork unitOfWork, IGifAtMeContextFactory contextFactory)
         {

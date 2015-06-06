@@ -382,6 +382,7 @@ namespace AuthApp.Controllers
                 var user = new UserDb { 
                     UserName = model.UserName,
                     UserId = info.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.NameIdentifier).Select(c => c.Value).SingleOrDefault(),
+                    SlackUserName = model.UserName,
                     SlackTeamId = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamid").Select(c => c.Value).SingleOrDefault(),
                     SlackTeamName = info.ExternalIdentity.Claims.Where(c => c.Type == "urn:slack:teamname").Select(c => c.Value).SingleOrDefault(),
                     SlackTeamUrl = info.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.Webpage).Select(c => c.Value).SingleOrDefault()  

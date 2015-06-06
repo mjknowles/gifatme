@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace GifAtMe.Domain.Entities.User
 {
-    public class User : EntityBase<int>, IAggregateRoot
+    public class User : EntityBase<string>, IAggregateRoot
     {
-        public string UserName { get; set; }
-        public string UserId { get; set; }
-        public string TeamId { get; set; }
-        public string TeamName { get; set; }
-        public string TeamUrl { get; set; }
+        public string SlackUserName { get; set; }
+        public string SlackUserId { get; set; }
+        public string SlackTeamId { get; set; }
+        public string SlackTeamName { get; set; }
+        public string SlackTeamUrl { get; set; }
+
+        public User()
+        {
+            GifEntries = new List<GifEntry.GifEntry>();
+        }
 
         public List<GifEntry.GifEntry> GifEntries { get; set; }
 

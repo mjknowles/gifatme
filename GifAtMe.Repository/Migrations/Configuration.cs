@@ -1,6 +1,7 @@
 namespace GifAtMe.Repository.Migrations
 {
     using GifAtMe.Domain.Entities.GifEntry;
+    using GifAtMe.Repository.Helpers;
     using System;
     using System.Collections.Generic;
     using System.Data.Entity;
@@ -36,7 +37,7 @@ namespace GifAtMe.Repository.Migrations
                 new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/eIZgQL7.gif",Keyword="highfive"}
             };
 
-            gifEntries.ForEach(g => context.GifEntries.AddOrUpdate(g));
+            gifEntries.ForEach(g => context.GifEntries.AddOrUpdate(g.ConvertToDatabase()));
             context.SaveChanges();
         }
     }

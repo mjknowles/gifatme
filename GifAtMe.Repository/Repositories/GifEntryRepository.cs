@@ -1,12 +1,15 @@
 ﻿using GifAtMe.Common.UnitOfWork;
 using GifAtMe.Domain.Entities.GifEntry;
 using GifAtMe.Repository.Contexts;
+using GifAtMe.Repository.DatabaseModels;
+using GifAtMe.Repository.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GifAtMe.Repository.Repositories
 {
-    public class GifEntryRepository : GenericDomainTypeRepository<GifEntry>, IGifEntryRepository
+    public class GifEntryRepository : GenericDomainTypeRepository<GifEntry, GifEntryDb>, IGifEntryRepository
     {
         public GifEntryRepository(IUnitOfWork unitOfWork, IGifAtMeContextFactory dbContextFactory)
             : base(unitOfWork, dbContextFactory)
@@ -15,29 +18,30 @@ namespace GifAtMe.Repository.Repositories
 
         public GifEntry FindById(int id)
         {
-            return ConvertToDomain(_context.Set<TrackDb>().Include(t => t.TrackStats).SingleOrDefault(t => t.Id.Equals(id)));
+            return _context.GifEntries.Find(id).ConvertToDomain();
         }
 
-        public IEnumerable<GifEntry> GetAllForAllUserIds()
+        public List<GifEntry> GetAllForAllUserIds()
         {
-            return this.GetAll();
+            return _context.GifEntries.Select(g => g.ConvertToDomain()).ToList();
         }
 
-        public IEnumerable<GifEntry> GetAllForUserId(string userId)
+        public List<GifEntry> GetAllForUserId(string userId)
         {
-            return this.GetList(g => g.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase));
+            return _context.GifEntries.Where(g => g.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase))
+                .Select(g => g.ConvertToDomain()).ToList();
         }
 
-        public IEnumerable<GifEntry> GetAllForUserIdAndKeyword(string userId, string keyword)
+        public List<GifEntry> GetAllForUserIdAndKeyword(string userId, string keyword)
         {
-            return this.GetList(g => g.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase) &&
-                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase));
+            return _context.GifEntries.Where(g => g.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase) &&
+                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase))
+                .Select(g => g.ConvertToDomain()).ToList();
         }
 
         public GifEntry GetGifEntryForUserIdAndKeywordAndAlternateIndex(string userId, string keyword, int altIndex)
         {
-            return this.GetSingle(g => g.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase) &&
-                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase), altIndex);
+            return GetAllForUserIdAndKeyword(userId, keyword).ElementAtOrDefault(altIndex);
         }
     }
 }

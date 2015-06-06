@@ -13,11 +13,12 @@ namespace GifAtMe.Repository.DatabaseModels
     public class UserDb : IdentityUser
     {
         public string SlackUserId { get; set; }
+        public string SlackUserName { get; set; }
         public string SlackTeamId { get; set; }
         public string SlackTeamName { get; set; }
         public string SlackTeamUrl { get; set; }
 
-        public virtual ICollection<GifEntry> GifEntries { get; set; }
+        public virtual ICollection<GifEntryDb> GifEntries { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<UserDb> manager, string authenticationType)
         {

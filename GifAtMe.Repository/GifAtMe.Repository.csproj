@@ -60,6 +60,7 @@
     <Compile Include="DatabaseModels\UserDb.cs" />
     <Compile Include="EfUnitOfWork.cs" />
     <Compile Include="Contexts\IGifAtMeContextFactory.cs" />
+    <Compile Include="Helpers\DomainDbConverters.cs" />
     <Compile Include="Migrations\201505291707156_InitialMigrations.cs" />
     <Compile Include="Migrations\201505291707156_InitialMigrations.Designer.cs">
       <DependentUpon>201505291707156_InitialMigrations.cs</DependentUpon>
