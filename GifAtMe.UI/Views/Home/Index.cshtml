@@ -1,4 +1,6 @@
-﻿<div class="jumbotron">
+﻿@model IEnumerable<GifAtMe.Service.DTOs.GifEntryDTO>
+
+<div class="jumbotron">
     <h1>Gif List</h1>
     <p class="lead">Use this site to view the gifs you've uploaded via robort.</p>
 </div>
@@ -28,3 +30,6 @@
             </table>
         </div>
 </div>
+<script>
+    soundTrackrApp.value('userGifs', @Html.Raw(Json.Encode(Model)))
+</script>
