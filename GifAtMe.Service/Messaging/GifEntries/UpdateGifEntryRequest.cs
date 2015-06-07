@@ -9,13 +9,13 @@ namespace GifAtMe.Service.Messaging.GifEntries
         {
         }
 
-        public UpdateGifEntryRequest(string userId, string keyword, int alternateIndex)
-            : base(userId, keyword, alternateIndex)
+        public UpdateGifEntryRequest(string userId, string userIdSource, string keyword, int alternateIndex)
+            : base(userId, userIdSource, keyword, alternateIndex)
         {
         }
 
-        public UpdateGifEntryRequest(int id, string userId, string keyword, int alternateIndex)
-            : base(id, userId, keyword, alternateIndex)
+        public UpdateGifEntryRequest(int id, string userId, string userIdSource, string keyword, int alternateIndex)
+            : base(id, userId, userIdSource, keyword, alternateIndex)
         {
         }
 

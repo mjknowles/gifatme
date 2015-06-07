@@ -4,29 +4,11 @@
 
 var gifAtMeControllers = angular.module('gifAtMeControllers', []);
 
-/*phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
-  function ($scope, Phone) {
-      $scope.phones = Phone.query();
-      $scope.orderProp = 'age';
-  }]);
-  */
-
-/*phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
-  function ($scope, $routeParams, Phone) {
-      $scope.phone = Phone.get({ phoneId: $routeParams.phoneId }, function (phone) {
-          $scope.mainImageUrl = phone.images[0];
-      });
-
-      $scope.setImage = function (imageUrl) {
-          $scope.mainImageUrl = imageUrl;
-      }
-  }]);
- */
-gifAtMeControllers.controller('GifsCtrl', ['$scope', 'Gif',
-  function ($scope, Gif) {
-      Gif.get(function (resp) {
+gifAtMeControllers.controller('gifsCtrl', ['$scope', 'gifAtMeAPI',
+  function ($scope, gifAtMeAPI) {
+      gifAtMeAPI.gifs.get(function (resp) {
           $scope.users = [];
-          $scope.gifs = resp.GifEntries;
+          $scope.gifs.query = resp.GifEntries;
 
           // Create of users for picker
           var flags = [], l = resp.GifEntries.length, i;

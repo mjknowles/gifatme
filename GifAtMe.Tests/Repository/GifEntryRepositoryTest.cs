@@ -32,6 +32,7 @@ namespace GifAtMe.Tests.Repository
             _mockDbContextFactory.VerifyAll();
         }
 
+        /*
         [TestMethod]
         public void GenericRepo_FindByUserIdKeywordAndIndex_ObjectExistsInRepo()
         {
@@ -65,5 +66,6 @@ namespace GifAtMe.Tests.Repository
             //Assert
             Assert.AreEqual(expectedModel.Id, actualModel.Id);
         }
+        */
     }
 }

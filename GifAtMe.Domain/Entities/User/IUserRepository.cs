@@ -8,6 +8,6 @@ namespace GifAtMe.Domain.Entities.User
 {
     public interface IUserRepository
     {
-        User GetAppUserIdBySlackUserId(string slackUserId);
+        string GetAppUserIdBySlackUserId(string slackUserId);
     }
 }

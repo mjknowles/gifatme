@@ -4,18 +4,11 @@
 
 var gifAtMeServices = angular.module('gifAtMeServices', ['ngResource']);
 
-/*
-phonecatServices.factory('Phone', ['$resource',
+gifAtMeServices.factory('gifAtMeAPI', ['$resource',
   function ($resource) {
-      return $resource('phones/:phoneId.json', {}, {
-          query: { method: 'GET', params: { phoneId: 'phones' }, isArray: true }
-      });
-  }]);
-*/
-
-gifAtMeServices.factory('Gif', ['$resource',
-  function ($resource) {
-      return $resource('/api/gifentries', {}, {
-          query: { method: 'GET' }
-      });
+      return {
+          gifs: $resoure('/api/gifentries/:userId', {}, {
+              query: { method: 'GET', params: { userId: '0000', uidsource: 'slack' }, isArray: true }
+          })
+      };
   }]);

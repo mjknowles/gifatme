@@ -7,13 +7,13 @@
         {
         }
 
-        public DeleteGifEntryRequest(string userId, string keyword, int alternateIndex)
-            : base(userId, keyword, alternateIndex)
+        public DeleteGifEntryRequest(string userId, string userIdSource, string keyword, int alternateIndex)
+            : base(userId, userIdSource, keyword, alternateIndex)
         {
         }
 
-        public DeleteGifEntryRequest(int id, string userId, string keyword, int alternateIndex)
-            : base(id, userId, keyword, alternateIndex)
+        public DeleteGifEntryRequest(int id, string userId, string userIdSource, string keyword, int alternateIndex)
+            : base(id, userId, userIdSource, keyword, alternateIndex)
         {
         }
     }

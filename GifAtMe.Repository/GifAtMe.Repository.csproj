@@ -61,13 +61,9 @@
     <Compile Include="EfUnitOfWork.cs" />
     <Compile Include="Contexts\IGifAtMeContextFactory.cs" />
     <Compile Include="Helpers\DomainDbConverters.cs" />
-    <Compile Include="Migrations\201505291707156_InitialMigrations.cs" />
-    <Compile Include="Migrations\201505291707156_InitialMigrations.Designer.cs">
-      <DependentUpon>201505291707156_InitialMigrations.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201506011658357_MoreSpecificSlackAttributeNames.cs" />
-    <Compile Include="Migrations\201506011658357_MoreSpecificSlackAttributeNames.Designer.cs">
-      <DependentUpon>201506011658357_MoreSpecificSlackAttributeNames.cs</DependentUpon>
+    <Compile Include="Migrations\201506070030359_InitialCreate.cs" />
+    <Compile Include="Migrations\201506070030359_InitialCreate.Designer.cs">
+      <DependentUpon>201506070030359_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\GenericDomainTypeRepository.cs" />
@@ -91,11 +87,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201505291707156_InitialMigrations.resx">
-      <DependentUpon>201505291707156_InitialMigrations.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201506011658357_MoreSpecificSlackAttributeNames.resx">
-      <DependentUpon>201506011658357_MoreSpecificSlackAttributeNames.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201506070030359_InitialCreate.resx">
+      <DependentUpon>201506070030359_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

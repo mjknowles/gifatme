@@ -1,6 +1,7 @@
 ﻿using GifAtMe.Common.Domain;
 using GifAtMe.Common.UnitOfWork;
 using GifAtMe.Domain.Entities.GifEntry;
+using GifAtMe.Domain.Entities.User;
 using GifAtMe.Service.DTOs;
 using GifAtMe.Service.Exceptions;
 using GifAtMe.Service.Interfaces;
@@ -15,13 +16,15 @@ namespace GifAtMe.Service.Implementations
     public class GifEntryService : IGifEntryService
     {
         private readonly IGifEntryRepository _gifEntryRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GifEntryService(IGifEntryRepository gifEntryRepository, IUnitOfWork unitOfWork)
+        public GifEntryService(IGifEntryRepository gifEntryRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             if (gifEntryRepository == null) throw new ArgumentNullException("GifEntry Repo");
             if (unitOfWork == null) throw new ArgumentNullException("Unit of work");
             _gifEntryRepository = gifEntryRepository;
+            _userRepository = userRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -39,11 +42,15 @@ namespace GifAtMe.Service.Implementations
                 {
                     if (getGifEntryRequest.UserIdSource.Equals(Constants.SlackIdSource))
                     {
-                        gifEntry = _gifEntryRepository.FindByNonIdFieldsAndSlackUserId(getGifEntryRequest.UserId, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
+                        // First get the user's application ID
+                        var userId = _userRepository.GetAppUserIdBySlackUserId(getGifEntryRequest.UserId);
+
+                        // Then request GifEntry repo to get the specified gif
+                        gifEntry = _gifEntryRepository.GetGifEntryForUserIdAndKeywordAndAlternateIndex(userId, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
                     }
                     else
                     {
-                        gifEntry = _gifEntryRepository.FindByNonIdFieldsAndAppId(getGifEntryRequest.UserId, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
+                        gifEntry = _gifEntryRepository.GetGifEntryForUserIdAndKeywordAndAlternateIndex(getGifEntryRequest.UserId, getGifEntryRequest.Keyword, getGifEntryRequest.AlternateIndex - 1);
                     }
                 }
                 if (gifEntry == null)

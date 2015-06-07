@@ -3,16 +3,16 @@ namespace GifAtMe.Repository.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigrations : DbMigration
+    public partial class InitialCreate : DbMigration
     {
         public override void Up()
         {
             CreateTable(
-                "dbo.GifEntry",
+                "dbo.GifEntryDb",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        UserName = c.String(),
+                        UserId = c.String(),
                         Url = c.String(),
                         Keyword = c.String(),
                         UserDb_Id = c.String(maxLength: 128),
@@ -49,10 +49,11 @@ namespace GifAtMe.Repository.Migrations
                 c => new
                     {
                         Id = c.String(nullable: false, maxLength: 128),
-                        UserId = c.String(),
-                        TeamId = c.String(),
-                        TeamName = c.String(),
-                        TeamUrl = c.String(),
+                        SlackUserId = c.String(),
+                        SlackUserName = c.String(),
+                        SlackTeamId = c.String(),
+                        SlackTeamName = c.String(),
+                        SlackTeamUrl = c.String(),
                         Email = c.String(maxLength: 256),
                         EmailConfirmed = c.Boolean(nullable: false),
                         PasswordHash = c.String(),
@@ -99,7 +100,7 @@ namespace GifAtMe.Repository.Migrations
         {
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.GifEntry", "UserDb_Id", "dbo.AspNetUsers");
+            DropForeignKey("dbo.GifEntryDb", "UserDb_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
@@ -108,13 +109,13 @@ namespace GifAtMe.Repository.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.GifEntry", new[] { "UserDb_Id" });
+            DropIndex("dbo.GifEntryDb", new[] { "UserDb_Id" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
-            DropTable("dbo.GifEntry");
+            DropTable("dbo.GifEntryDb");
         }
     }
 }

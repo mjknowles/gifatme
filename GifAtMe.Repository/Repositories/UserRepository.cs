@@ -20,9 +20,9 @@ namespace GifAtMe.Repository.Repositories
         {
         }
 
-        public User GetAppUserIdBySlackUserId(string slackUserId)
+        public string GetAppUserIdBySlackUserId(string slackUserId)
         {
-            return _context.Users.Where(u => u.SlackUserId.Equals(slackUserId, StringComparison.OrdinalIgnoreCase)).SingleOrDefault().ConvertToDomain();
+            return _context.Users.Where(u => u.SlackUserId.Equals(slackUserId, StringComparison.OrdinalIgnoreCase)).SingleOrDefault().Id;
         }
     }
 }
