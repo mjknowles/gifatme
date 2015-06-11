@@ -24,10 +24,13 @@ using WebActivatorEx;
 
 namespace GifAtMe.UI.App_Start
 {
-    using GifAtMe.UI.DependencyResolution;
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-    using StructureMap;
     using System.Web.Mvc;
+
+    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+
+    using GifAtMe.UI.DependencyResolution;
+
+    using StructureMap;
 
     public static class StructuremapMvc
     {
@@ -35,23 +38,24 @@ namespace GifAtMe.UI.App_Start
 
         public static StructureMapDependencyScope StructureMapDependencyScope { get; set; }
 
-        #endregion Public Properties
+        #endregion
 
         #region Public Methods and Operators
 
         public static void End()
         {
-            StructureMapDependencyScope.Dispose();
         }
 
         public static void Start()
         {
-            IContainer container = IoC.Initialize();
-            StructureMapDependencyScope = new StructureMapDependencyScope(container);
-            DependencyResolver.SetResolver(StructureMapDependencyScope);
-            DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));
-        }
+            {
+                IContainer container = IoC.Initialize();
+                StructureMapDependencyScope = new StructureMapDependencyScope(container);
+                DependencyResolver.SetResolver(StructureMapDependencyScope);
+                DynamicModuleUtility.RegisterModule(typeof(StructureMapScopeModule));
+            }
 
-        #endregion Public Methods and Operators
+        #endregion
+        }
     }
 }

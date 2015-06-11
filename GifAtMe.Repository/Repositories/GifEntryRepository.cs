@@ -28,14 +28,13 @@ namespace GifAtMe.Repository.Repositories
 
         public List<GifEntry> GetAllForUserId(string userId)
         {
-            return _context.GifEntries.Where(g => g.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase))
-                .Select(g => g.ConvertToDomain()).ToList();
+            return _context.GifEntries.Where(g => g.UserDbId.Equals(userId, StringComparison.OrdinalIgnoreCase)).ToList().Select(g => g.ConvertToDomain()).ToList();
         }
 
         public List<GifEntry> GetAllForUserIdAndKeyword(string userId, string keyword)
         {
-            return _context.GifEntries.Where(g => g.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase) &&
-                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase))
+            return _context.GifEntries.Where(g => g.UserDbId.Equals(userId, StringComparison.OrdinalIgnoreCase) &&
+                g.Keyword.Equals(keyword, StringComparison.OrdinalIgnoreCase)).ToList()
                 .Select(g => g.ConvertToDomain()).ToList();
         }
 

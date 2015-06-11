@@ -5,6 +5,6 @@ namespace GifAtMe.Service.Messaging.GifEntries
 {
     public class GetGifEntriesResponse : ServiceResponseBase
     {
-        public IEnumerable<GifEntryDTO> GifEntries { get; set; }
+        public List<GifEntryDTO> GifEntries { get; set; }
     }
 }

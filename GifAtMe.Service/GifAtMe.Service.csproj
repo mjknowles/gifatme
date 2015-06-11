@@ -49,7 +49,7 @@
     <Compile Include="Messaging\GifEntries\BaseGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\DeleteGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\DeleteGifEntryResponse.cs" />
-    <Compile Include="Messaging\GifEntries\GetAllGifEntriesRequest.cs" />
+    <Compile Include="Messaging\GifEntries\GetGifEntriesRequest.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntriesResponse.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntryRequest.cs" />
     <Compile Include="Messaging\GifEntries\GetGifEntryResponse.cs" />

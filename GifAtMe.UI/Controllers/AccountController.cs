@@ -331,11 +331,15 @@ namespace AuthApp.Controllers
             }
 
             // Save latest to database
-            var slackUserName = loginInfo.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
             var dbUser = await UserManager.FindAsync(new UserLoginInfo(loginInfo.Login.LoginProvider, loginInfo.Login.ProviderKey));
-            if (!dbUser.UserName.Equals(slackUserName, StringComparison.OrdinalIgnoreCase))
+            
+            // Update to latest slack uesrname
+            var slackUserName = loginInfo.ExternalIdentity.Claims.Where(c => c.Type == ClaimTypes.Name).Select(c => c.Value).SingleOrDefault();
+            if (!String.IsNullOrEmpty(slackUserName) && dbUser !=  null && !dbUser.UserName.Equals(slackUserName, StringComparison.OrdinalIgnoreCase))
+            {
                 dbUser.UserName = slackUserName;
-            await UserManager.UpdateAsync(dbUser);
+                await UserManager.UpdateAsync(dbUser);
+            }
 
             // Sign in the user with this external login provider if the user already has a login
             var result = await SignInManager.ExternalSignInAsync(loginInfo, isPersistent: false);

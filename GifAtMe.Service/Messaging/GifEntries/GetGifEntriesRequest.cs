@@ -1,10 +1,10 @@
 ﻿namespace GifAtMe.Service.Messaging.GifEntries
 {
-    public class GetAllGifEntriesRequest : UserIdRequest
+    public class GetGifEntriesRequest : UserIdRequest
     {
         private string _keyword;
 
-        public GetAllGifEntriesRequest(string userId, string uIdSource, string keyword)
+        public GetGifEntriesRequest(string userId, string uIdSource, string keyword)
             : base(userId, uIdSource)
         {
             _keyword = keyword;

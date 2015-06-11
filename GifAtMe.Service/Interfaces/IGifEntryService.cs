@@ -6,7 +6,7 @@ namespace GifAtMe.Service.Interfaces
     {
         GetGifEntryResponse GetGifEntry(GetGifEntryRequest getGifEntryRequest);
 
-        GetGifEntriesResponse GetAllGifEntries(GetAllGifEntriesRequest getAllGifEntriesRequest);
+        GetGifEntriesResponse GetGifEntries(GetGifEntriesRequest getGifEntriesRequest);
 
         InsertGifEntryResponse InsertGifEntry(InsertGifEntryRequest insertGifEntryRequest);
 

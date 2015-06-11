@@ -31,10 +31,10 @@ namespace GifAtMe.Repository.Migrations
             //
             var gifEntries = new List<GifEntry>
             {
-                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/STVntis.gif",Keyword="rise"},
-                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/rEYJesc.gif",Keyword="thisguy"},
-                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/wJUHejF.gif",Keyword="highfive"},
-                new GifEntry{UserId="U030BHX4Z",Url="http://i.imgur.com/eIZgQL7.gif",Keyword="highfive"}
+                new GifEntry{UserId="599a54e3-b29d-45b1-a67d-5611b0909183",Url="http://i.imgur.com/STVntis.gif",Keyword="rise"},
+                new GifEntry{UserId="599a54e3-b29d-45b1-a67d-5611b0909183",Url="http://i.imgur.com/rEYJesc.gif",Keyword="thisguy"},
+                new GifEntry{UserId="599a54e3-b29d-45b1-a67d-5611b0909183",Url="http://i.imgur.com/wJUHejF.gif",Keyword="highfive"},
+                new GifEntry{UserId="599a54e3-b29d-45b1-a67d-5611b0909183",Url="http://i.imgur.com/eIZgQL7.gif",Keyword="highfive"}
             };
 
             gifEntries.ForEach(g => context.GifEntries.AddOrUpdate(g.ConvertToDatabase()));

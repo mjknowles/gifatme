@@ -18,7 +18,7 @@ namespace GifAtMe.Repository.Helpers
                 GifEntry gifEntry = new GifEntry()
                 {
                     Id = gifEntryDb.Id,
-                    UserId = gifEntryDb.UserId,
+                    UserId = gifEntryDb.UserDbId,
                     Url = gifEntryDb.Url,
                     Keyword = gifEntryDb.Keyword
                 };
@@ -35,7 +35,7 @@ namespace GifAtMe.Repository.Helpers
                 GifEntryDb gifEntryDb = new GifEntryDb()
                 {
                     Id = gifEntry.Id,
-                    UserId = gifEntry.UserId,
+                    UserDbId = gifEntry.UserId,
                     Url = gifEntry.Url,
                     Keyword = gifEntry.Keyword
 

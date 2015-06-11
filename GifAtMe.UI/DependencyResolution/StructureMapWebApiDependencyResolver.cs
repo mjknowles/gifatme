@@ -15,8 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-using StructureMap;
 using System.Web.Http.Dependencies;
+using StructureMap;
 
 namespace GifAtMe.UI.DependencyResolution
 {
@@ -38,7 +38,7 @@ namespace GifAtMe.UI.DependencyResolution
         {
         }
 
-        #endregion Constructors and Destructors
+        #endregion
 
         #region Public Methods and Operators
 
@@ -54,6 +54,6 @@ namespace GifAtMe.UI.DependencyResolution
             return new StructureMapWebApiDependencyResolver(child);
         }
 
-        #endregion Public Methods and Operators
+        #endregion
     }
 }

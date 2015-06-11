@@ -1,20 +1,13 @@
-﻿@model IEnumerable<GifAtMe.Service.DTOs.GifEntryDTO>
+﻿@model List<GifAtMe.Service.DTOs.GifEntryDTO>
 
 <div class="jumbotron">
     <h1>Gif List</h1>
     <p class="lead">Use this site to view the gifs you've uploaded via robort.</p>
 </div>
-<div class="container-fluid" ng-controller="GifsCtrl">
+<div class="container-fluid" ng-controller="gifsCtrl">
     <div class="row">
         <div class="col-md-2">
-            <!--Sidebar content-->
-            Select a User:
-            <select ng-model="query.UserName">
-                <option ng-repeat="user in users | orderBy: 'name'">{{user}}</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            Keyword Search: <input ng-model="query.Keyword">
+            Keyword Search: <input ng-model="gifFilter.keyword">
         </div>
             <table class="table">
                 <tr>
@@ -22,7 +15,7 @@
                     <td>Index</td>
                     <td>URL</td>
                 </tr>
-                <tr ng-repeat="gif in gifs | filter:query">
+                <tr ng-repeat="gif in userGifs | filter:gifFilter">
                     <td>{{gif.Keyword}}</td>
                     <td>{{gif.AlternateIndex}}</td>
                     <td><img ng-src="{{gif.Url}}" /></td>
@@ -31,5 +24,5 @@
         </div>
 </div>
 <script>
-    soundTrackrApp.value('userGifs', @Html.Raw(Json.Encode(Model)))
+    gifAtMeApp.value('userGifs', @Html.Raw(Json.Encode(Model)))
 </script>

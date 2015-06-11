@@ -65,6 +65,10 @@
     <Compile Include="Migrations\201506070030359_InitialCreate.Designer.cs">
       <DependentUpon>201506070030359_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201506112031027_GifEntryUserForeignKey.cs" />
+    <Compile Include="Migrations\201506112031027_GifEntryUserForeignKey.Designer.cs">
+      <DependentUpon>201506112031027_GifEntryUserForeignKey.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Repositories\GenericDomainTypeRepository.cs" />
     <Compile Include="Contexts\GifAtMeContext.cs" />
@@ -89,6 +93,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201506070030359_InitialCreate.resx">
       <DependentUpon>201506070030359_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201506112031027_GifEntryUserForeignKey.resx">
+      <DependentUpon>201506112031027_GifEntryUserForeignKey.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

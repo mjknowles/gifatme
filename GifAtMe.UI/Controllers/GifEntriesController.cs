@@ -23,7 +23,7 @@ namespace GifAtMe.UI.Controllers
         [Route("")]
         public HttpResponseMessage GetGifEntries()
         {
-            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(String.Empty, String.Empty, String.Empty));
+            ServiceResponseBase resp = _gifEntryService.GetGifEntries(new GetGifEntriesRequest(String.Empty, String.Empty, String.Empty));
             return Request.BuildResponse(resp);
         }
 
@@ -31,7 +31,7 @@ namespace GifAtMe.UI.Controllers
         [Route("{userId}")]
         public HttpResponseMessage GetGifEntries(string userId, string uIdSource = "")
         {
-            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userId, uIdSource, String.Empty));
+            ServiceResponseBase resp = _gifEntryService.GetGifEntries(new GetGifEntriesRequest(userId, uIdSource, String.Empty));
             return Request.BuildResponse(resp);
         }
 
@@ -39,7 +39,7 @@ namespace GifAtMe.UI.Controllers
         [Route("{userId}/{keyword}")]
         public HttpResponseMessage GetGifEntries(string userId, string keyword, string uIdSource = "")
         {
-            ServiceResponseBase resp = _gifEntryService.GetAllGifEntries(new GetAllGifEntriesRequest(userId, uIdSource, keyword));
+            ServiceResponseBase resp = _gifEntryService.GetGifEntries(new GetGifEntriesRequest(userId, uIdSource, keyword));
             return Request.BuildResponse(resp);
         }
 

@@ -70,7 +70,7 @@ namespace GifAtMe.Service.Implementations
             return getGifEntryResponse;
         }
 
-        public GetGifEntriesResponse GetAllGifEntries(GetAllGifEntriesRequest getAllGifEntriesRequest)
+        public GetGifEntriesResponse GetGifEntries(GetGifEntriesRequest getAllGifEntriesRequest)
         {
             GetGifEntriesResponse getGifEntriesResponse = new GetGifEntriesResponse();
             IEnumerable<GifEntry> allGifEntries = null;
@@ -83,17 +83,24 @@ namespace GifAtMe.Service.Implementations
                 }
                 else
                 {
+                    var userId = getAllGifEntriesRequest.UserId;
+
+                    // First get the user's application ID if the id from the request came from an outside source
+                    if (getAllGifEntriesRequest.UserIdSource.Equals(Constants.SlackIdSource))
+                    {
+                        userId = _userRepository.GetAppUserIdBySlackUserId(getAllGifEntriesRequest.UserId);
+                    }
                     if (String.IsNullOrEmpty(getAllGifEntriesRequest.Keyword))
                     {
-                        allGifEntries = _gifEntryRepository.GetAllForUserId(getAllGifEntriesRequest.UserId);
+                        allGifEntries = _gifEntryRepository.GetAllForUserId(userId);
                     }
                     else
                     {
-                        allGifEntries = _gifEntryRepository.GetAllForUserIdAndKeyword(getAllGifEntriesRequest.UserId, getAllGifEntriesRequest.Keyword);
+                        allGifEntries = _gifEntryRepository.GetAllForUserIdAndKeyword(userId, getAllGifEntriesRequest.Keyword);
                     }
                 }
                 // Use the service layer to sort in appropriate ordering for outside applications
-                getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO().OrderBy(g => g.Keyword).ThenByDescending(g => g.AlternateIndex);
+                getGifEntriesResponse.GifEntries = allGifEntries.ConvertToDTO().OrderBy(g => g.Keyword).ThenByDescending(g => g.AlternateIndex).ToList();
             }
             catch (Exception ex)
             {

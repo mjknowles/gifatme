@@ -15,8 +15,8 @@
 // </copyright>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace GifAtMe.UI.DependencyResolution
-{
+
+namespace GifAtMe.UI.DependencyResolution {
     using GifAtMe.Common.Domain;
     using GifAtMe.Common.UnitOfWork;
     using GifAtMe.Domain.Entities.GifEntry;
@@ -30,9 +30,8 @@ namespace GifAtMe.UI.DependencyResolution
     using StructureMap;
     using System.Data.Entity;
     using System.Web;
-
-    public static class IoC
-    {
+	
+    public static class IoC {
         public static IContainer Initialize()
         {
             ObjectFactory.Initialize(x =>
