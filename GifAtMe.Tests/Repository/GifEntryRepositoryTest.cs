@@ -9,6 +9,7 @@ using GifAtMe.Repository;
 using GifAtMe.Repository.Repositories;
 using System;
 using GifAtMe.Repository.Contexts;
+using GifAtMe.Repository.DatabaseModels;
 
 namespace GifAtMe.Tests.Repository
 {
@@ -32,11 +33,9 @@ namespace GifAtMe.Tests.Repository
             _mockDbContextFactory.VerifyAll();
         }
 
-        /*
         [TestMethod]
         public void GenericRepo_FindByUserIdKeywordAndIndex_ObjectExistsInRepo()
         {
-
             // Setup
             var data = new List<GifEntry> 
             { 
@@ -45,15 +44,15 @@ namespace GifAtMe.Tests.Repository
                 new GifEntry { Id = 3, Keyword = "Test3", UserId = "12345" }
             }.AsQueryable();
 
-            var mockSet = new Mock<DbSet<GifEntry>>();
+            var mockSet = new Mock<DbSet<GifEntryDb>>();
             mockSet.As<IQueryable<GifEntry>>().Setup(m => m.Provider).Returns(data.Provider);
             mockSet.As<IQueryable<GifEntry>>().Setup(m => m.Expression).Returns(data.Expression);
             mockSet.As<IQueryable<GifEntry>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<GifEntry>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
             mockSet.Setup(m => m.AsNoTracking()).Returns(mockSet.Object);
 
-            var mockContext = new Mock<DbContext>();
-            mockContext.Setup(c => c.Set<GifEntry>()).Returns(mockSet.Object);
+            var mockContext = new Mock<GifAtMeContext>();
+            mockContext.Setup(c => c.GifEntries).Returns(mockSet.Object);
 
             _mockDbContextFactory.Setup(x => x.Create()).Returns(mockContext.Object);
 
@@ -66,6 +65,5 @@ namespace GifAtMe.Tests.Repository
             //Assert
             Assert.AreEqual(expectedModel.Id, actualModel.Id);
         }
-        */
     }
 }
